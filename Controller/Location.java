@@ -71,5 +71,9 @@ public ArrayList<MonthData> getMonths() {
         return months;
     }
 
+public ArrayList<String> getWorkers() {
+        return workers;
+    }
+
 }
 

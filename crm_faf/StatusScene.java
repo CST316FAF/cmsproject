@@ -9,10 +9,8 @@ import DataCharts.Chart;
 import Controller.DataCreator;
 import Controller.Location;
 import java.util.ArrayList;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 
 
 public class StatusScene {
@@ -29,13 +27,22 @@ public class StatusScene {
     
     private void setup() {
         pane = new BorderPane();
-        Chart graphs = new Chart();
+        Chart lineGraph = new Chart();
+        Chart barGraph = new Chart();
+        Chart pieGraph = new Chart();
+        
         ArrayList<Location> locs = new DataCreator().createLocations(); 
-        graphs.getCanvas(locs, "pie");
-        pane.getChildren().add(graphs.getCanvas());
-        graphs.getCanvas();
+        
+        lineGraph.getCanvas(locs, "bar");
+        barGraph.getCanvas(locs, "pie");
+        pieGraph.getCanvas(locs, "line");
+        
+        pane.getChildren().add(lineGraph.getCanvas());
+        pane.getChildren().add(barGraph.getCanvas());
+        pane.getChildren().add(pieGraph.getCanvas());
+  
         status = new Scene(pane, 800, 600);
-        WindowToolbar bar = new WindowToolbar();
+        WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), pieGraph.getCanvas(), barGraph.getCanvas());
         pane.setTop(bar);
      //   pane.getChildren().add(bar);
         

@@ -7,18 +7,13 @@ package DataCharts;
 
 import Controller.Location;
 import Controller.MonthData;
-import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.time.TimeSeries;
@@ -38,6 +33,9 @@ public class Chart {
         }
         else if(type == "pie") {
             this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
+        }
+        else if(type == "bar") {
+            this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
         }
         canvas.setHeight(400);
         canvas.setWidth(400);
@@ -82,8 +80,8 @@ public class Chart {
 
     /**
      * Creates a dataset, consisting customers per area code
-     *
-     * @return the dataset.
+     * Methods are for display purposes at this point and may be refactored and 
+     * modified based on necessity
      */
     private static XYDataset createXYDataset(ArrayList<Location> locs) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -104,5 +102,24 @@ public class Chart {
             dataset.setValue("" +locs.get(x).getAreaCode(), locs.get(x).getCustomers());
         }
         return dataset;
+    }
+    
+    private CategoryDataset createCategoryDataset(ArrayList<Location> locs) {
+       
+        final String series2 = "Technicians";
+        final String series1 = "Customers";
+
+        ArrayList<String> category = new ArrayList<String>();
+        for(int x = 0; x < locs.size(); x++) {         
+            category.add("" + locs.get(x).getAreaCode());
+        }
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        for(int x = 0; x < category.size(); x++) {         
+            dataset.addValue(locs.get(x).getCustomers(), series1, category.get(x));
+            dataset.addValue(locs.get(x).getWorkers().size(), series2, category.get(x));
+        }  
+        return dataset;
+        
     }
 }
