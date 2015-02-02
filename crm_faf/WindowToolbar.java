@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 
@@ -46,6 +47,9 @@ public class WindowToolbar extends MenuBar {
     
     private void setChartMenu() {
         Menu gChoices = new Menu("Graph Type");
+        MenuItem DateChoices = new MenuItem("Date");
+        MenuItem AreaCode = new MenuItem("Area Code");
+        MenuItem Customers = new MenuItem("Customers");
         
         final ToggleGroup graphChoices = new ToggleGroup();
         
@@ -63,6 +67,10 @@ public class WindowToolbar extends MenuBar {
         
         gChoices.getItems().addAll(lineGraph, barGraph, pieGraph);
         chartMenu.getItems().add(gChoices);
+        chartMenu.getItems().add(DateChoices);
+        
+        
+        
     }
     
     private EventHandler<ActionEvent> barSwitch() {

@@ -24,6 +24,8 @@ public class PieGraph {
         plot.setCircular(false);
         plot.setLabelGap(0.01);
         plot.setBackgroundPaint(null);
+        chart.setBorderPaint(null);
+        chart.setBackgroundPaint(null);
         return chart;
         
     }    

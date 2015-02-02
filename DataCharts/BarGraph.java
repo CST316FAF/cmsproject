@@ -22,7 +22,8 @@ public class BarGraph {
                 true, true, false 
         );
         chart.getPlot().setBackgroundPaint(null);
-        
+        chart.setBackgroundPaint(null);
+        chart.setBorderPaint(null);
         return chart;
     }
 

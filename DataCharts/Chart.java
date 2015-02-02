@@ -16,6 +16,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
@@ -26,7 +27,27 @@ public class Chart {
     public Chart() {
         
     }
-    
+    public Chart(Month start, Month finish) {
+        
+    }    
+    public Chart(Month start){
+        
+    }
+    public Chart(Month start, Month finish, int[] areacodes) {
+        
+    }
+    public Chart(Month start, Month finish, int[] areacodes, int customers) {
+        
+    }
+    public Chart(int[] areacodes) {
+        
+    }
+    public Chart(int customers) {
+        
+    }
+    public Chart(int[] areacodes, int customers) {
+        
+    }
     public ChartCanvas getCanvas(ArrayList<Location> locs, String type) {
         if(type == "line") {
             this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
