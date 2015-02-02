@@ -15,7 +15,7 @@ public class Customer Window UI extends Frame implements WindowListener,ActionLi
         private int numClicks = 0;
 
         public static void main(String[] args) {
-                AL myWindow = new AL("My first window");
+                AL myWindow = new AL("My First Window");
                 myWindow.setSize(350,100);
                 myWindow.setVisible(true);
         }
@@ -63,51 +63,51 @@ public class Customer Page extends JFrame {
 
     public CreateNewJTextField() {
 
-        // set flow layout for the frame
+        //set flow layout for the frame
         this.getContentPane().setLayout(new FlowLayout());
 
-        // create empty JTextField
+        //create empty JTextField
         JTextField field1 = new JTextField();
-        field1.setText(“Name”);
+        field1.setText(“Employee Name”);
 
-        // create empty JTextField
+        //create empty JTextField
         JTextField field2 = new JTextField();
-	field2.setText(“Company Name & Info”);
+		field2.setText(“Company Name & Address”);
 
-        // create empty JTextField
+        //create empty JTextField
         JTextField field3 = new JTextField();
-	field3.setText(“Phone Number”);
+		field3.setText(“Phone Number & Email Address”);
 
-	// create empty JTextField
+		//create empty JTextField
         JTextField field4 = new JTextField();
-	field4.setText(“Email Address”);
+		field4.setText(“Company Info”);
 
-	// create empty JTextField
+		//create empty JTextField
         JTextField field5 = new JTextField();
-	field5.setText(“Extra Info”);
+		field5.setText(“Miscellaneous);
 
-        // add textfields to frame
+        //add textfields to frame
         add(field1);
         add(field2);
         add(field3);
         add(field4);
-	add(field5);
+		add(field5);
 
     }
 
-    private static void createAndShowGUI() {
+	private static void createAndShowGUI() {
 
-  //Create and set up the window.
+  	//create and set up the window
 
-  JFrame frame = new CreateNewJTextField();
+  	JFrame frame = new CreateNewJTextField();
 
-  //Display the window.
+  	//display the window
 
-  frame.pack();
+  	frame.pack();
 
-  frame.setVisible(true);
+  	frame.setVisible(true);
 
-  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
