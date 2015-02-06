@@ -47,8 +47,7 @@ public class Customer Window UI extends Frame implements WindowListener,ActionLi
 
 }
 
-//customer window
-
+//possible option for customer window
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -126,6 +125,73 @@ public void run() {
 }
 
   });
+    }
+
+}
+
+//another possible option for customer page
+private void newCustomer() {
+
+    JLabel labelCode = new JLabel("Customer Code *");
+    JTextField jTextFieldCode = new JTextField();
+    JLabel labelName = new JLabel("Customer Name *");
+    JTextField jTextFieldName = new JTextField();
+    JLabel labelPrincipalAddress = new JLabel("Principal Address *");
+    JTextField jTextFieldPrincipalAddress = new JTextField();
+    JLabel labelSaleAddress = new JLabel("Sale Address *");
+    JTextField jTextFieldSaleAddress = new JTextField();
+    JLabel labelActivity = new JLabel("Activity ");
+    JTextField jTextFieldActivity = new JTextField();
+
+    JLabel labelDiscountC = new JLabel("Discount Code *");
+
+    JLabel labelCountryC = new JLabel("Country Code *");
+    JComboBox<String> jComboBoxCountryC = new JComboBox<>(Locale.getISOCountries());
+    jComboBoxCountryC.setSelectedIndex(-1);
+
+    JPanel panel = new JPanel();
+
+    panel.add(labelCode);
+    panel.add(jTextFieldCode);
+    panel.add(labelName);
+    panel.add(jTextFieldName);
+    panel.add(labelPrincipalAddress);
+    panel.add(jTextFieldPrincipalAddress);
+    panel.add(labelSaleAddress);
+    panel.add(jTextFieldSaleAddress);
+    panel.add(labelActivity);
+    panel.add(jTextFieldActivity);
+
+    panel.add(labelCountryC);
+    panel.add(jComboBoxCountryC);
+    panel.setLayout(new GridLayout(8, 2, 1, 3));
+
+    for (Component c : panel.getComponents()) {
+        c.setFont(new Font("", Font.PLAIN, 14));
+        c.setPreferredSize(new Dimension(150, 25));
+    }
+
+    if (JOptionPane.showConfirmDialog(this, panel, "New Customer",
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
+
+
+            Customer newCustomer = new Customer();
+            newCustomer.setCode(jTextFieldCode.getText());
+            newCustomer.setName(jTextFieldName.getText());
+            newCustomer.setPrincipalAddress(labelPrincipalAddresss.getText());
+            newCustomer.setShippingAddress(jTextFieldSaleAddress.getText());
+            newCustomer.setActivity(jTextFieldActivity.getText());
+             newCustomer.setCountry_code((String) jComboBoxCountryC.getSelectedItem());
+
+            MainFrame.customerSBRemote.addCustomer(newCustomer);
+            customersList.add(newCustomer);
+            this.customer = newCustomer;
+            jTableCustomer.changeSelection(customersList.indexOf(newCustomer), 0, false, false);
+            this.hashcode = customer.hashCode();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
     }
 
 }
