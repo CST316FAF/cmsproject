@@ -23,7 +23,7 @@ public class CRM_FAF extends Application {
         //temporary Link to status screen
         btn.setText("Go To Status Screen");
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            StatusScene s2 = new StatusScene();
+            StatusScene s2 = new StatusScene(primaryStage);
             @Override
             public void handle(ActionEvent event) {               
                 primaryStage.setScene(s2.status);

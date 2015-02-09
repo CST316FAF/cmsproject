@@ -11,6 +11,7 @@ import Controller.Location;
 import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 
 public class StatusScene {
@@ -19,10 +20,12 @@ public class StatusScene {
     BorderPane pane;
     Scene status;
     Chart graphs;
+    Stage stage;
     
-    public StatusScene() {
+    public StatusScene(Stage stage) {     
+        this.stage = stage;
         setup();
-        this.graphs = new Chart();
+        this.graphs = new Chart();       
     }
     
     private void setup() {
@@ -42,7 +45,7 @@ public class StatusScene {
         pane.getChildren().add(pieGraph.getCanvas());
   
         status = new Scene(pane, 800, 600);
-        WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), pieGraph.getCanvas(), barGraph.getCanvas());
+        WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), pieGraph.getCanvas(), barGraph.getCanvas(), status, stage);
         pane.setTop(bar);
      //   pane.getChildren().add(bar);
         
