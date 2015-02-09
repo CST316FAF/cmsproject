@@ -5,20 +5,36 @@
  */
 package crm_faf;
 
+import DataCharts.Chart;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.PopupBuilder;
+import javafx.stage.PopupWindow;
+import javafx.stage.Stage;
+import org.jfree.data.time.Month;
 
 
 public class WindowToolbar extends MenuBar {
     
+    Month startDate;
+    Month endDate;
+    Chart active;
+    
     Menu fileMenu = new Menu("File");
     Menu UserMenu = new Menu("User");
+    Menu customerMenu = new Menu("Customer");
     Menu settingsMenu = new Menu("Settings");
     Menu chartMenu = new Menu("Chart");
     
@@ -28,13 +44,17 @@ public class WindowToolbar extends MenuBar {
     Canvas gLine;
     Canvas gPie;
     Canvas gBar;
-    
+    Scene scene;
+    Stage stage;
     
     public WindowToolbar() {
         setUp();
     }
     
-    public WindowToolbar(Canvas a, Canvas b, Canvas c) {  
+    public WindowToolbar(Canvas a, Canvas b, Canvas c, Scene scene, Stage stage) {  
+        this.scene = scene;
+        System.out.println(stage.toString());
+        this.stage = stage;
         setUp(a,b,c);
     }
 
@@ -43,13 +63,17 @@ public class WindowToolbar extends MenuBar {
         this.getMenus().add(fileMenu);
         this.getMenus().add(UserMenu);
         this.getMenus().add(settingsMenu);
+        this.getMenus().add(customerMenu);
     }
     
     private void setChartMenu() {
         Menu gChoices = new Menu("Graph Type");
-        MenuItem DateChoices = new MenuItem("Date");
+        Menu dateChoices = new Menu("Date");
         MenuItem AreaCode = new MenuItem("Area Code");
         MenuItem Customers = new MenuItem("Customers");
+        MenuItem addCust = new MenuItem("Add Customer");
+        addCust.setOnAction(goToCustomerAdd());
+        this.customerMenu.getItems().add(addCust);
         
         final ToggleGroup graphChoices = new ToggleGroup();
         
@@ -65,14 +89,33 @@ public class WindowToolbar extends MenuBar {
         pieGraph.setOnAction(pieSwitch());
         pieGraph.setToggleGroup(graphChoices);
         
-        gChoices.getItems().addAll(lineGraph, barGraph, pieGraph);
+        RadioMenuItem noGraph = new RadioMenuItem("None");
+        pieGraph.setOnAction(emptySwitch());
+        pieGraph.setToggleGroup(graphChoices);
+        
+        final ToggleGroup dateToggle = new ToggleGroup();
+        
+        RadioMenuItem startDate = new RadioMenuItem("Start Date");
+        startDate.setOnAction(startSwitch());
+        
+        RadioMenuItem endDate = new RadioMenuItem("End Date");
+        endDate.setOnAction(endSwitch());
+
+        
+        gChoices.getItems().addAll(lineGraph, barGraph, pieGraph, noGraph);
+        dateChoices.getItems().addAll(startDate, endDate);
+        
         chartMenu.getItems().add(gChoices);
-        chartMenu.getItems().add(DateChoices);
-        
-        
+        chartMenu.getItems().add(dateChoices);
         
     }
-    
+    private EventHandler<ActionEvent> goToCustomerAdd() {
+        return new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                    new CustomerForm().start(stage);
+                }
+            };
+    }
     private EventHandler<ActionEvent> barSwitch() {
         return new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -100,12 +143,38 @@ public class WindowToolbar extends MenuBar {
                 }
             };
     }
+    private EventHandler<ActionEvent> emptySwitch() {
+        return new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                    gBar.setVisible(false);
+                    gLine.setVisible(false);
+                    gPie.setVisible(false);
+                }
+            };
+    }
 
+    private EventHandler<ActionEvent> startSwitch() {
+        return new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                    System.out.println("selected");
+                    setStart();
+                }
+            };
+    }
+    private EventHandler<ActionEvent> endSwitch() {
+        return new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                    setEnd();
+                }
+            };
+    }
+    
     private void setUp(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(fileMenu);
         this.getMenus().add(UserMenu);
         this.getMenus().add(chartMenu);
         this.getMenus().add(settingsMenu);
+        this.getMenus().add(customerMenu);
         setChartMenu();
         this.gLine = b;
         this.gPie = c;
@@ -113,4 +182,67 @@ public class WindowToolbar extends MenuBar {
         b.setVisible(false);
         c.setVisible(false);
     }
+    private void setStart() {
+       
+        createDateMenu(this.startDate);
+
+    }
+    
+    private void setEnd() {
+      
+        createDateMenu(this.endDate);
+
+    }
+    
+    //not actually making popup window just using another stage for now
+    private void createDateMenu(Month m){
+        Stage popup = new Stage();
+        VBox comp = new VBox();
+        final int[] selected = new int[1];
+        Scene popupScene = new Scene(comp, 300, 300);
+        popup.setScene(popupScene);
+        Button enter = new Button("Ok");
+
+        RadioButton[] months = new RadioButton[12];
+        months[0] = new RadioButton("January");
+        months[1] = new RadioButton("February");
+        months[2] = new RadioButton("March");
+        months[3] = new RadioButton("April");
+        months[4] = new RadioButton("May");
+        months[5] = new RadioButton("June");
+        months[6] = new RadioButton("July");
+        months[7] = new RadioButton("August");
+        months[8] = new RadioButton("September");
+        months[9] = new RadioButton("October");
+        months[10] = new RadioButton("november");
+        months[11] = new RadioButton("December");
+        ToggleGroup monthChoices = new ToggleGroup();
+        comp.getChildren().addAll(months);
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    for(int x = 0; x < 12; x++) {
+                        
+                        if(monthChoices.getSelectedToggle().equals(months[x])) {
+                            setMonth(m, x);
+                        }
+                    }
+                }
+
+
+            });
+        
+        for(int x = 0; x < 12; x++) {
+            final int y = x;
+            months[x].setToggleGroup(monthChoices);
+        }
+        RadioButton fif = new RadioButton("2015");
+        popup.setX(300);
+        popup.setY(400);
+            
+    
+    }
+     
+   private void setMonth(Month m, int x) {
+        m = new Month(0, x);
+    }   
 }

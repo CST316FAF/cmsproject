@@ -1,4 +1,4 @@
-package application;
+package crm_faf;
 	
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,8 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 
-public class Main extends Application {
-	@Override
+public class StatusPage extends Application {
 	public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Status Page");

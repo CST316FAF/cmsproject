@@ -1,4 +1,4 @@
-package customer_window_ui
+package crm_faf;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -7,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+/* too much red also to much pasta
 //button stuff
-public class Customer Window UI extends Frame implements WindowListener,ActionListener {
+public class CustomerWindowUI extends Frame implements WindowListener,ActionListener {
         TextField text = new TextField(20);
         Button b;
         private int numClicks = 0;
@@ -195,3 +195,4 @@ private void newCustomer() {
     }
 
 }
+*/
