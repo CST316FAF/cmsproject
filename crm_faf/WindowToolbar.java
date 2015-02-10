@@ -55,7 +55,8 @@ public class WindowToolbar extends MenuBar {
     public WindowToolbar(Canvas a, Canvas b, Canvas c, Scene scene, Stage stage) {  
         this.scene = scene;
         this.stage = stage;
-        setUp(a,b,c);
+        setUp(scene, stage);
+        setUpCharts(a,b,c);
     }
 
     //adds Menu to stage without charts needed
@@ -65,6 +66,8 @@ public class WindowToolbar extends MenuBar {
         this.getMenus().add(fileMenu);
         this.getMenus().add(UserMenu);
         this.getMenus().add(settingsMenu);
+        this.getMenus().add(customerMenu);
+             
         
         //adding customer menu
         this.getMenus().add(customerMenu);
@@ -163,12 +166,8 @@ public class WindowToolbar extends MenuBar {
         };
     }
     
-    private void setUp(Canvas a, Canvas b, Canvas c) {
-        this.getMenus().add(fileMenu);
-        this.getMenus().add(UserMenu);
+    private void setUpCharts(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(chartMenu);
-        this.getMenus().add(settingsMenu);
-        this.getMenus().add(customerMenu);
         setChartMenu();
         this.gLine = b;
         this.gPie = c;
