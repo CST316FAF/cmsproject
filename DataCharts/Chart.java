@@ -5,8 +5,9 @@
  */
 package DataCharts;
 
-import Controller.Location;
-import Controller.MonthData;
+import Data.Location;
+import Data.MonthData;
+import Data.Location;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
@@ -24,30 +25,7 @@ import org.jfree.data.xy.XYDataset;
 public class Chart {    
 
     ChartCanvas canvas;
-    public Chart() {
-        
-    }
-    public Chart(Month start, Month finish) {
-        
-    }    
-    public Chart(Month start){
-        
-    }
-    public Chart(Month start, Month finish, int[] areacodes) {
-        
-    }
-    public Chart(Month start, Month finish, int[] areacodes, int customers) {
-        
-    }
-    public Chart(int[] areacodes) {
-        
-    }
-    public Chart(int customers) {
-        
-    }
-    public Chart(int[] areacodes, int customers) {
-        
-    }
+
     public ChartCanvas getCanvas(ArrayList<Location> locs, String type) {
         if(type == "line") {
             this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
@@ -65,6 +43,7 @@ public class Chart {
     public ChartCanvas getCanvas() {
         return canvas;
     }
+
     static class ChartCanvas extends Canvas { 
  
         JFreeChart chart;    

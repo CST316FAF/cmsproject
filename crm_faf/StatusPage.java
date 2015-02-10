@@ -16,10 +16,7 @@ import javafx.scene.text.Text;
 
 
 public class StatusPage extends Application {
-<<<<<<< HEAD
-	@Override
-=======
->>>>>>> ad0cabfb8afec3738bd0d574d011ca204ac9cc1c
+
 	public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Status Page");

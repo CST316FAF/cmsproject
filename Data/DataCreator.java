@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Data;
 
-import Controller.Location;
-import Controller.MonthData;
+import Data.Location;
+import Data.MonthData;
 import java.util.ArrayList;
 import org.jfree.data.time.Month;
 

@@ -6,8 +6,8 @@
 package crm_faf;
 
 import DataCharts.Chart;
-import Controller.DataCreator;
-import Controller.Location;
+import Data.DataCreator;
+import Data.Location;
 import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
