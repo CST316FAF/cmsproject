@@ -47,34 +47,42 @@ public class WindowToolbar extends MenuBar {
     Scene scene;
     Stage stage;
     
-    public WindowToolbar() {
-        setUp();
+    public WindowToolbar(Scene scene, Stage stage) {
+        setUp(scene, stage);
     }
     
+    //adds menu to stage with charts - might change after actual data is used
     public WindowToolbar(Canvas a, Canvas b, Canvas c, Scene scene, Stage stage) {  
         this.scene = scene;
-        System.out.println(stage.toString());
         this.stage = stage;
         setUp(a,b,c);
     }
 
-
-    private void setUp() {
+    //adds Menu to stage without charts needed
+    private void setUp(Scene scene, Stage stage) {
+        this.scene = scene;
+        this.stage = stage;
         this.getMenus().add(fileMenu);
         this.getMenus().add(UserMenu);
         this.getMenus().add(settingsMenu);
+        
+        //adding customer menu
         this.getMenus().add(customerMenu);
+        MenuItem Customers = new MenuItem("Customers");
+        //adding add customer scene link
+        MenuItem addCust = new MenuItem("Add Customer");
+        addCust.setOnAction(goToCustomerAdd());
+        
+        this.customerMenu.getItems().add(addCust);
+        
     }
     
     private void setChartMenu() {
         Menu gChoices = new Menu("Graph Type");
         Menu dateChoices = new Menu("Date");
         MenuItem AreaCode = new MenuItem("Area Code");
-        MenuItem Customers = new MenuItem("Customers");
-        MenuItem addCust = new MenuItem("Add Customer");
-        addCust.setOnAction(goToCustomerAdd());
-        this.customerMenu.getItems().add(addCust);
-        
+
+        //creating graph toggles
         final ToggleGroup graphChoices = new ToggleGroup();
         
         RadioMenuItem lineGraph = new RadioMenuItem("Line");
@@ -95,78 +103,64 @@ public class WindowToolbar extends MenuBar {
         
         final ToggleGroup dateToggle = new ToggleGroup();
         
-        RadioMenuItem startDate = new RadioMenuItem("Start Date");
-        startDate.setOnAction(startSwitch());
+        RadioMenuItem startItem = new RadioMenuItem("Start Date");
+        startItem.setOnAction(startSwitch());
         
-        RadioMenuItem endDate = new RadioMenuItem("End Date");
-        endDate.setOnAction(endSwitch());
+        RadioMenuItem endItem = new RadioMenuItem("End Date");
+        endItem.setOnAction(endSwitch());
 
         
         gChoices.getItems().addAll(lineGraph, barGraph, pieGraph, noGraph);
-        dateChoices.getItems().addAll(startDate, endDate);
+        dateChoices.getItems().addAll(startItem, endItem);
         
         chartMenu.getItems().add(gChoices);
         chartMenu.getItems().add(dateChoices);
         
     }
     private EventHandler<ActionEvent> goToCustomerAdd() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    new CustomerForm().start(stage);
-                }
-            };
+        return (ActionEvent event) -> {
+            new CustomerForm().start(stage);
+        };
     }
     private EventHandler<ActionEvent> barSwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    gBar.setVisible(true);
-                    gLine.setVisible(false);
-                    gPie.setVisible(false);
-                }
-            };
+        return (ActionEvent event) -> {
+            gBar.setVisible(true);
+            gLine.setVisible(false);
+            gPie.setVisible(false);
+        };
     }
     private EventHandler<ActionEvent> lineSwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    gBar.setVisible(false);
-                    gLine.setVisible(true);
-                    gPie.setVisible(false);
-                }
-            };
+        return (ActionEvent event) -> {
+            gBar.setVisible(false);
+            gLine.setVisible(true);
+            gPie.setVisible(false);
+        };
     }
     private EventHandler<ActionEvent> pieSwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    gBar.setVisible(false);
-                    gLine.setVisible(false);
-                    gPie.setVisible(true);
-                }
-            };
+        return (ActionEvent event) -> {
+            gBar.setVisible(false);
+            gLine.setVisible(false);
+            gPie.setVisible(true);
+        };
     }
     private EventHandler<ActionEvent> emptySwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    gBar.setVisible(false);
-                    gLine.setVisible(false);
-                    gPie.setVisible(false);
-                }
-            };
+        return (ActionEvent event) -> {
+            gBar.setVisible(false);
+            gLine.setVisible(false);
+            gPie.setVisible(false);
+        };
     }
 
     private EventHandler<ActionEvent> startSwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    System.out.println("selected");
-                    setStart();
-                }
-            };
+        return (ActionEvent event) -> {
+            System.out.println("selected");
+            setStart();
+        };
     }
     private EventHandler<ActionEvent> endSwitch() {
-        return new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                    setEnd();
-                }
-            };
+        return (ActionEvent event) -> {
+            setEnd();
+        };
     }
     
     private void setUp(Canvas a, Canvas b, Canvas c) {
@@ -218,18 +212,14 @@ public class WindowToolbar extends MenuBar {
         months[11] = new RadioButton("December");
         ToggleGroup monthChoices = new ToggleGroup();
         comp.getChildren().addAll(months);
-        enter.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent event) {
-                    for(int x = 0; x < 12; x++) {
-                        
-                        if(monthChoices.getSelectedToggle().equals(months[x])) {
-                            setMonth(m, x);
-                        }
-                    }
+        enter.setOnAction((ActionEvent event) -> {
+            for(int x = 0; x < 12; x++) {
+                
+                if(monthChoices.getSelectedToggle().equals(months[x])) {
+                    setMonth(m, x);
                 }
-
-
-            });
+            }
+        });
         
         for(int x = 0; x < 12; x++) {
             final int y = x;

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import Data.DataCreator;
 import Data.Location;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,6 +36,7 @@ public class ChartTest extends TestCase {
     private Chart pieGraph;
     private Chart barGraph;
     private ArrayList<Location> locationTestData;
+    private Object lineCanvas;
 
     public ChartTest() {
     }
@@ -48,15 +50,20 @@ public class ChartTest extends TestCase {
     public static void tearDownClass() {
     }
     
+    /**
+     *
+     */
     @Before
+    @Override
     public void setUp() {
-    Chart lineGraph = new Chart();
+    lineGraph = new Chart();
     barGraph = new Chart();
     pieGraph = new Chart();
-    locationTestData = new ArrayList<Location>();
-    lineGraph.getCanvas(locationTestData, "barTest");
-    barGraph.getCanvas(locationTestData, "pieTest");
-    pieGraph.getCanvas(locationTestData, "lineTest");
+    locationTestData = new DataCreator().createLocations();
+    lineGraph.getCanvas(locationTestData, "line");
+    barGraph.getCanvas(locationTestData, "bar");
+    pieGraph.getCanvas(locationTestData, "pie");
+    lineCanvas = lineGraph.getCanvas();
     }
     
     @After
@@ -65,10 +72,7 @@ public class ChartTest extends TestCase {
 
     public void testSettings() {
         assert(lineGraph.getCanvas(locationTestData, "line") != null);
+    //    assert((new Chart().getCanvas(locationTestData, "wrong").hashCode()) == barGraph.getCanvas(locationTestData, "bar").hashCode());
+        
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }
