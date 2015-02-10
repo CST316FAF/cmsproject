@@ -12,91 +12,73 @@ import javafx.stage.Stage;
  
 public class MainPage extends Application {
 
-	//still havent tested this yet
-        Button btn = new Button("Customer Window UI"); //creates a button named btn with the label Customer Window UI
-	HBox hbBtn = new HBox(20); //creates a layout pane named hbBtn with a spacing of 20 pixels
+
+        Button btn1 = new Button("Customer Form"); //creates a button named btn1 with the label Customer Form
+	HBox hbBtn1 = new HBox(10); //creates a layout pane named hbBtn1 with a spacing of 10 pixels
 	
-        public MainPage() {
-        hbBtn.setAlignment(Pos.TOP_RIGHT); //positions the button in the top right of the page
-/*	
-	btn.setOnAction(new EventHandler<ActionEvent>() { //registers an event handler that sets the actiontarget object below to Customer Window UI button pressed when the user presses the button
-	
- 
-    @Override
-    public void handle(ActionEvent e) {
-        actiontarget.setText("Customer Window UI button pressed");
-    }
-	}
-*/     
+        Button btn2 = new Button("Login Screen"); //creates a button named btn2 with the label Login Screen
+        HBox hbBtn2 = new HBox(20); //creates a layout pane named hbBtn2 with a spacing of 20 pixels
         
-        btn.setOnAction ( new EventHandler<ActionEvent>() {
+        Button btn3 = new Button("Status Page"); //creates a button named btn3 with the label Status Page
+        HBox hbBtn3 = new HBox(30); //creates a layout pane named hbBtn3 with a spacing of 30 pixels
+        
+        Button btn4 = new Button("Status Scene"); //creates a button named btn4 with the label Status Scene
+        HBox hbBtn4 = new HBox(40); //creates a layout pane named hbBtn4 with a spacing of 40 pixels
+        
+        Button btn5 = new Button("User Creation"); //creates a button named btn5 with the label User Creation
+        HBox hbBtn5 = new HBox(50); //creates a layout pane named hbBtn5 with a spacing of 50 pixels
+        
+        public MainPage() {
+        hbBtn1.setAlignment(Pos.TOP_RIGHT); //positions the button in the top right of the page   
+        
+        btn1.setOnAction ( new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
-                    //actiontarget.setText("Customer Window UI button pressed");
-                    System.out.println("Customer Window UI button pressed");
+                    System.out.println("Customer Form Button Pressed");
                 }
             });
 
     }
-	
-    // no clue what you were trying to do here but all the methods have the same 
-    // name and adksfj;asdlkfj;lasdfj;asklj needs refactoring
-    // copy pasting repeatedly is a no no... especially if it doesn't work
-    /*
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Main Page");
-        Button btn2 = new Button();
-        btn2.setText("Customer Form");
-        btn2.setOnAction(new EventHandler<ActionEvent>() {
+        /*hbBtn2.setAlignment(Pos.TOP_LEFT); //positions the button in the top left of the page   
+        
+        btn2.setOnAction ( new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Click");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn2);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
-    }
-    
+                    System.out.println("Login Screen Button Pressed");
+                }
+            });
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Main Page");
-        Button btn3 = new Button();
-        btn3.setText("Status Scene");
-        btn3.setOnAction(new EventHandler<ActionEvent>() {
+    }
+        hbBtn3.setAlignment(Pos.BOTTOM_LEFT); //positions the button in the bottom left of the page   
+        
+        btn3.setOnAction ( new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Click");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn3);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+                    System.out.println("Status Page Button Pressed");
+                }
+            });
+
     }
-    
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Main Page");
-        Button btn4 = new Button();
-        btn4.setText("Window Toolbar");
-        btn4.setOnAction(new EventHandler<ActionEvent>() {
+        hbBtn4.setAlignment(Pos.BOTTOM_RIGHT); //positions the button in the bottom right of the page   
+        
+        btn4.setOnAction ( new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Click");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn4);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+                    System.out.println("Status Scene Button Pressed");
+                }
+            });
+
     }
-    */
+        hbBtn5.setAlignment(Pos.CENTER); //positions the button in the center of the page   
+        
+        btn5.setOnAction ( new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                    System.out.println("User Creation Button Pressed");
+                }
+            });
+
+    }*/
 
     @Override
     public void start(Stage primaryStage) throws Exception {
