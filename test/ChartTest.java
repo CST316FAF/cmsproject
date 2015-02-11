@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import Data.DataCreator;
+import cmsproject.Data.DataCreator;
 import Data.Location;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import DataCharts.*;
+import cmsproject.DataCharts.Chart;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import javafx.scene.canvas.Canvas;
