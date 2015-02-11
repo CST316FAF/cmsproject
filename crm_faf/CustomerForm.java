@@ -21,16 +21,21 @@ import javafx.scene.text.Text;
 
 public class CustomerForm  {
 
-	public void start(Stage primaryStage) {
+	public Scene start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Customer Entry Form");
-		GridPane pane = new GridPane();
+		BorderPane pane2 = new BorderPane();
+                GridPane pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
 		pane.setHgap(10);
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
-		Scene scene = new Scene(pane, 600, 400);
 		
+                Scene scene = new Scene(pane2, 600, 400);
+                WindowToolbar bar = new WindowToolbar(scene, primaryStage);
+                pane2.setCenter(pane);
+                pane2.setTop(bar);
+                
 		Text sceneTitle = new Text("Enter Customer Information:");
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL,20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
@@ -91,6 +96,7 @@ public class CustomerForm  {
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+                return scene;
 	}
 	
 	

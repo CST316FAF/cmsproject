@@ -36,8 +36,8 @@ public class DataCreator {
             ArrayList<String> locNames = new ArrayList<String>();
             locNames.add(names.get(x));
             locNames.add(names.get(x+1));
-            Location loc = new Location((int)(Math.random() * 1234), 
-                    locNames, createMonthData(), (int)(Math.random() * 420));
+            Location loc = new Location((int)(Math.random() * 1234 + ((int)(Math.random() * 1234)<< 6)), 
+                    locNames, createMonthData(), ((int)(Math.random() * 200)));
             locs.add(loc);
         }
         return locs;
@@ -46,7 +46,7 @@ public class DataCreator {
         return (int)(Math.random() * 1234);
     }
     
-    public ArrayList<MonthData> createMonthData() {
+    private ArrayList<MonthData> createMonthData() {
         ArrayList<MonthData> months = new ArrayList<MonthData>();
         int year = 2014;
         for(int x = 0; x < 12; x++) {

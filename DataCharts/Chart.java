@@ -36,9 +36,14 @@ public class Chart {
         else if(type == "bar") {
             this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
         }
+        else {
+            this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+        }
         canvas.setHeight(400);
-        canvas.setWidth(400);
+        canvas.setWidth(600);
+        canvas.getWidth();
         return canvas;
+        
     }
     public ChartCanvas getCanvas() {
         return canvas;

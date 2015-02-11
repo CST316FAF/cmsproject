@@ -46,6 +46,7 @@ public class WindowToolbar extends MenuBar {
     Canvas gBar;
     Scene scene;
     Stage stage;
+    Scene last;
     
     public WindowToolbar(Scene scene, Stage stage) {
         setUp(scene, stage);
@@ -63,19 +64,21 @@ public class WindowToolbar extends MenuBar {
     private void setUp(Scene scene, Stage stage) {
         this.scene = scene;
         this.stage = stage;
+//        this.last = new StatusPage().start(stage);
         this.getMenus().add(fileMenu);
         this.getMenus().add(UserMenu);
         this.getMenus().add(settingsMenu);
         this.getMenus().add(customerMenu);
-             
-        
-        //adding customer menu
-        this.getMenus().add(customerMenu);
-        MenuItem Customers = new MenuItem("Customers");
+          
+    
         //adding add customer scene link
         MenuItem addCust = new MenuItem("Add Customer");
         addCust.setOnAction(goToCustomerAdd());
         
+        MenuItem checkStatus = new MenuItem("Main");
+        checkStatus.setOnAction(goToStatus());
+        
+        this.UserMenu.getItems().add(checkStatus);
         this.customerMenu.getItems().add(addCust);
         
     }
@@ -166,6 +169,12 @@ public class WindowToolbar extends MenuBar {
         };
     }
     
+    private EventHandler<ActionEvent> goToStatus() {
+        return (ActionEvent event) -> {
+            new StatusPage().start(stage);
+        };
+    }
+    
     private void setUpCharts(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(chartMenu);
         setChartMenu();
@@ -234,4 +243,6 @@ public class WindowToolbar extends MenuBar {
    private void setMonth(Month m, int x) {
         m = new Month(0, x);
     }   
+
+
 }
