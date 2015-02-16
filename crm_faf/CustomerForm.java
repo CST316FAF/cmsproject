@@ -17,25 +17,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 
 
 public class CustomerForm  {
 
-	public Scene start(Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Customer Entry Form");
-		BorderPane pane2 = new BorderPane();
-                GridPane pane = new GridPane();
+		GridPane pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
 		pane.setHgap(10);
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
+		Scene scene = new Scene(pane, 600, 400);
 		
-                Scene scene = new Scene(pane2, 600, 400);
-                WindowToolbar bar = new WindowToolbar(scene, primaryStage);
-                pane2.setCenter(pane);
-                pane2.setTop(bar);
-                
 		Text sceneTitle = new Text("Enter Customer Information:");
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL,20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
@@ -89,14 +85,31 @@ public class CustomerForm  {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO : Add if statement to test for each TextField
-				submitMessage.setText("Successfully submitted Customer Information");
+                            String fname = fnameField.getText();
+                String lname = lnameField.getText();
+                String address = addressField.getText();
+                String city = cityField.getText();
+                String state = stateField.getText();
+                String zip = zipField.getText();
+                String telephone = telephoneField.getText();
+                String email = emailField.getText();
+                Label errormsg = new Label("Fill out all");
+                //Check and Validate that all fields are entered
+                if(fname.equals("") || lname.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("") ||
+                        telephone.equals("") || email.equals("")) {
+                        final Popup popup = new Popup(); 
+                        popup.setX(300); popup.setY(200);
+                        popup.getContent().add(new HBox(8));
+                        HBox hbox = new HBox(8); // spacing = 8
+                        hbox.getChildren().add(errormsg);
+                        popup.show(primaryStage);
+                        submitMessage.setText("Successfully submitted Customer Information");
 			}
-			
+                    }
 		});
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-                return scene;
 	}
 	
 	
