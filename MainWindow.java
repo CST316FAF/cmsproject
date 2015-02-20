@@ -7,7 +7,7 @@ public class MainWindow {
 		
 		JFrame main = new JFrame();
 		main.getContentPane().add(new MainPanel());
-		main.setSize(800,800);
+		main.setSize(800,500);
 		main.setVisible(true);
 		
 	}
