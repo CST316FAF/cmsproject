@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class MainPanel extends JPanel{
+public class BillingPanel extends JPanel{
 
 	JTextField cardNumberTF,expMonthTF,expYearTF, cvvTF, nameTF;
 	JTextField addressTF, cityTF, stateTF, zipTF, phoneTF;
@@ -21,7 +21,7 @@ public class MainPanel extends JPanel{
 	String[] countryList = {"USA","Canada","UK","Saudi Arabia"};
 	String[] usaStates = {"Alabama","Alaska","Arizona"};
 	
-	public MainPanel(){
+	public BillingPanel(){
 		
 		setLayout(new GridBagLayout());
 		
