@@ -1,0 +1,74 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package crm_faf;
+
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventType;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+/**
+ *
+ * @author Davis
+ */
+public class StatusWidget {
+
+    private  TableView table;
+    private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
+    private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
+    
+    public StatusWidget(double width, double height) {
+        this.Setup();
+    }
+    
+    public void  Setup() {
+ //       this.getChildren().add(this);
+        this.table = new TableView();
+        table.setEditable(false);
+        TableColumn sourceColumn = new TableColumn("Source");
+        sourceColumn.setPrefWidth(100);
+        sourceColumn.setCellValueFactory(
+                new PropertyValueFactory<WidgetEntry,String>("source"));
+        TableColumn actionColumn = new TableColumn("Action");
+        actionColumn.setPrefWidth(100);
+        actionColumn.setCellValueFactory(
+                new PropertyValueFactory<WidgetEntry,String>("action"));
+        TableColumn statusColumn = new TableColumn("Status");
+        statusColumn.setPrefWidth(200);
+        statusColumn.setCellValueFactory(
+                new PropertyValueFactory<WidgetEntry,String>("action"));
+	TableColumn notesColumn = new TableColumn("Notes");
+	notesColumn.setPrefWidth(150);
+        notesColumn.setCellValueFactory(
+                new PropertyValueFactory<WidgetEntry,String>("action"));
+	TableColumn importanceColumn = new TableColumn("Needs Attention");
+	importanceColumn.setPrefWidth(50);
+        importanceColumn.setCellValueFactory(
+                new PropertyValueFactory<WidgetEntry,String>("action"));
+        table.getColumns().addAll(sourceColumn, actionColumn, statusColumn, 
+                notesColumn, importanceColumn);
+ 
+    }
+    private void update(WidgetEntry wEntry) {
+        entries.add(wEntry);
+       
+    }
+    private void updateAll(WidgetEntry[] wEntries) {
+        entries.addAll(wEntries);
+    }
+    public  TableView getTable() {
+        return table;
+    }
+    
+}
