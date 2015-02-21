@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package crm_faf;
+
 
 import Data.DataCreator;
 import Data.Location;
@@ -40,16 +37,7 @@ public class ChartTest extends TestCase {
 
     public ChartTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    Chart lineGraph;
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     /**
      *
      */
@@ -73,6 +61,7 @@ public class ChartTest extends TestCase {
     public void testSettings() {
         assert(lineGraph.getCanvas(locationTestData, "line") != null);
     //    assert((new Chart().getCanvas(locationTestData, "wrong").hashCode()) == barGraph.getCanvas(locationTestData, "bar").hashCode());
-        
+        assert(barGraph.getCanvas(locationTestData, "bar") != null);
+        assert(pieGraph.getCanvas(locationTestData, "pie") != null);        
     }
 }

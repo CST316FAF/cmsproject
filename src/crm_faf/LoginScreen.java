@@ -36,7 +36,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package cmsproject.crm_faf;
+package crm_faf;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -56,7 +56,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginScreen1 extends Application {
+public class LoginScreen extends Application {
 
     public static void main(String[] args) {
         launch(args);

@@ -9,14 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class Technician extends Application {
-  public static void main(String[] args) {
-    launch(args);
-  }
+public class Technician  {
 
-  @Override
   public void start(Stage stage) {
-    stage.setTitle("Hello");
+    stage.setTitle("Technician Info");
     Scene scene = new Scene(new Group(), 450, 250);
 
     TextField notification = new TextField ();
@@ -40,4 +36,5 @@ public class Technician extends Application {
     stage.show();
 
   }
+
 }
