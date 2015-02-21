@@ -22,12 +22,12 @@ import javafx.scene.layout.VBox;
  *
  * @author Davis
  */
-public class StatusWidget {
+public class StatusWidget extends Updateable {
 
     private  TableView table;
     private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
     private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
-    
+    private  boolean hasFeed = false;
     public StatusWidget(double width, double height) {
         this.Setup();
     }
@@ -69,6 +69,16 @@ public class StatusWidget {
     }
     public  TableView getTable() {
         return table;
+    }
+
+    @Override
+    public boolean getIsFeed() {
+        return this.hasFeed;
+    }
+    
+    public void setFeed(String Url) {
+        // need to implement feeds
+        hasFeed = true;
     }
     
 }

@@ -1,3 +1,5 @@
+package crm_faf;
+
 import javax.swing.*;
 import java.awt.*;
 

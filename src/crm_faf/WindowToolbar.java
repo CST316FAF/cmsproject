@@ -75,7 +75,6 @@ public class WindowToolbar extends MenuBar {
         //adding add customer scene link
         MenuItem addCust = new MenuItem("Add Customer");
         addCust.setOnAction(goToCustomerAdd());
-        customerMenu.getItems().add(addCust);
         MenuItem checkStatus = new MenuItem("Main");
         checkStatus.setOnAction(goToStatus());
         
