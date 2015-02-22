@@ -6,31 +6,47 @@
 package crm_faf;
 
 import java.util.ArrayList;
+import javafx.concurrent.Task;
 
 /**
  *
  * @author Davis
  */
-public class UpdateManager implements Runnable{
+public class UpdateManager {
 
-    private ArrayList<Object> UpdateList = new ArrayList<>();
+    private ArrayList<Updateable> UpdateList = new ArrayList<>();
     private boolean dbChanged;
     private boolean feedChanged;
     
-    @Override
+   
     public void run() {
     dbChanged = getDbChanged();
     feedChanged = getFeedChanged();
         
        if(dbChanged || feedChanged) {
            for(int x = 0; x < UpdateList.size(); x++) {
-               
+               runUpdate(UpdateList.get(x));
            }
        } 
            
            
     }
+    private void runUpdate(Updateable a) {
+        Task task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                a.update();
+                this.cancel();
+                return null;
+            }
+        };
+        Thread th = new Thread(task);
+        th.start();
+    }
+  
 
+    
+    
     private boolean getDbChanged() {
         return false;
     }

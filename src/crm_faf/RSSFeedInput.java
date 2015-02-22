@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -34,6 +35,12 @@ public class RSSFeedInput {
         URL address = null; 
         InputStream input = null;
         XMLEventReader reader = null;
+        XMLEvent event = null;
+        String action = null;
+        String notes = null;
+        String source = null;        
+        String retAddress;
+        
         try {
             address = new URL(url);
         } catch (MalformedURLException ex) {
@@ -54,10 +61,45 @@ public class RSSFeedInput {
         
         while(reader.hasNext()) {
             try {
-                XMLEvent event = reader.nextEvent();
+                event = reader.nextEvent();
+                if (event.isStartElement()) {
+                    String part = event.asStartElement().getName().getLocalPart();
+                    if(part.compareTo("TITLE") == 0){
+                        event = reader.nextEvent();
+                        if (event instanceof Characters) {
+                          action = event.asCharacters().getData();
+                        }
+                    }
+                    else if(part.compareTo("DESCRIPTION") == 0){
+                        event = reader.nextEvent();
+                        if (event instanceof Characters) {
+                          notes = event.asCharacters().getData();
+                        }
+                    }
+                    else if(part.compareTo("LINK") == 0){
+                        event = reader.nextEvent();
+                        if (event instanceof Characters) {
+                          action = event.asCharacters().getData();
+                        }
+                    }
+                    else if(part.compareTo("GUID") == 0){
+                        event = reader.nextEvent();
+                        if (event instanceof Characters) {
+                          retAddress = event.asCharacters().getData();
+                        }
+                    }
+                    else if(part.compareTo("AUTHOR") == 0){
+                        event = reader.nextEvent();
+                        if (event instanceof Characters) {
+                          source = event.asCharacters().getData();
+                        }
+                    }
+                } 
             } catch (XMLStreamException ex) {
                 Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
             }
+            WidgetEntry entry = new WidgetEntry(action, notes, " ", 
+                " ", source);
         }
         
     }

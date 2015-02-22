@@ -18,7 +18,7 @@ public class WidgetEntry {
     private SimpleStringProperty importance;
     private SimpleStringProperty source;
     
-    private WidgetEntry(String action, String notes, String status, 
+    public WidgetEntry(String action, String notes, String status, 
             String importance, String source) {
         this.action = new SimpleStringProperty(action);
         this.notes = new SimpleStringProperty(notes);
