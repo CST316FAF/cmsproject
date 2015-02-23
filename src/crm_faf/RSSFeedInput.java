@@ -5,10 +5,12 @@
  */
 package crm_faf;
 
+import crm_faf.WidgetEntry;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +25,8 @@ import javax.xml.stream.events.XMLEvent;
 import static sun.net.www.http.HttpClient.New;
 
 public class RSSFeedInput {
+    
+    ArrayList<WidgetEntry> widgetList = new ArrayList<WidgetEntry>();
     public RSSFeedInput(String url){
         getFeed(url);
     }
@@ -100,7 +104,12 @@ public class RSSFeedInput {
             }
             WidgetEntry entry = new WidgetEntry(action, notes, " ", 
                 " ", source);
+            widgetList.add(entry);
         }
         
+    }
+    
+    public ArrayList<WidgetEntry> getList(){
+        return widgetList;
     }
 }

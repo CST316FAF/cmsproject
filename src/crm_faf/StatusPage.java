@@ -74,12 +74,13 @@ public class StatusPage  {
 		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
 
-                
+                StatusWidget widget = new StatusWidget();
+                widget.setFeed("http://feeds.reuters.com/news/artsculture");
 		final VBox vbox = new VBox();
 		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(widget.getTable(),table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);
 		
 		

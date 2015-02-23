@@ -18,18 +18,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-/**
- *
- * @author Davis
- */
+
 public class StatusWidget extends Updateable {
 
     private  TableView table;
     private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
     private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
     private  boolean hasFeed = false;
-    public StatusWidget(double width, double height) {
-        this.Setup();
+
+    StatusWidget() {
+        Setup();
     }
     
     public void  Setup() {
@@ -64,7 +62,7 @@ public class StatusWidget extends Updateable {
         entries.add(wEntry);
        
     }
-    private void updateAll(WidgetEntry[] wEntries) {
+    private void updateAll(ArrayList<WidgetEntry> wEntries) {
         entries.addAll(wEntries);
     }
     public  TableView getTable() {
@@ -76,8 +74,9 @@ public class StatusWidget extends Updateable {
         return this.hasFeed;
     }
     
-    public void setFeed(String Url) {
-        // need to implement feeds
+    public void setFeed(String url) {
+        RSSFeedInput input = new RSSFeedInput(url);
+        entries.addAll(input.getList());
         hasFeed = true;
     }
     
