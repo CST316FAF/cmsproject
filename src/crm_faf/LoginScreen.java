@@ -115,7 +115,7 @@ public class LoginScreen extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-                
+                primaryStage.setScene(new CreateUser().start(primaryStage));
             }
             
         });
