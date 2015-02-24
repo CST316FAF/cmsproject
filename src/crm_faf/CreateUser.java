@@ -75,12 +75,17 @@ public class CreateUser {
 
             @Override
             public void handle(ActionEvent e) {
-                if((pwBox0.getText().compareTo(pwBox1.getText()) == 0) && pwBox0.getText().length() > 7){
+                if((pwBox0.getText().compareTo(pwBox1.getText()) == 0) && pwBox0.getText().length() > 7
+                        && newuserTextField.getText().length() > 0){
                     primaryStage.setScene(new StatusPage().start(primaryStage));
                 }
                 else if(pwBox0.getText().length() <= 7) {
-                    message.setText("Password must be > 8");
+                    message.setText("Password must be > 7");
                     message.setTextFill(Color.rgb(21, 39, 30));                   
+                }
+                else if(newuserTextField.getText().length() <= 0){
+                    message.setText("You must enter a username");
+                    message.setTextFill(Color.rgb(21, 39, 30));
                 }
                 else {
                     message.setText("Please verify passwords");
