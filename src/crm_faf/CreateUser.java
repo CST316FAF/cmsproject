@@ -38,6 +38,10 @@ public class CreateUser {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        final Label message = new Label("");
+        message.setAlignment(Pos.BOTTOM_LEFT);
+        grid.add(message, 1, 5);
 
         Text scenetitle = new Text("CMS Create Account");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
@@ -71,7 +75,18 @@ public class CreateUser {
 
             @Override
             public void handle(ActionEvent e) {
-                primaryStage.setScene(new StatusPage().start(primaryStage));
+                if((pwBox0.getText().compareTo(pwBox1.getText()) == 0) && pwBox0.getText().length() > 7){
+                    primaryStage.setScene(new StatusPage().start(primaryStage));
+                }
+                else if(pwBox0.getText().length() <= 7) {
+                    message.setText("Password must be > 8");
+                    message.setTextFill(Color.rgb(21, 39, 30));                   
+                }
+                else {
+                    message.setText("Please verify passwords");
+                    message.setTextFill(Color.rgb(21, 39, 30));
+                }
+                
             }
         });
                 
