@@ -102,22 +102,13 @@ public class LoginScreen extends Application {
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
 
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                //actiontarget.setFill(Color.FIREBRICK);
-                primaryStage.setScene(new StatusPage().start(primaryStage));
-            }
+        btn.setOnAction((ActionEvent e) -> {
+            //actiontarget.setFill(Color.FIREBRICK);
+            primaryStage.setScene(new StatusPage().start(primaryStage));
         });
         
-        createAcct.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                primaryStage.setScene(new CreateUser().start(primaryStage));
-            }
-            
+        createAcct.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(new CreateUser().start(primaryStage));
         });
 
         Scene scene = new Scene(grid, 300, 275);
