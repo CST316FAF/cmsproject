@@ -53,7 +53,7 @@ public class StatusWidget extends Updateable {
 	TableColumn importanceColumn = new TableColumn("Needs Attention");
 	importanceColumn.setPrefWidth(50);
         importanceColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("action"));
+                new PropertyValueFactory<WidgetEntry,String>("NAN"));
         table.getColumns().addAll(sourceColumn, actionColumn, statusColumn, 
                 notesColumn, importanceColumn);
  
@@ -77,7 +77,9 @@ public class StatusWidget extends Updateable {
     public void setFeed(String url) {
         RSSFeedInput input = new RSSFeedInput(url);
         entries.addAll(input.getList());
+        table.setItems(entries);
         hasFeed = true;
+        table.columnResizePolicyProperty();
     }
     
 }

@@ -12,11 +12,11 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Davis
  */
 public class WidgetEntry {
-    private SimpleStringProperty action;
-    private SimpleStringProperty notes;
-    private SimpleStringProperty status; 
-    private SimpleStringProperty importance;
-    private SimpleStringProperty source;
+    private  SimpleStringProperty action = new SimpleStringProperty();
+    private  SimpleStringProperty notes  = new SimpleStringProperty();
+    private  SimpleStringProperty status  = new SimpleStringProperty(); 
+    private  SimpleStringProperty importance  = new SimpleStringProperty();
+    private  SimpleStringProperty source = new SimpleStringProperty();
     
     public WidgetEntry(String action, String notes, String status, 
             String importance, String source) {
@@ -26,20 +26,42 @@ public class WidgetEntry {
         this.status = new SimpleStringProperty(status);
         this.source = new SimpleStringProperty(source);
     }
-    
-    public SimpleStringProperty getAction() {
-        return action;
+
+    public WidgetEntry() {
+        
     }
     
-    public SimpleStringProperty getNotes() {
-        return action;
+    public String getAction() {
+        return action.get();
+    }
+    
+    public String getNotes() {
+        return notes.get();
     }
         
-    public SimpleStringProperty getImportance() {
-        return action;
+    public String getImportance() {
+        return importance.get();
     }
 
-    public SimpleStringProperty getStatus() {
-        return action;
+    public String getStatus() {
+        return status.get();
+    }
+    
+    @Override
+    public String toString() {
+        return action.get() + notes.get() + source.get();
+    }
+
+
+    void setAction(String action) {
+        this.action.set(action);
+    }
+
+    void setNotes(String notes) {
+        this.notes.set(notes);
+    }
+
+    void setUrl(String retAddress) {
+        this.source.set(retAddress);
     }
 }

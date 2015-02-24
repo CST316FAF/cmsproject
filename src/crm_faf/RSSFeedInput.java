@@ -29,6 +29,7 @@ public class RSSFeedInput {
     ArrayList<WidgetEntry> widgetList = new ArrayList<WidgetEntry>();
     public RSSFeedInput(String url){
         getFeed(url);
+        System.out.println("ran");
     }
     
     public RSSFeedInput(List<String> urls){
@@ -40,71 +41,80 @@ public class RSSFeedInput {
         InputStream input = null;
         XMLEventReader reader = null;
         XMLEvent event = null;
-        String action = null;
-        String notes = null;
-        String source = null;        
-        String retAddress;
-        
+
         try {
             address = new URL(url);
+            System.out.println("ran");
         } catch (MalformedURLException ex) {
             Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("f0");
         }
         try {
             input = address.openStream();
+            System.out.println("ran");
         } catch (IOException ex) {
             Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("f1");
         }
        
        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         try {
             reader = inputFactory.createXMLEventReader(input);
+            System.out.println("ran");
         } catch (XMLStreamException ex) {
             Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("f2");
         }
         
         while(reader.hasNext()) {
             try {
+                String action;
+                String notes;
+                String source;        
+                String retAddress;
+                WidgetEntry entry = new WidgetEntry();
                 event = reader.nextEvent();
                 if (event.isStartElement()) {
                     String part = event.asStartElement().getName().getLocalPart();
-                    if(part.compareTo("TITLE") == 0){
+                    System.out.println(part);
+                    if(part.compareToIgnoreCase("TITLE") == 0){
                         event = reader.nextEvent();
                         if (event instanceof Characters) {
                           action = event.asCharacters().getData();
+                          System.out.println(action);
+                          entry.setAction(action);
                         }
                     }
-                    else if(part.compareTo("DESCRIPTION") == 0){
+                    else if(part.compareToIgnoreCase("DESCRIPTION") == 0){
                         event = reader.nextEvent();
                         if (event instanceof Characters) {
                           notes = event.asCharacters().getData();
+                          entry.setNotes(notes);
+                          System.out.println(notes);
                         }
                     }
-                    else if(part.compareTo("LINK") == 0){
-                        event = reader.nextEvent();
-                        if (event instanceof Characters) {
-                          action = event.asCharacters().getData();
-                        }
-                    }
-                    else if(part.compareTo("GUID") == 0){
+                    else if(part.compareToIgnoreCase("GUID") == 0){
                         event = reader.nextEvent();
                         if (event instanceof Characters) {
                           retAddress = event.asCharacters().getData();
+                          System.out.println(retAddress);
+                          entry.setUrl(retAddress);
                         }
                     }
-                    else if(part.compareTo("AUTHOR") == 0){
+                    else if(part.compareToIgnoreCase("AUTHOR") == 0){
                         event = reader.nextEvent();
                         if (event instanceof Characters) {
                           source = event.asCharacters().getData();
                         }
                     }
                 } 
+            
+            widgetList.add(entry);
+            
             } catch (XMLStreamException ex) {
                 Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
             }
-            WidgetEntry entry = new WidgetEntry(action, notes, " ", 
-                " ", source);
-            widgetList.add(entry);
+
         }
         
     }
