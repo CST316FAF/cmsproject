@@ -51,8 +51,19 @@ public class WidgetEntry {
     public String toString() {
         return action.get() + notes.get() + source.get();
     }
-
-
+    
+    public SimpleStringProperty actionProperty() {
+        return action;
+    }
+    
+    public SimpleStringProperty notesProperty() {
+        return notes;
+    }
+    
+    public SimpleStringProperty Property() {
+        return source;
+    }
+    
     void setAction(String action) {
         this.action.set(action);
     }

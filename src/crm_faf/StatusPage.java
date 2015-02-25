@@ -82,6 +82,8 @@ public class StatusPage  {
                 vbox2.setSpacing(5);
                 vbox2.setPadding(new Insets(10, 0, 0, 10));
                 vbox2.getChildren().addAll(widget.getTable());
+                vbox2.setPrefHeight(300);
+                vbox2.setMinSize(200, 200);
                 
                 final VBox vbox = new VBox();
 		vbox.setPrefWidth(700);

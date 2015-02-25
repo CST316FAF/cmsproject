@@ -76,6 +76,7 @@ public class StatusWidget extends Updateable {
     
     public void setFeed(String url) {
         RSSFeedInput input = new RSSFeedInput(url);
+        entries.removeAll(entries);
         entries.addAll(input.getList());
         table.setItems(entries);
         hasFeed = true;

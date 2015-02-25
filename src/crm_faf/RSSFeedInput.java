@@ -108,9 +108,9 @@ public class RSSFeedInput {
                         }
                     }
                 } 
-            
-            widgetList.add(entry);
-            
+            if(entry.getAction() != null || null != entry.getNotes()) {
+                widgetList.add(entry);
+            }
             } catch (XMLStreamException ex) {
                 Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
             }
