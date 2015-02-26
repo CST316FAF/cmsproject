@@ -36,7 +36,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package cmsproject.crm_faf;
+package crm_faf;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -56,7 +56,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginScreen1 extends Application {
+public class LoginScreen extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -102,22 +102,13 @@ public class LoginScreen1 extends Application {
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
 
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                //actiontarget.setFill(Color.FIREBRICK);
-                primaryStage.setScene(new StatusPage().start(primaryStage));
-            }
+        btn.setOnAction((ActionEvent e) -> {
+            //actiontarget.setFill(Color.FIREBRICK);
+            primaryStage.setScene(new StatusPage().start(primaryStage));
         });
         
-        createAcct.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                
-            }
-            
+        createAcct.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(new CreateUser().start(primaryStage));
         });
 
         Scene scene = new Scene(grid, 300, 275);

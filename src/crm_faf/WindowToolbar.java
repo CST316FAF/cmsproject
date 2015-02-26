@@ -37,7 +37,7 @@ public class WindowToolbar extends MenuBar {
     Menu customerMenu = new Menu("Customer");
     Menu settingsMenu = new Menu("Settings");
     Menu chartMenu = new Menu("Chart");
-    
+    Menu technicianMenu = new Menu("Technician");
     /*
     *I plan to change way graph is used
     */
@@ -69,14 +69,21 @@ public class WindowToolbar extends MenuBar {
         this.getMenus().add(UserMenu);
         this.getMenus().add(settingsMenu);
         this.getMenus().add(customerMenu);
+        this.getMenus().add(technicianMenu);
           
     
         //adding add customer scene link
         MenuItem addCust = new MenuItem("Add Customer");
         addCust.setOnAction(goToCustomerAdd());
-        
         MenuItem checkStatus = new MenuItem("Main");
         checkStatus.setOnAction(goToStatus());
+        
+        //add technician scene link
+        
+        MenuItem checkTech = new MenuItem("Technician Status");
+        checkTech.setOnAction(goToCheckTech());
+        technicianMenu.getItems().add(checkTech);
+        
         
         this.UserMenu.getItems().add(checkStatus);
         this.customerMenu.getItems().add(addCust);
@@ -172,6 +179,11 @@ public class WindowToolbar extends MenuBar {
     private EventHandler<ActionEvent> goToStatus() {
         return (ActionEvent event) -> {
             new StatusPage().start(stage);
+        };
+    }
+    private EventHandler<ActionEvent> goToCheckTech() {
+        return (ActionEvent event) -> {
+            new Technician().start(stage);
         };
     }
     

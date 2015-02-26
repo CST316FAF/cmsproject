@@ -1,3 +1,5 @@
+package crm_faf;
+
 
 import javax.swing.*;
 
@@ -6,7 +8,7 @@ import java.awt.event.*;
 import java.applet.*;
 import java.sql.*;
 
-public class MainPanel extends JPanel{
+public class BillingStorePanel extends JPanel{
 
 	static final String DB_URL = "jdbc:mysql://localhost:3306/database";
 	public static final String USER = "root";
@@ -27,7 +29,7 @@ public class MainPanel extends JPanel{
 	JButton loadInvoiceB;
 	//JTextArea invoicesTA;
 	
-	public MainPanel(){
+	public BillingStorePanel(){
 		
 		setLayout(new GridLayout(10,1));
 		
