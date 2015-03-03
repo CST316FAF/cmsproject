@@ -29,7 +29,37 @@ import javafx.stage.Stage;
  * @author Austin
  */
 public class CreateUser {
-   
+    private TextField newuserTextField;
+    private PasswordField pwBox0;
+    private PasswordField pwBox1;
+    private Button createAcct;
+    private Stage primaryStage;
+    
+    public void setNewUserTextField(TextField newuserTextField) {
+        this.newuserTextField = newuserTextField;
+    }
+    public TextField getNewUserTextField() {
+        return this.newuserTextField;
+    }
+    public void setpwBox0(PasswordField pwBox0){
+        this.pwBox0 = pwBox0;
+    }
+    public PasswordField getpwBox0(){
+        return this.pwBox0;
+    }
+    public void setpwBox1(PasswordField pwBox1){
+        this.pwBox1 = pwBox1;
+    }
+    public PasswordField getpwBox1(){
+        return this.pwBox1;
+    }
+    public void setcreateAcct(Button createAcct){
+        this.createAcct = createAcct;
+    }
+    public Button getcreateAcct(){
+        return this.createAcct;
+    }
+    
     public Scene start(Stage primaryStage) {
     
         primaryStage.setTitle("BEST CMS EVER");
@@ -38,7 +68,7 @@ public class CreateUser {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        
+       
         final Label message = new Label("");
         message.setAlignment(Pos.BOTTOM_LEFT);
         grid.add(message, 1, 5);
@@ -50,22 +80,22 @@ public class CreateUser {
         Label userName = new Label("User Name:");
         grid.add(userName, 0, 1);
 
-        TextField newuserTextField = new TextField();
+        this.newuserTextField = new TextField();
         grid.add(newuserTextField, 1, 1);
 
         Label pw0 = new Label("Password:");
         grid.add(pw0, 0, 2);
 
-        PasswordField pwBox0 = new PasswordField();
+        this.pwBox0 = new PasswordField();
         grid.add(pwBox0, 1, 2);
 
         Label pw1 = new Label("Retype Password:");
         grid.add(pw1, 0, 3);
 
-        PasswordField pwBox1 = new PasswordField();
+        this.pwBox1 = new PasswordField();
         grid.add(pwBox1, 1, 3);
         
-        Button createAcct = new Button("Create Account");
+        createAcct = new Button("Create Account");
         HBox hbBtn1 = new HBox(10);
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn1.getChildren().add(createAcct);
