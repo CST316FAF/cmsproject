@@ -18,9 +18,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
+import com.zenjava.jfxflow.actvity.AbstractActivity;
+import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.navigation.Place;
 
 
-public class StatusPage  {
+public class StatusPage extends AbstractActivity {
 
 	public Scene start(Stage primaryStage) {
 		

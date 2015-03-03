@@ -56,7 +56,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginScreen extends Application {
+public class MainLoginScreen extends Application {
 
     public static void main(String[] args) {
         launch(args);

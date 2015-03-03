@@ -45,11 +45,11 @@ public class StatusWidget extends Updateable {
         TableColumn statusColumn = new TableColumn("Status");
         statusColumn.setPrefWidth(200);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("action"));
+                new PropertyValueFactory<WidgetEntry,String>("status"));
 	TableColumn notesColumn = new TableColumn("Notes");
 	notesColumn.setPrefWidth(150);
         notesColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("action"));
+                new PropertyValueFactory<WidgetEntry,String>("notes"));
 	TableColumn importanceColumn = new TableColumn("Needs Attention");
 	importanceColumn.setPrefWidth(50);
         importanceColumn.setCellValueFactory(

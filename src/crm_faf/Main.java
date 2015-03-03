@@ -1,4 +1,4 @@
-package application;
+package crm_faf;
 
 import java.awt.Dialog;
 import java.sql.Connection;
@@ -33,7 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
-import application.Main.Person;
+//import application.Main.Person;
 
 public class Main extends Application {
 

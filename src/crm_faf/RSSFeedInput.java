@@ -74,43 +74,45 @@ public class RSSFeedInput {
                 String retAddress;
                 WidgetEntry entry = new WidgetEntry();
                 event = reader.nextEvent();
+
                 if (event.isStartElement()) {
                     String part = event.asStartElement().getName().getLocalPart();
                     System.out.println(part);
-                    if(part.compareToIgnoreCase("TITLE") == 0){
-                        event = reader.nextEvent();
-                        if (event instanceof Characters) {
-                          action = event.asCharacters().getData();
-                          System.out.println(action);
-                          entry.setAction(action);
+                        if(part.compareToIgnoreCase("TITLE") == 0){
+                            event = reader.nextEvent();
+                            if (event instanceof Characters) {
+                              action = event.asCharacters().getData();
+                              System.out.println(action);
+                              entry.setAction(action);
+                            }
                         }
-                    }
-                    else if(part.compareToIgnoreCase("DESCRIPTION") == 0){
-                        event = reader.nextEvent();
-                        if (event instanceof Characters) {
-                          notes = event.asCharacters().getData();
-                          entry.setNotes(notes);
-                          System.out.println(notes);
+                       if(part.compareToIgnoreCase("DESCRIPTION") == 0){
+                            event = reader.nextEvent();
+                            if (event instanceof Characters) {
+                              notes = event.asCharacters().getData();
+                              entry.setNotes(notes);
+                              System.out.println(notes);
+                            }
                         }
-                    }
-                    else if(part.compareToIgnoreCase("GUID") == 0){
-                        event = reader.nextEvent();
-                        if (event instanceof Characters) {
-                          retAddress = event.asCharacters().getData();
-                          System.out.println(retAddress);
-                          entry.setUrl(retAddress);
+                        if(part.compareToIgnoreCase("GUID") == 0){
+                            event = reader.nextEvent();
+                            if (event instanceof Characters) {
+                              retAddress = event.asCharacters().getData();
+                              System.out.println(retAddress);
+                              entry.setUrl(retAddress);
+                            }
                         }
-                    }
-                    else if(part.compareToIgnoreCase("AUTHOR") == 0){
-                        event = reader.nextEvent();
-                        if (event instanceof Characters) {
-                          source = event.asCharacters().getData();
+                        if(part.compareToIgnoreCase("AUTHOR") == 0){
+                            event = reader.nextEvent();
+                            if (event instanceof Characters) {
+                              source = event.asCharacters().getData();
+                              entry.setSource(source);
+                            }
                         }
-                    }
                 } 
-            if(entry.getAction() != null || null != entry.getNotes()) {
-                widgetList.add(entry);
-            }
+                if(entry.getAction() != null || null != entry.getNotes()) {
+                    widgetList.add(entry);
+                }
             } catch (XMLStreamException ex) {
                 Logger.getLogger(RSSFeedInput.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -118,6 +120,7 @@ public class RSSFeedInput {
         }
         
     }
+    
     
     public ArrayList<WidgetEntry> getList(){
         return widgetList;
