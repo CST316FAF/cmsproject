@@ -35,30 +35,34 @@ import javafx.scene.text.Text;
 
 public class Main extends Application {
 	
+	//database connection info
 	static final String DB_URL = "jdbc:mysql://localhost:3306/database1";
 	public static final String USER = "root";
     public static final String PASSWORD = "Welcome1";
-
+    
+    //tax
+    static final double TAX_RATE = .08;
+    
+    //Arrays used to store the combo box items
 	String[] countryList = { "USA", "Canada"};
 	String[] usaStates = { "Alabama", "Alaska", "Arizona", "Arkansas"};
 	String[] provinces = {"Quebec","Ontario","British Columbia", "Alberta"};
 	
+	//components for displaying all information within the app
 	ComboBox<String> countries, states;
-	
 	TextField cardNumberTF, expDateMTF, expDateYTF, cvvTF, nameTF, addressTF, cityTF, zipTF, phoneTF;
-
 	Text invoiceAmount, invoiceNumber,message, totalTaxAmount, totalAmountValue;
-	
 	Button exit, pay, next, back;
-	
 	RadioButton mcRB, visaRB, discoverRB;
 	
-	static final double TAX_RATE = .08;
-
+	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage)
+	{
 		try {
+			//the built gridpane
 			GridPane root = addGridPane();
+			//set scene size
 			Scene scene = new Scene(root, 700, 700);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -69,6 +73,9 @@ public class Main extends Application {
 	}
 
 	
+	
+	//This method creates random information to simulate the data of a transaction
+	//by creating a random number for the invoice number and transaction amount...
 	public void setAmountOfTransaction() {
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance();
@@ -80,12 +87,14 @@ public class Main extends Application {
 		double invoiceA = r.nextDouble() * 100.0;
 		double tax = invoiceA * TAX_RATE;
 		double total = invoiceA + tax;
+		//set data for all the display fields
 		invoiceNumber.setText(String.valueOf(invoiceN));
 		invoiceAmount.setText(nf.format(invoiceA));
 		totalTaxAmount.setText(nf.format(tax));
 		totalAmountValue.setText(nf.format(total));
 	}
 	
+	//used to clear the text fields when needed
 	public void resetAllFields(){
 		
 		cardNumberTF.setText("");
@@ -101,7 +110,9 @@ public class Main extends Application {
 		setAmountOfTransaction();
 		
 	}
-	
+
+	//used for validation of the input components to make sure all have had something entered so that
+	//none are blank
 	private boolean validate() {
 		
 		//card number not blank
@@ -162,26 +173,24 @@ public class Main extends Application {
 	
 	}
 	
+	//for showing a validation error
 	private void showValidationErrror(String problem) {
 		
 		message.setText("Error in validation of: " + problem);
 		
 	}
 
+	//builds the gridpane to be shown
 	public GridPane addGridPane() {
 
 		GridPane grid = new GridPane();
+		//formatting of gridpane
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(0, 10, 0, 10));
 
-		/*
-		 * ColumnConstraints columnConstraints = new ColumnConstraints();
-		 * columnConstraints.setFillWidth(true);
-		 * columnConstraints.setHgrow(Priority.ALWAYS);
-		 * grid.getColumnConstraints().add(columnConstraints);
-		 */
-
+		//create components needd for input
+		
 		Text pageTitle = new Text("Payment Page");
 		pageTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		grid.add(pageTitle, 0, 0);
@@ -206,6 +215,7 @@ public class Main extends Application {
 		cardType.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 		grid.add(cardType, 0, 3);
 
+		//for formatting the card area and radiobuttons
 		GridPane cards = new GridPane();
 		// cards.setAlignment(Pos.BOTTOM_RIGHT);
 		cards.setHgap(5);
@@ -248,7 +258,8 @@ public class Main extends Application {
 		expDateYTF = new TextField();
 		expDateYTF.setMaxWidth(35);
 		expDateYTF.setFont(Font.font("Arial", FontWeight.BOLD, 10));
-
+		
+		//used for formatting of the experation date fields
 		HBox expStuff = new HBox();
 		expStuff.setSpacing(10);
 		expStuff.getChildren().addAll(expDateMTF, new Text("/"), expDateYTF);
@@ -296,15 +307,20 @@ public class Main extends Application {
 		country.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 		grid.add(country, 0, 10);
 
+		//Countries combobox stuff
 		ComboBox<String> countries = new ComboBox<String>();
+		//add the countries from the countries array to the combobox
 		countries.getItems().addAll(countryList);
 		countries.setValue(countryList[0]);
+		//event handler for combobox
 		countries.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
+				//determine whether usa or canada is selected and use the correct
+				//array for each instance
 				if(countries.getSelectionModel().getSelectedItem().equals("USA")) {
 					states.getItems().setAll(usaStates);
 					states.setValue(states.getItems().get(0));
@@ -318,7 +334,7 @@ public class Main extends Application {
 			
 		});
 		
-
+		
 		grid.add(countries, 1, 10);
 
 		Text stateProvince = new Text("* State/province");
@@ -347,6 +363,7 @@ public class Main extends Application {
 		phoneTF.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 		grid.add(phoneTF, 1, 13);
 
+		//this is the gridpane used to show the information about the transaction (price etc) on the right side
 		GridPane rightGrid = new GridPane();
 		rightGrid.setHgap(10);
 		rightGrid.setVgap(10);
@@ -389,22 +406,28 @@ public class Main extends Application {
 		grid.add(s, 2, 1, 1, 13);
 		grid.add(rightGrid, 3, 1, 1, 13);
 
+		//For display of buttons at the bottom
 		HBox buttons = new HBox();
-
 		exit = new Button("Exit");
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 
+			
+			
 			@Override
 			public void handle(ActionEvent arg0) {
+				//exit button
 				System.exit(0);
 			}
 
 		});
+		
+		
 		pay = new Button("Pay");
 		pay.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				//validate data first before proceeding
 				if(validate()) {
 					message.setText("");
 					String driverName = "com.mysql.jdbc.Driver"; // for MySql
@@ -415,6 +438,7 @@ public class Main extends Application {
 								PASSWORD);
 
 						Statement stmt = conn.createStatement();
+						//sql statement for inserting new data into the table
 						String theQuery = "INSERT INTO transactions VALUES (";
 						
 						theQuery += "'" + cardNumberTF.getText() + "','" + getCardSelected() + "','"
@@ -432,6 +456,7 @@ public class Main extends Application {
 
 						conn.close();
 						
+						//since new payment was completed successfully, reset the fields
 						resetAllFields();
 						
 						message.setText("Transaction has been successfully saved");
@@ -447,11 +472,11 @@ public class Main extends Application {
 
 		});
 
+		//add the buttons
 		buttons.getChildren().addAll(exit, pay);
 
-		// GridPane.setHalignment(exit, HPos.RIGHT);
-
 		grid.add(buttons, 3, 14, 1, 1);
+		//success message
 		message = new Text();
 		
 		grid.add(message, 0,15,4,1);
@@ -460,6 +485,7 @@ public class Main extends Application {
 
 	}
 	
+	//for getting which of the 3 credit cards are currently selected (utility method)
 	private String getCardSelected() {
 		
 		if(visaRB.isSelected())
@@ -471,6 +497,7 @@ public class Main extends Application {
 		
 	}
 
+	//main method to start execution
 	public static void main(String[] args) {
 		launch(args);
 	}
