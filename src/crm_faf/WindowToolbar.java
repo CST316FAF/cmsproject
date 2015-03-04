@@ -212,7 +212,6 @@ public class WindowToolbar extends MenuBar {
     private void createDateMenu(Month m){
         Stage popup = new Stage();
         VBox comp = new VBox();
-        final int[] selected = new int[1];
         Scene popupScene = new Scene(comp, 300, 300);
         popup.setScene(popupScene);
         Button enter = new Button("Ok");

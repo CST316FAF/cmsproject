@@ -7,7 +7,7 @@ package crm_faf;
 
 /**
  *
- * @author Davis
+ * not yet implemented
  */
 public abstract class Updateable {
     boolean feed;
