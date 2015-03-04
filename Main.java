@@ -37,32 +37,45 @@ import application.Main.Person;
 
 public class Main extends Application {
 
+	//Sql Database address for access
 	static final String DB_URL = "jdbc:mysql://localhost:3306/database1";
 	public static final String USER = "root";
 	public static final String PASSWORD = "Welcome1";
-
+	
+	//Top horizontal HBox used for the input components to add a new technician
 	private final HBox hb = new HBox();
+	//Lower horizontal HBox used for the input components for editing a current technician
 	private final HBox hb2 = new HBox();
+	//The table
 	private final TableView<Person> table = new TableView<>();
+	//Used to store the table's data
 	private ObservableList<Person> data = null;
+	
+	
+	
+	
 
 	private void buildTableData() {
 
+		//used for creating the observable list later for table data
 		ArrayList<Person> people = new ArrayList<Person>();
 
-		
-		String driverName = "com.mysql.jdbc.Driver";
+		//sql driver
+		String driverName = "com.mysql.jdbc.Driver"; // for MySql
 		try {
-			
+			// Load the JDBC driver and start connection
 			Class.forName(driverName).newInstance();
 			Connection conn = DriverManager.getConnection(DB_URL, USER,
 					PASSWORD);
 
+			
 			Statement stmt = conn.createStatement();
+			//statement used to request all the technician records for filling table and initially displaying
 			String theQuery = "SELECT * FROM technicians";
 
 			ResultSet rs = stmt.executeQuery(theQuery);
 
+			//read from the result until all results have been added to the arraylist
 			while (rs.next()) {
 				Person temp = new Person(rs.getString(1), rs.getString(2),
 						rs.getString(3), rs.getString(4), rs.getString(5),
@@ -70,6 +83,7 @@ public class Main extends Application {
 				people.add(temp);
 			}
 
+			//convert arraylist to observable list
 			ObservableList<Person> oPeople = FXCollections
 					.observableArrayList(people);
 
@@ -77,25 +91,28 @@ public class Main extends Application {
 
 			conn.close();
 		} catch (Exception e) {
-			
+			// Could not find the database driver
 			System.out.println("Problem : " + e.getMessage());
 
 		}
 
 	}
 
+
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
 
 			buildTableData();
 
-			int addUpWidth = 50;
-
+			//main scene to be shown
 			Scene scene = new Scene(new Group());
+			//window size
 			primaryStage.setHeight(650);
 			primaryStage.setWidth(1000);
+			
+			//Set up items at top
 
 			final Label label = new Label("Technician List");
 			label.setFont(new Font("Arial", 20));
@@ -104,52 +121,52 @@ public class Main extends Application {
 			message.setFont(new Font("Ariel", 20));
 			message.setTextFill(Color.RED);
 
+			//ensure no editing can be done in cells of table directly
 			table.setEditable(false);
+			//only 1 row can be selected at a time
 			table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+			// ----- Table columns Created
+			
 			TableColumn idCol = new TableColumn("ID");
 			idCol.setMinWidth(60);
 			idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-			addUpWidth += idCol.getMinWidth();
 
 			TableColumn firstNameCol = new TableColumn("First Name");
 			firstNameCol.setMinWidth(120);
 			firstNameCol.setCellValueFactory(new PropertyValueFactory<>(
 					"firstName"));
-			addUpWidth += firstNameCol.getMinWidth();
 
 			TableColumn lastNameCol = new TableColumn("Last Name");
 			lastNameCol.setMinWidth(120);
 			lastNameCol.setCellValueFactory(new PropertyValueFactory<>(
 					"lastName"));
-			addUpWidth += lastNameCol.getMinWidth();
 
 			TableColumn phoneCol = new TableColumn("Phone");
 			phoneCol.setMinWidth(120);
 			phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-			addUpWidth += phoneCol.getMinWidth();
-
+			
 			TableColumn emailCol = new TableColumn("Email");
 			emailCol.setMinWidth(120);
 			emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-			addUpWidth += emailCol.getMinWidth();
-
+		
 			TableColumn contactCol = new TableColumn("Emergency Contact");
 			contactCol.setMinWidth(120);
 			contactCol
 					.setCellValueFactory(new PropertyValueFactory<>("contact"));
-			addUpWidth += contactCol.getMinWidth();
 
 			TableColumn workHoursCol = new TableColumn("Work Hours");
 			workHoursCol.setMinWidth(80);
 			workHoursCol.setCellValueFactory(new PropertyValueFactory<>(
 					"workHours"));
-			addUpWidth += workHoursCol.getMinWidth();
 
+			//set the table data for the table
 			table.setItems(data);
+			//add the table's columns
 			table.getColumns().addAll(idCol, firstNameCol, lastNameCol,
 					phoneCol, emailCol, contactCol, workHoursCol);
-
+			
+			// ---------  create the input components for inputting a new technician
 			final TextField addId = new TextField();
 			addId.setPromptText("ID");
 			addId.setPrefWidth(idCol.getMinWidth());
@@ -174,10 +191,11 @@ public class Main extends Application {
 
 			final Button addButton = new Button("Add New Technician");
 			addButton.setMinWidth(50);
+			
+			//action listener for the add button
 			addButton.setOnAction((ActionEvent e) -> {
-				
-				
-				
+
+				//make sure all inputs have something in them
 				if (!addId.getText().equals("")
 						&& !addFirstName.getText().equals("")
 						&& !addLastName.getText().equals("")
@@ -186,8 +204,9 @@ public class Main extends Application {
 						&& !addContact.getText().equals("")
 						&& !addWorkHours.getText().equals("")) {
 					
+					//success so make sure the id they are creating it unique
 					for(Person p : data) {
-						
+						//person with this id already exists
 						if(p.getId().equals(addId.getText())) {
 							message.setText("Id Already Exists, make sure the ID is unique before adding a new tech");
 							return;
@@ -196,12 +215,13 @@ public class Main extends Application {
 
 					String driverName = "com.mysql.jdbc.Driver"; // for MySql
 					try {
-						
+						// Load the JDBC driver
 						Class.forName(driverName);
 						Connection conn = DriverManager.getConnection(DB_URL,
 								USER, PASSWORD);
 
 						Statement stmt = conn.createStatement();
+						//sql command to enter new data entries into the table
 						String theQuery = "INSERT INTO technicians VALUES (";
 
 						theQuery += addId.getText() + ",'"
@@ -216,13 +236,17 @@ public class Main extends Application {
 
 						conn.close();
 
-				
+						// resetAllFields();
+
+					// message.setText("Transaction has been successfully saved");
+
 				} catch (Exception ee) {
-				
+					// Show the SQL Error for debugging if one exists
 					System.out.println("Problem : " + ee.getMessage());
 
 				}
 
+				//add the new technician to the tables data (locally) since it was successful
 				data.add(new Person(addId.getText(), addFirstName.getText(),
 						addLastName.getText(), addPhone.getText(), addEmail
 								.getText(), addContact.getText(), addWorkHours
@@ -241,6 +265,7 @@ public class Main extends Application {
 			}
 		})	;
 
+			//components for editing a technicians info ------------------------
 			final Label addId1 = new Label();
 			addId1.setText("ID");
 			addId1.setPrefWidth(idCol.getMinWidth());
@@ -266,6 +291,8 @@ public class Main extends Application {
 
 			final Button editButton = new Button("Update Selected");
 			editButton.setMinWidth(50);
+			
+			//action listener for the edit/update button
 			editButton.setOnAction((ActionEvent e) -> {
 
 				
@@ -284,6 +311,7 @@ public class Main extends Application {
 								USER, PASSWORD);
 
 						Statement stmt = conn.createStatement();
+						//command to overwrite the old entry with the changed data
 						String theQuery = "REPLACE INTO technicians VALUES (";
 
 						theQuery += addId1.getText() + ",'"
@@ -298,20 +326,26 @@ public class Main extends Application {
 
 						conn.close();
 
+						// resetAllFields();
 
+					// message.setText("Transaction has been successfully saved");
 
 				} catch (Exception ee) {
-					
+					// show the error
 					System.out.println("Problem : " + ee.getMessage());
 
 				}
 
+					
 					int rowSelected = table.getSelectionModel().getSelectedIndex();
 					
+				//update the data in the table (locally)
 				data.set(rowSelected, (new Person(addId1.getText(), addFirstName1.getText(),
 						addLastName1.getText(), addPhone1.getText(), addEmail1
 								.getText(), addContact1.getText(), addWorkHours1
 								.getText())));
+				
+				//clear the error message textfield;
 				message.setText("");
 			}else {
 				message.setText("Information was not updated: make sure all update fields are filled out");
@@ -322,18 +356,21 @@ public class Main extends Application {
 
 			final Button deleteButton = new Button("Delete Selected");
 			deleteButton.setMinWidth(50);
+			//delete button actionlistener
 			deleteButton.setOnAction((ActionEvent e) -> {
 				if (table.getSelectionModel().getSelectedItem() != null) {
 
-					String driverName = "com.mysql.jdbc.Driver"; 
+					String driverName = "com.mysql.jdbc.Driver"; // for MySql
 					try {
-					
+						// Load the JDBC driver
 						Class.forName(driverName).newInstance();
 						Connection conn = DriverManager.getConnection(DB_URL,
 								USER, PASSWORD);
 
-						
+						// Statement stmt = conn.createStatement();
+						//command to delete an entry
 					String theQuery = "DELETE FROM technicians WHERE ID = ?";
+					//use a prepared statement for deleting
 					PreparedStatement ps = conn.prepareStatement(theQuery);
 					ps.setString(1, ((Person) table.getSelectionModel()
 							.getSelectedItem()).getId());
@@ -341,12 +378,13 @@ public class Main extends Application {
 
 					conn.close();
 				} catch (Exception ee) {
-					
+					// Could not find the database driver
 					System.out.println("Problem : " + ee.getMessage());
 
 				}
 
 				int rowSelected = table.getSelectionModel().getSelectedIndex();
+				//remove data from table (locally)
 				data.remove(rowSelected);
 				
 				message.setText("");
@@ -355,31 +393,37 @@ public class Main extends Application {
 
 		})	;
 
+			//add the components for inputting a new technician to the hbox
 			hb.getChildren().addAll(addId, addFirstName, addLastName, addPhone,
 					addEmail, addContact, addWorkHours, addButton);
 
 			hb.setSpacing(0);
 
+			//add the components for editing a technician to the second hbox
 			hb2.getChildren().addAll(addId1, addFirstName1, addLastName1,
 					addPhone1, addEmail1, addContact1, addWorkHours1,
 					editButton);
 
 			hb2.setSpacing(0);
 
+			//create the vertical box that will hold all the items
 			final VBox vbox = new VBox();
+			//visual style properties...
 			vbox.setSpacing(5);
 			vbox.setPadding(new Insets(10, 0, 0, 10));
 			vbox.getChildren().addAll(label, hb, table, hb2, deleteButton, message);
 
+			//add the vbox to the root within the scene
 			((Group) scene.getRoot()).getChildren().addAll(vbox);
 
-			addUpWidth += addButton.getMinWidth();
-			addUpWidth += editButton.getMinWidth();
-			addUpWidth += deleteButton.getMinWidth();
-
+			//table listener
 			table.getSelectionModel().selectedItemProperty()
 					.addListener(new ChangeListener() {
 
+						//if the table selection has changed and the line is not null, 
+						//the edit components should be filled with the data from the 
+						//selected row
+						
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
@@ -411,6 +455,7 @@ public class Main extends Application {
 								
 
 							} else {
+								//if no row is selected all data should be cleared and empty
 								addId1.setText("ID");
 								addFirstName1.clear();
 								addLastName1.clear();
@@ -419,12 +464,12 @@ public class Main extends Application {
 								addContact1.clear();
 								addWorkHours1.clear();
 							}
+							//clear message display
 							message.setText("");
 						}
 					});
 
-			
-
+			//Set the scene to display the app
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
@@ -433,11 +478,18 @@ public class Main extends Application {
 		}
 	}
 
+	//main method
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	public static class Person {
+	//this class represents a person for storing within the table. A person has a unique id field and
+	//also a first name, last name, phone, email, contact and work hours entry to store all these things.
+	//Using the "Property" methods allows the table to correctly access the entries using a tableviews 
+	//built in functionality
+	
+	public static class Person
+	{
 		private final SimpleStringProperty id;
 		private final SimpleStringProperty firstName;
 		private final SimpleStringProperty lastName;
@@ -542,5 +594,10 @@ public class Main extends Application {
 		}
 
 	}
+	
+	
+	
+	
+	
 
 }
