@@ -98,6 +98,12 @@ public class StatusPage extends AbstractActivity {
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
 		vbox.getChildren().addAll(vbox2, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);
+        
+        Button backButton = new Button("Go Back");
+        
+        final HBox hbox = new HBox();
+        hbox.getChildren().addAll(backButton);
+        pane.add(hbox, 0, 0);
 		
 		
 		primaryStage.setScene(scene);
