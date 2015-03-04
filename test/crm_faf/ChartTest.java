@@ -32,6 +32,8 @@ public class ChartTest extends TestCase {
     private Chart lineGraph;
     private Chart pieGraph;
     private Chart barGraph;
+    private Chart nullGraph;
+    private Chart emptyGraph;
     private ArrayList<Location> locationTestData;
     private Object lineCanvas;
 
@@ -44,24 +46,33 @@ public class ChartTest extends TestCase {
     @Before
     @Override
     public void setUp() {
-    lineGraph = new Chart();
-    barGraph = new Chart();
-    pieGraph = new Chart();
-    locationTestData = new DataCreator().createLocations();
-    lineGraph.getCanvas(locationTestData, "line");
-    barGraph.getCanvas(locationTestData, "bar");
-    pieGraph.getCanvas(locationTestData, "pie");
-    lineCanvas = lineGraph.getCanvas();
+;
     }
     
     @After
     public void tearDown() {
     }
 
-    public void testSettings() {
-        assert(lineGraph.getCanvas(locationTestData, "line") != null);
-    //    assert((new Chart().getCanvas(locationTestData, "wrong").hashCode()) == barGraph.getCanvas(locationTestData, "bar").hashCode());
-        assert(barGraph.getCanvas(locationTestData, "bar") != null);
-        assert(pieGraph.getCanvas(locationTestData, "pie") != null);        
+    /*
+    Tests if Canvas is always produced from Chart
+    */
+    public void testChart() {
+            Canvas s = new Canvas();
+            Class compare = s.getClass();
+            lineGraph = new Chart();
+            barGraph = new Chart();
+            pieGraph = new Chart();
+            nullGraph = new Chart();
+            emptyGraph = new Chart();
+            locationTestData = new DataCreator().createLocations();
+            
+            assert(lineGraph.getCanvas(locationTestData, "line") != null);
+            assert(barGraph.getCanvas(locationTestData, "bar") != null);
+            assert(pieGraph.getCanvas(locationTestData, "pie") != null);   
+            assert(emptyGraph.getCanvas(new ArrayList<Location>(), "bar") != null);
+            assert(lineGraph.getCanvas(locationTestData, "line").getClass().getSuperclass() == compare);
+            assert(barGraph.getCanvas(locationTestData, "bar").getClass().getSuperclass() == compare);
+            assert(pieGraph.getCanvas(locationTestData, "pie").getClass().getSuperclass()== compare);   
+            assert(emptyGraph.getCanvas(new ArrayList<Location>(), "bar").getClass().getSuperclass() == compare);
     }
 }

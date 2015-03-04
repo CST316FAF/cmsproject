@@ -98,10 +98,10 @@ public class LoginScreen extends Application {
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn1.getChildren().add(createAcct);
         grid.add(hbBtn1, 1, 5);
-
+        
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
-
+        
         btn.setOnAction((ActionEvent e) -> {
             //actiontarget.setFill(Color.FIREBRICK);
             primaryStage.setScene(new StatusPage().start(primaryStage));

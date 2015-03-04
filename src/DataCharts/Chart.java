@@ -5,11 +5,13 @@
  */
 package DataCharts;
 
-import Data.Location;
+
 import Data.MonthData;
 import Data.Location;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.chart.JFreeChart;
@@ -17,35 +19,45 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
 public class Chart {    
 
-    ChartCanvas canvas;
+    private Canvas canvas;
 
-    public ChartCanvas getCanvas(ArrayList<Location> locs, String type) {
-        if(type == "line") {
-            this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
-        }
-        else if(type == "pie") {
-            this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
-        }
-        else if(type == "bar") {
-            this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
-        }
-        else {
-            this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
-        }
-        canvas.setHeight(400);
-        canvas.setWidth(600);
-        canvas.getWidth();
-        return canvas;
+    public Canvas getCanvas(ArrayList<Location> locs, String type) {
+        try {
+            if(locs != null || locs.size() == 0) {
+                if(type == "line") {
+                    this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
+                }
+                else if(type == "pie") {
+                    this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
+                }
+                else if(type == "bar") {
+                    this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                }
+                else {
+                    this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                }
+            }
+            else
+            {
+                this.canvas = new FailedChart();
+            }
+        } catch(Exception ex) {
+            this.canvas = new FailedChart();
+            Logger.getLogger(Chart.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+            canvas.setHeight(400);
+            canvas.setWidth(600);
+            canvas.getWidth();
+            return canvas;
         
     }
-    public ChartCanvas getCanvas() {
+    public Canvas getCanvas() {
         return canvas;
     }
 
