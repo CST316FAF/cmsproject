@@ -58,7 +58,7 @@ public class LoginScreenTest {
         System.out.println("start");
         Stage primaryStage = null;
         LoginScreen instance = new LoginScreen();
-        instance.start(primaryStage);
+        //instance.start(primaryStage);
         
     }
     

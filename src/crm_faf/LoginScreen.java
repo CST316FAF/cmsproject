@@ -38,6 +38,7 @@
 
 package crm_faf;
 
+import Data.DbConnection;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,13 +58,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LoginScreen extends Application {
-
+    
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("BEST CMS EVER");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -101,9 +102,24 @@ public class LoginScreen extends Application {
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
-
+        
+        final Label message = new Label("");
+        message.setAlignment(Pos.BOTTOM_LEFT);
+        grid.add(message, 1, 5);
+        
+        DbConnection connection = new DbConnection();
+        connection.connect();
+        
+        Class.forName("com.mysql.jdbc.Driver");
+        
         btn.setOnAction((ActionEvent e) -> {
-            //actiontarget.setFill(Color.FIREBRICK);
+            
+//            if(connection.login(userTextField.getText(), pwBox.getText())){
+//                primaryStage.setScene(new StatusPage().start(primaryStage));
+//            }
+//            else{
+//                message.setText("Invalid credentials");
+//            }
             primaryStage.setScene(new StatusPage().start(primaryStage));
         });
         

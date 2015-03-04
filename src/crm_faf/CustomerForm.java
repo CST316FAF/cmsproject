@@ -73,10 +73,24 @@ public class CustomerForm  {
 		hbox.setAlignment(Pos.BOTTOM_RIGHT);
 		hbox.getChildren().add(submitButton);
 		pane.add(hbox, 1, 9);
-		
-		
+                
 		final Text submitMessage = new Text();
 		pane.add(submitMessage, 1, 10);
+                
+                Button backButton = new Button("Back");
+                HBox hbox1 = new HBox(10);
+                hbox1.setAlignment(Pos.BOTTOM_LEFT);
+                hbox1.getChildren().add(backButton);
+                pane.add(hbox1, 0, 9);
+              
+                backButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        primaryStage.setScene(new StatusPage().start(primaryStage));
+                    }
+                    
+                });
 		
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 			
