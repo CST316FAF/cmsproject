@@ -18,9 +18,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
+import com.zenjava.jfxflow.actvity.AbstractActivity;
+import com.zenjava.jfxflow.navigation.NavigationManager;
+import com.zenjava.jfxflow.navigation.Place;
 
 
-public class StatusPage  {
+public class StatusPage extends AbstractActivity {
 
 	public Scene start(Stage primaryStage) {
 		
@@ -42,7 +45,10 @@ public class StatusPage  {
 
                 BorderPane pane2 = new BorderPane();
 		Scene scene = new Scene(pane2, 800, 600);
-		WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), 
+		
+                VBox windowTopBox = new VBox();
+                WindowTools toolbar = new WindowTools();
+                WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), 
                         barGraph.getCanvas(), pieGraph.getCanvas(),
                         scene, primaryStage);
                 
@@ -52,7 +58,8 @@ public class StatusPage  {
                 pane2.setRight(scroll);
                
                 pane2.setCenter(pane);
-                pane2.setTop(bar);
+                windowTopBox.getChildren().addAll(bar, toolbar);
+                pane2.setTop(windowTopBox);
                 
 		Text sceneTitle = new Text("Current Status");
 		
@@ -91,6 +98,12 @@ public class StatusPage  {
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
 		vbox.getChildren().addAll(vbox2, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);
+        
+        Button backButton = new Button("Go Back");
+        
+        final HBox hbox = new HBox();
+        hbox.getChildren().addAll(backButton);
+        pane.add(hbox, 0, 0);
 		
 		
 		primaryStage.setScene(scene);

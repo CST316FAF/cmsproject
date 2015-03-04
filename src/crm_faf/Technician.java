@@ -25,8 +25,8 @@ public class Technician  {
     grid.setHgap(10);
     grid.setPadding(new Insets(5, 5, 5, 5));
     grid.add(new Label("Name: "), 0, 0);
-    grid.add(new Label("Destination: "), 0, 0);
-    grid.add(new Label("Reason for Call: "), 0, 0);
+    grid.add(new Label("Destination: "), 0, 1);
+    grid.add(new Label("Reason for Call: "), 0, 2);
     grid.add(notification, 1, 0);
     
     

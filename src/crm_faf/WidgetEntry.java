@@ -17,6 +17,7 @@ public class WidgetEntry {
     private  SimpleStringProperty status  = new SimpleStringProperty(); 
     private  SimpleStringProperty importance  = new SimpleStringProperty();
     private  SimpleStringProperty source = new SimpleStringProperty();
+    private  SimpleStringProperty url = new SimpleStringProperty();
     
     public WidgetEntry(String action, String notes, String status, 
             String importance, String source) {
@@ -73,6 +74,10 @@ public class WidgetEntry {
     }
 
     void setUrl(String retAddress) {
-        this.source.set(retAddress);
+        this.url.set(retAddress);
+    }
+
+    void setSource(String source) {
+        this.source.set(source);
     }
 }
