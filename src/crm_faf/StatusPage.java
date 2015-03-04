@@ -45,7 +45,10 @@ public class StatusPage extends AbstractActivity {
 
                 BorderPane pane2 = new BorderPane();
 		Scene scene = new Scene(pane2, 800, 600);
-		WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), 
+		
+                VBox windowTopBox = new VBox();
+                WindowTools toolbar = new WindowTools();
+                WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), 
                         barGraph.getCanvas(), pieGraph.getCanvas(),
                         scene, primaryStage);
                 
@@ -55,7 +58,8 @@ public class StatusPage extends AbstractActivity {
                 pane2.setRight(scroll);
                
                 pane2.setCenter(pane);
-                pane2.setTop(bar);
+                windowTopBox.getChildren().addAll(bar, toolbar);
+                pane2.setTop(windowTopBox);
                 
 		Text sceneTitle = new Text("Current Status");
 		
