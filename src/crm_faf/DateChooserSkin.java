@@ -52,7 +52,11 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
         HBox hbox = new HBox();
 
         // create the navigation Buttons
-        Button yearBack = new Button("<<");
+        Button yearBack = new Button("<<");     // Ramtin:
+                                                // We should change these button titles (<, <<, >>, >) to
+                                                //represent a title that represents the month and year actions
+                                                // more clearly that is easy for the user to understand
+                                                // 03/18/2015
         yearBack.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
