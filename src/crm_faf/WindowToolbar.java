@@ -27,6 +27,7 @@ import org.jfree.data.time.Month;
 
 
 public class WindowToolbar extends MenuBar {
+    UpdateManager manager = new UpdateManager();
     
     Month startDate;
     Month endDate;
@@ -58,6 +59,7 @@ public class WindowToolbar extends MenuBar {
         this.stage = stage;
         setUp(scene, stage);
         setUpCharts(a,b,c);
+        manager.run();
     }
 
     //adds Menu to stage without charts needed

@@ -21,10 +21,17 @@ import javafx.scene.control.ScrollPane;
 import com.zenjava.jfxflow.actvity.AbstractActivity;
 import com.zenjava.jfxflow.navigation.NavigationManager;
 import com.zenjava.jfxflow.navigation.Place;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 public class StatusPage extends AbstractActivity {
-
+    private  TableView table;
+    private  List<StatusEntry> entryData = new ArrayList<StatusEntry>();
+    private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData); 
+    private  boolean hasFeed = false;
 	public Scene start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Status Page");
@@ -39,6 +46,7 @@ public class StatusPage extends AbstractActivity {
 
                 ArrayList<Location> locs = new DataCreator().createLocations(); 
 
+                lineGraph.getCanvas(locs, "bar");
                 lineGraph.getCanvas(locs, "bar");
                 barGraph.getCanvas(locs, "pie");
                 pieGraph.getCanvas(locs, "line");
@@ -71,44 +79,37 @@ public class StatusPage extends AbstractActivity {
 		table.setPrefHeight(500);
                 table.setEditable(true);
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
+                employeeIDColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("ID"));
 		employeeIDColumn.setPrefWidth(100);
 		TableColumn locationColumn = new TableColumn("Current Location");
 		locationColumn.setPrefWidth(200);
+                locationColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Location"));                
 		TableColumn typeOfWorkColumn = new TableColumn("Work being Performed");
 		typeOfWorkColumn.setPrefWidth(150);
+                typeOfWorkColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Type")); 
 		TableColumn nextAppointmentColumn = new TableColumn("Next Appointment Time");
 		nextAppointmentColumn.setPrefWidth(200);
+                nextAppointmentColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
 		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
-
-                StatusWidget widget = new StatusWidget();
-                //temporary feed to test widget properties
-                widget.setFeed("http://feeds.reuters.com/news/artsculture");
-		
-                final VBox vbox2 = new VBox();
-                vbox2.setSpacing(5);
-                vbox2.setPadding(new Insets(10, 0, 0, 10));
-                vbox2.getChildren().addAll(widget.getTable());
-                vbox2.setPrefHeight(300);
-                vbox2.setMinSize(200, 200);
                 
                 final VBox vbox = new VBox();
 		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(vbox2, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);
-        
-        Button backButton = new Button("Go Back");
-        
-        final HBox hbox = new HBox();
-        hbox.getChildren().addAll(backButton);
-        pane.add(hbox, 0, 0);
 		
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		return scene;
 	}
-	
+	public void setList(List<StatusEntry> entryData) {
+            this.entries.setAll(entryData);
+        }
 }

@@ -27,9 +27,12 @@ public class DbConnection {
     
     public void connect() throws Exception {
         try {
-          Class.forName("com.mysql.jdbc.Driver");
+            /*
           connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net",
                   "sql368756", "qG6%pU4%");
+            */
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/database",
+                  "root", "password");
         } catch (SQLException ex) {
             connection.close();
             System.out.println("connection failed");
