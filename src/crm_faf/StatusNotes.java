@@ -42,6 +42,10 @@ public class StatusNotes extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Status Notes");
+
+	//add a name for the button
+	//Kunaal Godiwala
+	//March 18, 2015
         Button saveButton = new Button();
         TextArea notesArea = new TextArea("Enter Status Notes Here");
         StackPane layout = new StackPane();
