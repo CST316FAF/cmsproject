@@ -5,6 +5,7 @@
  */
 package crm_faf;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,9 +19,15 @@ import javafx.stage.Stage;
 
 
 public class WindowTools extends ToolBar {
+    private Stage stage;
+    private Scene currentScene;
     private HBox buttonBar = new HBox(); 
     private Button widgetButton = new Button();
-    StatusWidget widget;
+    private Button nextButton = new Button("Next");
+    private Button previousButton = new Button("Previous");
+    private ArrayList<Scene> previousScene = new ArrayList<Scene>();
+    private ArrayList<Scene> nextScene = new ArrayList<Scene>();
+    private StatusWidget widget;
     
     public WindowTools(){
         super();
@@ -30,9 +37,11 @@ public class WindowTools extends ToolBar {
     private void setup() {
         Image statusOk = new Image(getClass().getResourceAsStream("ok-icon.png"));
         widgetButton.setGraphic(new ImageView(statusOk));
-        buttonBar.getChildren().add(widgetButton);
+        buttonBar.getChildren().addAll(widgetButton,nextButton, previousButton);
         widgetButton.setOnAction(activateWidget());
-        this.getItems().add(buttonBar);
+        nextButton.setOnAction(goToNext());
+        previousButton.setOnAction(goToPrevious());
+        this.getItems().add(buttonBar);  
     }
     
     private void setWidgetStatusOk() {
@@ -45,8 +54,15 @@ public class WindowTools extends ToolBar {
         widgetButton.setGraphic(new ImageView(statusBad));
     }
     
-   
     
+    
+    public void setPrevious(Scene last) {
+        previousScene.add(last);
+    }
+    public void setNext(Scene next) {
+        nextScene.add(next);
+    }
+
     private EventHandler<ActionEvent> activateWidget() {
         return (ActionEvent event) -> {
             Stage popup = new Stage();
@@ -58,6 +74,28 @@ public class WindowTools extends ToolBar {
             popup.setScene(popupScene);
             popup.setX(300);
             popup.setY(400);
+        };
+    }
+    
+    private EventHandler<ActionEvent> goToNext() {
+        return (ActionEvent event) -> {
+            if(nextScene.size() > 0) {
+                stage.setScene(nextScene.get(0));
+                previousScene.add(currentScene);
+                currentScene = nextScene.get(0);
+                nextScene.remove(0);
+            }
+        };
+    }
+    
+    private EventHandler<ActionEvent> goToPrevious() {
+        return (ActionEvent event) -> {
+            if(previousScene.size() > 0) {
+                stage.setScene(previousScene.get(0));
+                nextScene.add(currentScene);
+                currentScene = nextScene.get(0);
+                nextScene.remove(0);
+            }
         };
     }
 }
