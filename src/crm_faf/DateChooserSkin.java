@@ -52,7 +52,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
         HBox hbox = new HBox();
 
         // create the navigation Buttons
-        Button yearBack = new Button("<<");     // Ramtin:
+        Button yearBack = new Button(“Previous Year”);     // Ramtin:
                                                 // We should change these button titles (<, <<, >>, >) to
                                                 //represent a title that represents the month and year actions
                                                 // more clearly that is easy for the user to understand
@@ -65,7 +65,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
 
             }
         });
-        Button monthBack = new Button("<");
+        Button monthBack = new Button(“Previous Month”);
         monthBack.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
@@ -73,7 +73,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
                 calendarPane.forward(-1);
             }
         });
-        Button monthForward = new Button(">");
+        Button monthForward = new Button(“Next Month”);
         monthForward.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
@@ -81,7 +81,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
                 calendarPane.forward(1);
             }
         });
-        Button yearForward = new Button(">>");
+        Button yearForward = new Button(“Next Year”);
         yearForward.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
