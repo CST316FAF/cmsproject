@@ -1,6 +1,8 @@
+package crm_faf;
 
+/*
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.skin.SkinBase;
+import javafx.scene.control.SkinBase;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-public class DateChooserSkin extends SkinBase, BehaviorBase {
+public class DateChooserSkin extends SkinBase{
 
     private final Date date;
     private final Label month;
@@ -42,7 +44,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
     }
 
     public DateChooserSkin(DateChooser dateChooser) {
-        super(dateChooser, new BehaviorBase<DateChooser>(dateChooser));
+        //super(dateChooser, new BehaviorBase<DateChooser>(dateChooser));
         // this date is the selected date
         date = dateChooser.getDate();
         final DatePickerPane calendarPane = new DatePickerPane(date);
@@ -138,6 +140,7 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
 
          @param i
          */
+         /*
         public void forward(int i) {
 
             cal.add(Calendar.MONTH, i);
@@ -313,3 +316,4 @@ public class DateChooserSkin extends SkinBase, BehaviorBase {
         return isSameDay(cal, Calendar.getInstance());
     }
 }
+*/
