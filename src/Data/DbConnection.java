@@ -27,17 +27,28 @@ public class DbConnection {
     
     public void connect() throws Exception {
         try {
-            /*
-          connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net",
+            Class.forName("com.mysql.jdbc.Driver");
+          
+            connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
                   "sql368756", "qG6%pU4%");
-            */
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/database",
-                  "root", "password");
-        } catch (SQLException ex) {
-            connection.close();
+            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
+            //      "root", "");
+            System.out.println("Connected!");
+            //connection = DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin/cmsdb",
+              //    "root", "");
+        } 
+        catch (ClassNotFoundException e) {
+              System.out.println("no connection driver found");
+              System.out.println(e);
+             // Could not find the database driver
+        }
+        catch (SQLException ex) {
+            
             System.out.println("connection failed");
+            connection.close();
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     public ResultSet selectDataColumn(String table, String column, String identifier ) {
         ResultSet results = null;
