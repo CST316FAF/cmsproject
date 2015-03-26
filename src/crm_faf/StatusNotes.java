@@ -53,6 +53,10 @@ public class StatusNotes extends Application {
         addNewNoteButton.setPrefSize(100, 20);
         hbox.getChildren().addAll(saveButton, addNewNoteButton);
         
+	//told by Ramtin that when this code is run, it crashes
+	//I’m not able to figure out why or am able to find an issue
+	//one suggestion that I have is to add a Edit Note button and
+	//a Delete Note button.
         
         return hbox;
     }
