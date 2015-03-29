@@ -28,58 +28,117 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.event.ActionEvent;
+import java.sql.Savepoint;
+
+import javafx.event.Event;
+import javafx.event.EventHandler;
+
+import javafx.scene.control.Hyperlink;
+
 
 /**
  *
  * @author ramtin
  */
-public class StatusNotes extends Application {
+public class StatusNotes extends Application
+{
     
-    public static void main(String[] args) {
-        launch(args);
-    }
+    Button saveButton = new Button();
+    Button addNoteButton = new Button();
     
     public HBox addHBox() {
         
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
-        //hbox.setStyle("-fx-background-color: #336699");
+        hbox.setStyle("-fx-background-color: #336699;");
         
-        Button saveButton = new Button("Save");
-        saveButton.setPrefSize(100, 20);
+        Button saveButton = this.saveButton;
+        saveButton.setText("Save Note");
+        Button addNoteButton = this.addNoteButton;
+        addNoteButton.setText("Add New Note");
         
-        Button addNewNoteButton = new Button("Add New Note");
-        addNewNoteButton.setPrefSize(100, 20);
-        hbox.getChildren().addAll(saveButton, addNewNoteButton);
+        //saveButton.setOnAction(this);
+        //addNoteButton.setOnAction(this);
         
-	//told by Ramtin that when this code is run, it crashes
-	//I’m not able to figure out why or am able to find an issue
-	//one suggestion that I have is to add a Edit Note button and
-	//a Delete Note button.
+        hbox.getChildren().addAll(saveButton, addNoteButton);
         
         return hbox;
+        
     }
-
+    
+    Hyperlink options[] = new Hyperlink[0];
+    
+    public VBox addVBox() {
+        
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+        
+        Text title = new Text("Status Notes");
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        vbox.getChildren().add(title);
+        
+        Hyperlink options[] = new Hyperlink[] {
+            new Hyperlink("New Note")
+        };
+        int listLength = options.length;
+        for (int i = 0; i < listLength; i++) {
+            VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
+            vbox.getChildren().add(options[i]);
+        }
+        
+        
+        return vbox;
+        
+    }
+    
+    
+    
+    public TextArea addNotesArea() {
+        
+        TextArea notesArea = new TextArea();
+        notesArea.setPromptText("Enter your note here...");
+        notesArea.setPrefSize(300, 460);
+        
+        return notesArea;
+    }
+    
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Status Notes");
-        TextArea notesArea = new TextArea("Enter Status Notes Here");
-        
-        notesArea.setPrefColumnCount(120);
-        notesArea.setPrefRowCount(240);
-        
-        BorderPane layout = new BorderPane();
-        layout.getChildren().add(notesArea);
-        
+        BorderPane root = new BorderPane();
         HBox hbox = addHBox();
+        VBox vbox = addVBox();
+        TextArea notesArea = addNotesArea();
         
-        layout.setBottom(hbox);
-        layout.setTop(notesArea);
+        root.setBottom(hbox);
+        root.setLeft(vbox);
+        root.setRight(notesArea);
         
-        Scene notesScene = new Scene(layout, 600, 450);
-        primaryStage.setScene(notesScene);
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                
+                
+                System.out.println("Save!");
+            }
+            
+        });
+        
+        
+        Scene scene = new Scene(root,400,460);
+        
+        primaryStage.setScene(scene);
         primaryStage.show();
+        
+    }
+    
+    
+    public static void main(String[] args) {
+        launch(args);
     }
     
 }
