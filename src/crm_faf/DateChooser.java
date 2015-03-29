@@ -19,7 +19,7 @@ public class DateChooser extends Control{
 	//still need to create Technician_Calendar.css
     @Override
     protected String getUserAgentStylesheet() {
-        return “Technician_Calendar.css";
+        return null;
     }
 
     public Date getDate() {

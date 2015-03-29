@@ -23,8 +23,8 @@ public class WindowTools extends ToolBar {
     private Scene currentScene;
     private HBox buttonBar = new HBox(); 
     private Button widgetButton = new Button();
-    private Button nextButton = new Button("Next");
-    private Button previousButton = new Button("Previous");
+    private Button nextButton =new Button();
+    private Button previousButton = new Button();
     private ArrayList<Scene> previousScene = new ArrayList<Scene>();
     private ArrayList<Scene> nextScene = new ArrayList<Scene>();
     private StatusWidget widget;
@@ -35,9 +35,11 @@ public class WindowTools extends ToolBar {
     }
 
     private void setup() {
+        nextButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Forwards.png"))));
+        previousButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Backwards.png"))));
         Image statusOk = new Image(getClass().getResourceAsStream("ok-icon.png"));
         widgetButton.setGraphic(new ImageView(statusOk));
-        buttonBar.getChildren().addAll(widgetButton,nextButton, previousButton);
+        buttonBar.getChildren().addAll(widgetButton, previousButton, nextButton);
         widgetButton.setOnAction(activateWidget());
         nextButton.setOnAction(goToNext());
         previousButton.setOnAction(goToPrevious());

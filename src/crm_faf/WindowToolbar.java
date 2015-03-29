@@ -82,10 +82,13 @@ public class WindowToolbar extends MenuBar {
         
         //add technician scene link
         
-        MenuItem checkTech = new MenuItem("Technician Status");
+        MenuItem checkTech = new MenuItem("Technician List");
         checkTech.setOnAction(goToCheckTech());
         technicianMenu.getItems().add(checkTech);
         
+        MenuItem techStat = new MenuItem("Technician Status");
+        techStat.setOnAction(goToTechStatus());
+        technicianMenu.getItems().add(techStat);
         
         this.UserMenu.getItems().add(checkStatus);
         this.customerMenu.getItems().add(addCust);
@@ -188,6 +191,13 @@ public class WindowToolbar extends MenuBar {
             new Technician().start(stage);
         };
     }
+
+    private EventHandler<ActionEvent> goToTechStatus() {
+        return (ActionEvent event) -> {
+            new Technician().start(stage);
+        };
+    }
+
     
     private void setUpCharts(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(chartMenu);
@@ -256,6 +266,5 @@ public class WindowToolbar extends MenuBar {
    private void setMonth(Month m, int x) {
         m = new Month(0, x);
     }   
-
 
 }
