@@ -29,10 +29,10 @@ public class DbConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
           
-            connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
-                  "sql368756", "qG6%pU4%");
-            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
-            //      "root", "");
+            //connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
+            //      "sql368756", "qG6%pU4%");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
+                  "root", "");
             System.out.println("Connected!");
             //connection = DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin/cmsdb",
               //    "root", "");
@@ -68,8 +68,11 @@ public class DbConnection {
         Statement statement;
         try {
             statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT 1 FROM USER WHERE Uname = " 
-                    + userName + " and Password = " + password); 
+            System.out.println("username: " + userName);
+            System.out.println("password: " + password);
+            
+            ResultSet results = statement.executeQuery("SELECT 1 FROM user WHERE userName = \"" 
+                    + userName + "\" and passWd = \"" + password + "\""); 
             if(results.first())
                 answer = true;
         } catch (SQLException ex) {
