@@ -88,7 +88,7 @@ public class Technician {
 	}
 
 
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage, WindowTools tBar) {
 		try {
 			
 
@@ -374,9 +374,10 @@ public class Technician {
 			vbox.setPadding(new Insets(10, 0, 0, 10));
 			vbox.getChildren().addAll(label, hb, table, hb2, deleteButton, message);
                         
-                        WindowTools toolbar = new WindowTools();
+                        
                         WindowToolbar bar = new WindowToolbar(scene, primaryStage);
-                        windowTopBox.getChildren().addAll(bar, toolbar);
+                        bar.setToolbar(tBar);
+                        windowTopBox.getChildren().addAll(bar, tBar);
                         pane.setTop(windowTopBox);
                         pane.setCenter(vbox);
 			((Group) scene.getRoot()).getChildren().addAll(pane);

@@ -35,7 +35,7 @@ public class StatusPage extends AbstractActivity {
         private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData);
     
     
-	public Scene start(Stage primaryStage) {
+	public Scene start(Stage primaryStage, WindowTools tBar) {
 		
 		primaryStage.setTitle("Status Page");
 		GridPane pane = new GridPane();
@@ -58,10 +58,11 @@ public class StatusPage extends AbstractActivity {
 		Scene scene = new Scene(pane2, 800, 600);
 		
                 VBox windowTopBox = new VBox();
-                toolbar = new WindowTools();
+                toolbar = tBar;
                 bar = new WindowToolbar(lineGraph.getCanvas(), 
                         barGraph.getCanvas(), pieGraph.getCanvas(),
                         scene, primaryStage);
+                bar.setToolbar(toolbar);
 
                 pane2.setCenter(pane);
                 windowTopBox.getChildren().addAll(bar, toolbar);
