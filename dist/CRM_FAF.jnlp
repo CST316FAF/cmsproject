@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CRM_FAF.jar" size="73418" download="eager" />
+    <jar href="CRM_FAF.jar" size="130531" download="eager" />
     <jar href="lib/fxgraphics2d-1.1.jar" size="14072" download="eager" />
     <jar href="lib/hamcrest-core-1.3.jar" size="45024" download="eager" />
     <jar href="lib/jcommon-1.0.23.jar" size="330246" download="eager" />

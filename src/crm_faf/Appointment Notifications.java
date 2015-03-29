@@ -1,3 +1,4 @@
+/*
 public void newMessage()
 {
 
@@ -25,3 +26,4 @@ public void newMessage()
     newConnDialog.setScene(aboutDialogScene);
     newConnDialog.show();
 }
+*/
