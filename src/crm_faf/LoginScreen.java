@@ -104,7 +104,8 @@ public class LoginScreen extends Application {
 
         btn.setOnAction((ActionEvent e) -> {
             //actiontarget.setFill(Color.FIREBRICK);
-            primaryStage.setScene(new StatusPage().start(primaryStage));
+            
+            primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
         });
         
         createAcct.setOnAction((ActionEvent e) -> {
