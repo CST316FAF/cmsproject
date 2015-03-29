@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 
-public class TechnicianStatus extends Application {
+public class TechnicianStatus {
 
     private BorderPane border;
     private StackPane root;
@@ -18,23 +18,20 @@ public class TechnicianStatus extends Application {
     private WindowTools toolbar;
     private WindowToolbar bar;
     private VBox windowTopBox;
+
     
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
-    @Override
-    public void start(final Stage primaryStage) {
+    public void start(final Stage primaryStage, WindowTools tBar) {
         primaryStage.setTitle("Technician Status");
         root = new StackPane();
         border = new BorderPane();
         
         windowTopBox = new VBox();
-        toolbar = new WindowTools();
+        
         Scene scene = new Scene(border, 300, 250); 
         
         bar = new WindowToolbar(scene, primaryStage);
-        windowTopBox.getChildren().addAll(bar, toolbar);
+        bar.setToolbar(tBar);
+        windowTopBox.getChildren().addAll(bar, tBar);
         border.setTop(windowTopBox);
         border.setCenter(root);
         
