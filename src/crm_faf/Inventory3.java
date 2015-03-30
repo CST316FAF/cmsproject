@@ -1,4 +1,4 @@
-package application;
+package crm_faf;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;

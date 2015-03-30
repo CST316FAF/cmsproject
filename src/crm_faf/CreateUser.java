@@ -107,7 +107,7 @@ public class CreateUser {
             public void handle(ActionEvent e) {
                 if((pwBox0.getText().compareTo(pwBox1.getText()) == 0) && pwBox0.getText().length() > 7
                         && newuserTextField.getText().length() > 0){
-                    primaryStage.setScene(new StatusPage().start(primaryStage));
+                    primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
                 }
                 else if(pwBox0.getText().length() <= 7) {
                     message.setText("Password must be > 7");

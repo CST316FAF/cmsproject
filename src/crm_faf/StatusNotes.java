@@ -105,8 +105,11 @@ public class StatusNotes extends Application
         return notesArea;
     }
     
+    Stage primaryStage = new Stage();
+    
     @Override
     public void start(Stage primaryStage) {
+        primaryStage = this.primaryStage;
         primaryStage.setTitle("Status Notes");
         BorderPane root = new BorderPane();
         HBox hbox = addHBox();
@@ -140,5 +143,31 @@ public class StatusNotes extends Application
     public static void main(String[] args) {
         launch(args);
     }
+    
+    public File getNoteFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(StatusNotes.class);
+        String filePath = prefs.get("filePath", null);
+        if(filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+    
+    
+    
+    public void setNoteFilePath(File file) {
+        Preferences prefs = Preferences.userNodeForPackage(StatusNotes.class);
+        if(file != null) {
+            prefs.put("filePath", file.getPath());
+            
+            primaryStage.setTitle("AddressApp - " + file.getName());
+        } else {
+            prefs.remove("filePath");
+            
+            primaryStage.setTitle("AddressApp");
+        }
+    }
+
     
 }
