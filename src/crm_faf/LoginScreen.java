@@ -55,6 +55,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import Data.DbConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginScreen extends Application {
 
@@ -98,16 +101,35 @@ public class LoginScreen extends Application {
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn1.getChildren().add(createAcct);
         grid.add(hbBtn1, 1, 5);
+        
+        final Label message = new Label("");
+        message.setAlignment(Pos.BOTTOM_LEFT);
+        grid.add(message, 0, 6);
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
-
+        
+        DbConnection connection = new DbConnection();
+        try {
+            connection.connect();
+        } catch (Exception ex) {
+            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         btn.setOnAction((ActionEvent e) -> {
-            //actiontarget.setFill(Color.FIREBRICK);
-            primaryStage.setScene(new StatusPage().start(primaryStage));
+//            if(connection.login(userTextField.getText(), pwBox.getText())){
+//                primaryStage.setScene(new StatusPage().start(primaryStage));
+//            }
+//            else{
+//                message.setText("Invalid Pwd");
+//                message.setTextFill(Color.rgb(21, 39, 30));
+//                System.out.println("Invalid Username or Password");
+//            }
+            primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
         });
         
         createAcct.setOnAction((ActionEvent e) -> {
+            
             primaryStage.setScene(new CreateUser().start(primaryStage));
         });
 

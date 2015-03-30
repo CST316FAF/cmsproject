@@ -1,6 +1,7 @@
 package crm_faf;
 	
 import Data.DataCreator;
+import Data.DbConnection;
 import Data.Location;
 import DataCharts.Chart;
 import java.util.ArrayList;
@@ -19,8 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
 import com.zenjava.jfxflow.actvity.AbstractActivity;
-import com.zenjava.jfxflow.navigation.NavigationManager;
-import com.zenjava.jfxflow.navigation.Place;
+import java.sql.ResultSet;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,11 +28,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 
 public class StatusPage extends AbstractActivity {
-    private  TableView table;
-    private  List<StatusEntry> entryData = new ArrayList<StatusEntry>();
-    private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData); 
-    private  boolean hasFeed = false;
-	public Scene start(Stage primaryStage) {
+        private WindowTools toolbar;
+        private WindowToolbar bar;
+        private  TableView table;
+        private  List<StatusEntry> entryData = new ArrayList<StatusEntry>();
+        private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData);
+    
+    
+	public Scene start(Stage primaryStage, WindowTools tBar) {
 		
 		primaryStage.setTitle("Status Page");
 		GridPane pane = new GridPane();
@@ -55,16 +58,12 @@ public class StatusPage extends AbstractActivity {
 		Scene scene = new Scene(pane2, 800, 600);
 		
                 VBox windowTopBox = new VBox();
-                WindowTools toolbar = new WindowTools();
-                WindowToolbar bar = new WindowToolbar(lineGraph.getCanvas(), 
+                toolbar = tBar;
+                bar = new WindowToolbar(lineGraph.getCanvas(), 
                         barGraph.getCanvas(), pieGraph.getCanvas(),
                         scene, primaryStage);
-                
-                ScrollPane scroll = new ScrollPane();
-                scroll.setPrefHeight(40);
-                scroll.setPrefWidth(20);
-                pane2.setRight(scroll);
-               
+                bar.setToolbar(toolbar);
+
                 pane2.setCenter(pane);
                 windowTopBox.getChildren().addAll(bar, toolbar);
                 pane2.setTop(windowTopBox);
@@ -109,7 +108,19 @@ public class StatusPage extends AbstractActivity {
 		primaryStage.show();
 		return scene;
 	}
-	public void setList(List<StatusEntry> entryData) {
-            this.entries.setAll(entryData);
+        
+        public void update(ArrayList<StatusEntry> data) throws Exception {
+            DbConnection db = new DbConnection();
+            db.connect();
+            ResultSet locResults = db.selectDataColumn("", "Location", "");
+            ResultSet IdResults = db.selectDataColumn("", "ID", "");
+            ResultSet TypeResults = db.selectDataColumn("", "Location", "");
+            ResultSet AppointmentResults = db.selectDataColumn("", "Appointment", "");
+            locResults.getArray("Location");
+            IdResults.getArray("ID");
+            TypeResults.getArray("Type");
+            AppointmentResults.getArray("Appointment");
+            entryData.addAll(data);
         }
+	
 }

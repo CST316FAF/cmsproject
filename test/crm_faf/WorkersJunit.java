@@ -1,4 +1,4 @@
-package application;
+package crm_faf;
 
 import static org.junit.Assert.*;
 

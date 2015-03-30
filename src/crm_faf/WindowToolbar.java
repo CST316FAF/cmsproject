@@ -20,7 +20,6 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
-import javafx.stage.PopupBuilder;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import org.jfree.data.time.Month;
@@ -28,6 +27,7 @@ import org.jfree.data.time.Month;
 
 public class WindowToolbar extends MenuBar {
     UpdateManager manager = new UpdateManager();
+    WindowTools bar = new WindowTools();
     
     Month startDate;
     Month endDate;
@@ -82,10 +82,13 @@ public class WindowToolbar extends MenuBar {
         
         //add technician scene link
         
-        MenuItem checkTech = new MenuItem("Technician Status");
+        MenuItem checkTech = new MenuItem("Technician List");
         checkTech.setOnAction(goToCheckTech());
         technicianMenu.getItems().add(checkTech);
         
+        MenuItem techStat = new MenuItem("Technician Status");
+        techStat.setOnAction(goToTechStatus());
+        technicianMenu.getItems().add(techStat);
         
         this.UserMenu.getItems().add(checkStatus);
         this.customerMenu.getItems().add(addCust);
@@ -180,14 +183,22 @@ public class WindowToolbar extends MenuBar {
     
     private EventHandler<ActionEvent> goToStatus() {
         return (ActionEvent event) -> {
-            new StatusPage().start(stage);
+            bar.setPrevious(scene);
+            new StatusPage().start(stage, bar);
         };
     }
     private EventHandler<ActionEvent> goToCheckTech() {
         return (ActionEvent event) -> {
-            new Technician().start(stage);
+            new Technician().start(stage, bar);
         };
     }
+
+    private EventHandler<ActionEvent> goToTechStatus() {
+        return (ActionEvent event) -> {
+            new TechnicianStatus().start(stage, bar);
+        };
+    }
+
     
     private void setUpCharts(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(chartMenu);
@@ -199,15 +210,11 @@ public class WindowToolbar extends MenuBar {
         c.setVisible(false);
     }
     private void setStart() {
-       
         createDateMenu(this.startDate);
-
     }
     
     private void setEnd() {
-      
         createDateMenu(this.endDate);
-
     }
     
     //not actually making popup window just using another stage for now
@@ -257,5 +264,8 @@ public class WindowToolbar extends MenuBar {
         m = new Month(0, x);
     }   
 
+    void setToolbar(WindowTools bar) {
+        this.bar = bar;
+    }
 
 }
