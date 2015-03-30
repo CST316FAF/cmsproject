@@ -119,7 +119,7 @@ public class LoginScreen extends Application {
 //            else{
 //                System.out.println("Invalid Username or Password");
 //            }
-            primaryStage.setScene(new StatusPage().start(primaryStage));
+            primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
         });
         
         createAcct.setOnAction((ActionEvent e) -> {
