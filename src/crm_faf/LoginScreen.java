@@ -117,7 +117,8 @@ public class LoginScreen extends Application {
         }
         btn.setDefaultButton(true);
         btn.setOnAction((ActionEvent e) -> {
-            if(connection.login(userTextField.getText(), pwBox.getText())){
+            if(userTextField.getText() != null && pwBox.getText() != null &&
+                    connection.login(userTextField.getText(), pwBox.getText())){
                 primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
             }
             else{
