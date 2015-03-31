@@ -1,20 +1,15 @@
 package crm_faf;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javax.management.Notification;
 
 public class AppointmentNotifications extends Application {
     private Object t;
@@ -37,13 +32,6 @@ public class AppointmentNotifications extends Application {
         grid.setPadding(new Insets(20, 20, 20, 20));
         
         Text t = new Text (10, 20, "Notification of Upcoming Appointment");
-        
-        //t.setText("This is a text sample");
-        //t.setFont(Font.font ("Verdana", 20));
-        
-        //Text t = new Text(“Notification of Upcoming Appointment”);
-        //t.setFont(Font.font(“Times New Roman”, 12));
-        //grid.add(t, 0, 2);
 
         //configure dialog size and background color
         Scene aboutDialogScene = new Scene(grid, 200, 100, Color.WHITE);
@@ -56,3 +44,42 @@ public class AppointmentNotifications extends Application {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 };
+
+/*
+import javafx.application.Application;
+import javafx.mail.Message;
+import javafx.mail.Send;
+import javafx.mail.internet.InternetAddress;
+
+
+public abstract class AppointmentNotifications extends Application {
+    static String from;
+    static String to;
+    static String subject;
+    static String content;
+
+
+public AppointmentNotifications(String toEmail, String date, String time){
+
+    from = "kunaalgodiwala@yahoo.com";
+    to = toEmail;
+    subject = "Upcoming Appointment";
+    content = "Reminder of Upcoming Appointment\n"
+            + "Date of Appointment: " + date + "\n"
+            + "Time of Appointment: " + time;        
+}
+
+    public static void send() {
+
+    Message msg;
+    msg = new Message();
+    msg.setFrom(new InternetAddress(from));
+    msg.setRecipient(new InternetAddress(to));
+    msg.setSubject(subject);
+    msg.setText(content);
+
+    
+    // Send the message
+    Send.send(msg);
+};
+*/
