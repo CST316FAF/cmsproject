@@ -27,7 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
-public class StatusPage extends AbstractActivity {
+public class StatusPage extends TransitionScene {
         private WindowTools toolbar;
         private WindowToolbar bar;
         private  TableView table;

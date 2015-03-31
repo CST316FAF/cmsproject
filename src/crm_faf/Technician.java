@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 //import application.Main.Person;
 
-public class Technician {
+public class Technician extends TransitionScene{
 
 	static final String DB_URL = "jdbc:mysql://localhost:3306/database1";
 	public static final String USER = "root";

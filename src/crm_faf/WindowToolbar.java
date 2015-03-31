@@ -49,6 +49,9 @@ public class WindowToolbar extends MenuBar {
     Stage stage;
     Scene last;
     
+    public WindowToolbar() {
+    // for testing purposes   
+    }
     public WindowToolbar(Scene scene, Stage stage) {
         setUp(scene, stage);
     }
