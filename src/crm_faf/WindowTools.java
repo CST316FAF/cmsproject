@@ -59,7 +59,10 @@ public class WindowTools extends ToolBar {
     
     
     public void setPrevious(Scene last) {
+        System.out.println("added scene to previous");
+        System.out.println(last.toString());
         previousScene.add(last);
+        
     }
     public void setNext(Scene next) {
         nextScene.add(next);
