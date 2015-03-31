@@ -27,7 +27,7 @@ import org.jfree.data.time.Month;
 
 public class WindowToolbar extends MenuBar {
     UpdateManager manager = new UpdateManager();
-    WindowTools bar = new WindowTools();
+    WindowTools bar;
     
     Month startDate;
     Month endDate;
@@ -183,12 +183,12 @@ public class WindowToolbar extends MenuBar {
     
     private EventHandler<ActionEvent> goToStatus() {
         return (ActionEvent event) -> {
-            bar.setPrevious(scene);
             new StatusPage().start(stage, bar);
         };
     }
     private EventHandler<ActionEvent> goToCheckTech() {
         return (ActionEvent event) -> {
+            System.out.println(scene);
             new Technician().start(stage, bar);
         };
     }
