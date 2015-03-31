@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +22,6 @@ import java.util.logging.Logger;
  */
 public class DbConnection {
     private Connection connection = null;
-    private PreparedStatement preparedStatement = null;
     private String userName;
     private String password;
     
@@ -55,12 +55,54 @@ public class DbConnection {
         try {
             Statement statement = connection.createStatement();
             results = statement.executeQuery("SELECT + " + column  + " "
-                    + " + FROM "+ table + " WHERE " + identifier);
+                    + " + FROM \""+ table + "\" WHERE \"" + identifier + "\"");
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return results;
     }
+    public ResultSet selectDataColumns(String table, String column, ArrayList<String> identifiers, ArrayList<String> identifierColumn) {
+        ResultSet results = null;
+        try {
+            Statement statement = connection.createStatement();
+             String query = new String("SELECT + * FROM" + column  + " "
+                    + " + FROM \""+ table + "\" WHERE ");
+            for(int x = 0; x < identifiers.size(); x++) {
+               if (x > 0)
+                   query += " and ";
+               query = query + identifierColumn.get(x) + " = \"" + identifiers.get(x) + "\"";
+            }
+            results = statement.executeQuery(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
+    }
+    
+    public void insertData(String table, ArrayList<String> values) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = new String("INSERT INTO " + table + "Values (");
+            for(int x = 0; x < values.size(); x++) {
+                query += values.get(x) + ",";
+            }
+            query += ")"; 
+            statement.executeQuery(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void updateData(String table, String column, String value) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("Update + " + table  + " Set " + column 
+                    + " = \"" + value + "\"");
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     public boolean login(String userName, String password) {
         boolean answer = false;
         this.userName = userName;
