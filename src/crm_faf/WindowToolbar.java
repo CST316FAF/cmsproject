@@ -82,8 +82,15 @@ public class WindowToolbar extends MenuBar {
         //adding add customer scene link
         MenuItem addCust = new MenuItem("Add Customer");
         addCust.setOnAction(goToCustomerAdd());
+        
+        
         MenuItem checkStatus = new MenuItem("Main");
         checkStatus.setOnAction(goToStatus());
+        
+        MenuItem statusNotes = new MenuItem("Status Notes");
+        statusNotes.setOnAction(goToStatusNotes());
+        UserMenu.getItems().add(statusNotes);
+               
         
         //add technician scene link
         
@@ -91,7 +98,7 @@ public class WindowToolbar extends MenuBar {
         checkTech.setOnAction(goToCheckTech());
         technicianMenu.getItems().add(checkTech);
         
-        MenuItem techInventory = new MenuItem("Technician List");
+        MenuItem techInventory = new MenuItem("Technician Inventory");
         techInventory.setOnAction(goTotechInventory());
         technicianMenu.getItems().add(techInventory);
         
@@ -287,4 +294,9 @@ public class WindowToolbar extends MenuBar {
         };
     }
 
+    private EventHandler<ActionEvent> goToStatusNotes() {
+        return (ActionEvent event) -> {
+                new StatusNotes().start(stage);
+        };
+    }
 }
