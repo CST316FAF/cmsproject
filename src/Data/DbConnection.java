@@ -31,7 +31,7 @@ public class DbConnection {
           
             //connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
             //      "sql368756", "qG6%pU4%");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb1",
                   "root", "");
             System.out.println("Connected!");
             //connection = DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin/cmsdb",
@@ -53,9 +53,14 @@ public class DbConnection {
     public ResultSet selectDataColumn(String table, String column, String identifier ) {
         ResultSet results = null;
         try {
+            System.out.println(column);
+            System.out.println(table);
+            System.out.println(identifier);
             Statement statement = connection.createStatement();
-            results = statement.executeQuery("SELECT + " + column  + " "
-                    + " + FROM \""+ table + "\" WHERE \"" + identifier + "\"");
+            String query = "SELECT " + column 
+                    + " FROM " + table + " WHERE userid = \"" + identifier + "\"";
+            System.out.println(query);
+            results = statement.executeQuery(query);
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -66,7 +71,7 @@ public class DbConnection {
         try {
             Statement statement = connection.createStatement();
              String query = new String("SELECT + * FROM" + column  + " "
-                    + " + FROM \""+ table + "\" WHERE ");
+                    + " + FROM "+ table + " WHERE ");
             for(int x = 0; x < identifiers.size(); x++) {
                if (x > 0)
                    query += " and ";

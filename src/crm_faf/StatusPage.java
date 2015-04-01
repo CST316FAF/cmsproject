@@ -22,6 +22,8 @@ import javafx.scene.control.ScrollPane;
 import com.zenjava.jfxflow.actvity.AbstractActivity;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -109,21 +111,36 @@ public class StatusPage extends TransitionScene {
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+            try {
+                this.update();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
 		return scene;
 	}
         
-        public void update(ArrayList<StatusEntry> data) throws Exception {
+        public void update() throws Exception {
             DbConnection db = new DbConnection();
             db.connect();
-            ResultSet locResults = db.selectDataColumn("", "Location", "");
-            ResultSet IdResults = db.selectDataColumn("", "ID", "");
-            ResultSet TypeResults = db.selectDataColumn("", "Location", "");
-            ResultSet AppointmentResults = db.selectDataColumn("", "Appointment", "");
-            locResults.getArray("Location");
+            ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
+            ResultSet IdResults = db.selectDataColumn("technician", "techID", "1");
+            ResultSet TypeResults = db.selectDataColumn("technician", "Type", "1");
+            ResultSet AppointmentResults = db.selectDataColumn("technician", "Appointment", "1");
+            ArrayList<String> list = new ArrayList<String>();
+            while (locResults.next() ) { 
+               list.add(locResults.getString("Location"));
+               StatusEntry entry = new StatusEntry(locResults.getString("Location"), 
+                       ("" + IdResults.getInt("techID")), TypeResults.getString("Type"), 
+                       AppointmentResults.getString("Appointment"));
+            } 
+            System.out.print(locResults.toString());
+          final String [] aArray = new String [list.size()];
+          list.toArray(aArray);
             IdResults.getArray("ID");
             TypeResults.getArray("Type");
             AppointmentResults.getArray("Appointment");
-            entryData.addAll(data);
+           // for(int x = 0; x <)
+           // entryData.addAll(data);
         }
 	
 }
