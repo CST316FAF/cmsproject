@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
 
-public class CustomerForm  {
+public class CustomerForm  extends TransitionScene{
 
         final TextField emailField = new TextField();
         final TextField telephoneField = new TextField();
