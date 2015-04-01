@@ -38,6 +38,7 @@ import javafx.event.EventHandler;
 
 import javafx.scene.control.Hyperlink;
 
+import java.sql.*;
 
 /**
  *
@@ -61,6 +62,14 @@ public class StatusNotes extends Application
         Button addNoteButton = this.addNoteButton;
         addNoteButton.setText("Add New Note");
         
+        addNoteButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                
+                
+            }
+        });
         //saveButton.setOnAction(this);
         //addNoteButton.setOnAction(this);
         
@@ -71,8 +80,9 @@ public class StatusNotes extends Application
     }
     
     Hyperlink options[] = new Hyperlink[0];
+    ArrayList<String> text = new ArrayList<>();
     
-    public VBox addVBox() {
+    public VBox addLeftVBox() {
         
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
@@ -85,6 +95,11 @@ public class StatusNotes extends Application
         Hyperlink options[] = new Hyperlink[] {
             new Hyperlink("New Note")
         };
+        
+        ArrayList<String> text = this.text;
+        text.add("Hello");
+        
+        
         int listLength = options.length;
         for (int i = 0; i < listLength; i++) {
             VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
@@ -96,16 +111,22 @@ public class StatusNotes extends Application
         
     }
     
-    
-    
-    public TextArea addNotesArea() {
+    public VBox addRightVBox() {
+        VBox vbox = new VBox();
+        TextField noteTitleField = new TextField();
+        noteTitleField.setPromptText("Enter note title here..");
         
         TextArea notesArea = new TextArea();
         notesArea.setPromptText("Enter your note here...");
         notesArea.setPrefSize(300, 460);
         
-        return notesArea;
+        vbox.getChildren().addAll(noteTitleField, notesArea);
+        
+        return vbox;
     }
+    
+
+    
     
     Stage primaryStage = new Stage();
     
@@ -115,12 +136,12 @@ public class StatusNotes extends Application
         primaryStage.setTitle("Status Notes");
         BorderPane root = new BorderPane();
         HBox hbox = addHBox();
-        VBox vbox = addVBox();
-        TextArea notesArea = addNotesArea();
+        VBox leftVbox = addLeftVBox();
+        VBox rightVBox = addRightVBox();
         
         root.setBottom(hbox);
-        root.setLeft(vbox);
-        root.setRight(notesArea);
+        root.setLeft(leftVbox);
+        root.setRight(rightVBox);
         
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -130,6 +151,19 @@ public class StatusNotes extends Application
                 
                 System.out.println("Save!");
             }
+            
+        });
+        
+        addNoteButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                
+                
+                System.out.println("New Note!");
+                
+            }
+            
             
         });
         
@@ -143,6 +177,26 @@ public class StatusNotes extends Application
     
     
     public static void main(String[] args) {
+        
+        try {
+            // 1. Get a connection to database
+            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsDatabase", "root", "");
+            
+            // 2. Create a statement
+            Statement myStatement = myConn.createStatement();
+            
+            // 3. Execute SQL query
+            ResultSet myRs = myStatement.executeQuery("select * from statusnotes");
+            
+            // 4. Process the result set
+            while (myRs.next()) {
+                System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
+            }
+        } 
+        catch (Exception ecx) {
+            
+        }
+
         launch(args);
     }
     
