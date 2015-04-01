@@ -1,3 +1,4 @@
+/*
 package crm_faf;
 
 import javafx.application.Application;
@@ -45,7 +46,7 @@ public class AppointmentNotifications extends Application {
     }
 };
 
-/*
+
 import javafx.application.Application;
 import javafx.mail.Message;
 import javafx.mail.Send;
@@ -82,4 +83,50 @@ public AppointmentNotifications(String toEmail, String date, String time){
     // Send the message
     Send.send(msg);
 };
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class AppointmentNotifications extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        final HBox root = new HBox(5);
+        final TextField SendTo = new TextField("help@example.com");
+        final TextField From = new TextField("kunaalgodiwala@yahoo.com");
+        final TextField Subject = new TextField("Reminder of Upcoming Appointment");
+        final TextField Content = new TextField("Upcoming Appointment");
+        final Button ClickToSend = new Button("Send");
+
+        EventHandler<ActionEvent> goHandler = new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                getHostServices().showDocument("mailto:"+SendTo.getText());
+                getHostServices().showDocument("mailto:"+From.getText());
+                getHostServices().showDocument("mailto:"+Subject.getText());
+                getHostServices().showDocument("mailto:"+Content.getText());
+            }
+
+        };
+
+        SendTo.setOnAction(goHandler);
+        ClickToSend.setOnAction(goHandler);
+
+        root.getChildren().addAll(SendTo, ClickToSend, From, Subject, Content);
+        final Scene scene = new Scene(root, 250, 150);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
 */
