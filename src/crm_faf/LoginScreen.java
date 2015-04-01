@@ -60,15 +60,132 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginScreen extends Application {
+    
+    private PasswordField pwbox;
+    private Button btn;
+    private Stage primaryStage;
+    private PasswordField pwBox;
+    private Label message;
+    private Button createAcct;
+    private GridPane grid;
+    private Scene scene;
+    
+   
+    private TextField userTextField;
 
+    public TextField getUserTextField() {
+        return userTextField;
+    }
+
+    public void setUserTextField(TextField userTextField) {
+        this.userTextField = userTextField;
+    }
+
+    public PasswordField getPwbox() {
+        return pwbox;
+    }
+
+    public void setPwbox(PasswordField pwbox) {
+        this.pwbox = pwbox;
+    }
+
+    public Button getBtn() {
+        return btn;
+    }
+
+    public void setBtn(Button btn) {
+        this.btn = btn;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public PasswordField getPwBox() {
+        return pwBox;
+    }
+
+    public void setPwBox(PasswordField pwBox) {
+        this.pwBox = pwBox;
+    }
+
+    public Label getMessage() {
+        return message;
+    }
+
+    public void setMessage(Label message) {
+        this.message = message;
+    }
+
+    public Button getCreateAcct() {
+        return createAcct;
+    }
+
+    public void setCreateAcct(Button createAcct) {
+        this.createAcct = createAcct;
+    }
+
+    public GridPane getGrid() {
+        return grid;
+    }
+
+    public void setGrid(GridPane grid) {
+        this.grid = grid;
+    }
+
+    public DbConnection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(DbConnection connection) {
+        this.connection = connection;
+    }
+
+    
+    DbConnection connection = new DbConnection();
+    
+    public void setuserTextField(TextField userTextField) {
+        this.userTextField = userTextField;
+    }
+    public TextField getuserTextField() {
+        return this.userTextField;
+    }
+    public void setpwbox(PasswordField pwbox) {
+        this.pwbox = pwbox;
+    }
+    public PasswordField getpwbox() {
+        return this.pwbox;
+    }
+    public void setbtn(Button setbtn) {
+        this.btn = btn;
+    }
+    public PasswordField getbtn() {
+        return this.pwbox;
+    }
+    
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("BEST CMS EVER");
-        GridPane grid = new GridPane();
+        setUp();
+        this.Connection();
+        this.Buttons();
+        scene = new Scene(grid, 300, 275);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    public void setUp() {
+        
+        grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -81,42 +198,71 @@ public class LoginScreen extends Application {
         Label userName = new Label("User Name:");
         grid.add(userName, 0, 1);
 
-        TextField userTextField = new TextField();
+        userTextField = new TextField();
         grid.add(userTextField, 1, 1);
 
         Label pw = new Label("Password:");
         grid.add(pw, 0, 2);
 
-        PasswordField pwBox = new PasswordField();
+        pwBox = new PasswordField();
         grid.add(pwBox, 1, 2);
 
-        Button btn = new Button("Sign in");
+        btn = new Button("Sign in");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
         
-        Button createAcct = new Button("Create Account");
+        createAcct = new Button("Create Account");
         HBox hbBtn1 = new HBox(10);
         hbBtn1.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn1.getChildren().add(createAcct);
         grid.add(hbBtn1, 1, 5);
         
-        final Label message = new Label("");
+        message = new Label("");
         message.setAlignment(Pos.BOTTOM_LEFT);
         grid.add(message, 0, 6);
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
         
-        DbConnection connection = new DbConnection();
-        try {
-            connection.connect();
+//        try {
+//            connection.connect();
+//        } catch (Exception ex) {
+//            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        btn.setDefaultButton(true);
+//        btn.setOnAction((ActionEvent e) -> {
+//            if(connection.login(userTextField.getText(), pwBox.getText())){
+//                primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+//            }
+//            else{
+//                message.setText("Invalid Pwd");
+//                message.setTextFill(Color.rgb(21, 39, 30));
+//                System.out.println("Invalid Username or Password");
+//            }
+//           // primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+//        });
+//        
+//        createAcct.setOnAction((ActionEvent e) -> {
+//            
+//            primaryStage.setScene(new CreateUser().start(primaryStage));
+//        });
+
+        
+    }
+    public void Connection(){
+         try {
+            this.connection.connect();
         } catch (Exception ex) {
             Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public boolean Buttons(){
+        
         btn.setDefaultButton(true);
         btn.setOnAction((ActionEvent e) -> {
+            System.out.println("button pressed");
             if(connection.login(userTextField.getText(), pwBox.getText())){
                 primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
             }
@@ -133,8 +279,6 @@ public class LoginScreen extends Application {
             primaryStage.setScene(new CreateUser().start(primaryStage));
         });
 
-        Scene scene = new Scene(grid, 300, 275);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return true;
     }
 }
