@@ -31,7 +31,7 @@ public class DbConnection {
           
             //connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
             //      "sql368756", "qG6%pU4%");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb1",
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
                   "root", "");
             System.out.println("Connected!");
             //connection = DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin/cmsdb",
@@ -56,11 +56,19 @@ public class DbConnection {
             System.out.println(column);
             System.out.println(table);
             System.out.println(identifier);
-            Statement statement = connection.createStatement();
-            String query = "SELECT " + column 
-                    + " FROM " + table + " WHERE userid = \"" + identifier + "\"";
-            System.out.println(query);
-            results = statement.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement("SELECT \"" + column 
+                    + "\" FROM \"" + table + "\" WHERE tech_ID = \"" + identifier + "\"");
+            //String query = "SELECT \"" + column 
+            //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
+            //System.out.println(query);
+            results = statement.executeQuery();
+            while (results.next()){
+                String tech_ID = results.getString("tech_ID");
+                //String username = results.getString("USERNAME");
+ 
+                System.out.println("tech ID : " + tech_ID);
+		//System.out.println("username : " + username);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

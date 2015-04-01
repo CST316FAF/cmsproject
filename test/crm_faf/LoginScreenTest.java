@@ -5,6 +5,11 @@
  */
 package crm_faf;
 
+import javafx.application.Application;
+import Data.DbConnection;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,6 +23,7 @@ import static org.junit.Assert.*;
  * @author Austin
  */
 public class LoginScreenTest {
+    
     
     public LoginScreenTest() {
     }
@@ -38,27 +44,26 @@ public class LoginScreenTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of main method, of class LoginScreen.
-     */
+    
     @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        LoginScreen.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of start method, of class LoginScreen.
-     */
-    @Test
-    public void testStart() {
-        System.out.println("start");
-        Stage primaryStage = null;
+    public void testLogin() throws Exception {
+        new JFXPanel();
+        
         LoginScreen instance = new LoginScreen();
-        instance.start(primaryStage);
+       
+        instance.setUp();
+        DbConnection connection = new DbConnection();
+        connection.connect();
+        TextField box = new TextField();
+        box.setText("test");
+        PasswordField pbox = new PasswordField();
+        pbox.setText("testtest");
+        instance.setPwBox(new PasswordField());
+        instance.setUserTextField(box);
+        instance.setPwBox(pbox);
+        instance.getuserTextField().setText("test");
+        assert(instance.Buttons());
+        
         
     }
     
