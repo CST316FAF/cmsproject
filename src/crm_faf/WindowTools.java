@@ -20,13 +20,12 @@ import javafx.stage.Stage;
 
 public class WindowTools extends ToolBar {
     private Stage stage;
-    private Scene currentScene;
+    private TransitionScene currentScene;
     private HBox buttonBar = new HBox(); 
     private Button widgetButton = new Button();
     private Button nextButton =new Button();
     private Button previousButton = new Button();
-    private ArrayList<Scene> previousScene = new ArrayList<Scene>();
-    private ArrayList<Scene> nextScene = new ArrayList<Scene>();
+    private TransitionManager transitionManager = new TransitionManager();
     private StatusWidget widget;
     
     public WindowTools(){
@@ -59,10 +58,13 @@ public class WindowTools extends ToolBar {
     
     
     public void setPrevious(Scene last) {
-        previousScene.add(last);
+        System.out.println("added scene to previous");
+        System.out.println(last.toString());
+        transitionManager.addPreviousScene(currentScene);
+        
     }
     public void setNext(Scene next) {
-        nextScene.add(next);
+        transitionManager.addNextScene(currentScene);
     }
 
     private EventHandler<ActionEvent> activateWidget() {
@@ -81,22 +83,22 @@ public class WindowTools extends ToolBar {
     
     private EventHandler<ActionEvent> goToNext() {
         return (ActionEvent event) -> {
-            if(nextScene.size() > 0) {
-                stage.setScene(nextScene.get(0));
-                previousScene.add(currentScene);
-                currentScene = nextScene.get(0);
-                nextScene.remove(0);
+            if(transitionManager.getNextSceneList().size() > 0) {       
+                stage.setScene(transitionManager.getNextSceneClass());
+    //          transitionManager.previousSceneList.add(transitionManager.getNextSceneList().get(0));
+                currentScene = transitionManager.getCurrentTransitionScene();
+                transitionManager.incrementNextSceneList();
             }
         };
     }
     
     private EventHandler<ActionEvent> goToPrevious() {
-        return (ActionEvent event) -> {
-            if(previousScene.size() > 0) {
-                stage.setScene(previousScene.get(0));
-                nextScene.add(currentScene);
-                currentScene = nextScene.get(0);
-                nextScene.remove(0);
+         return (ActionEvent event) -> {
+            if(transitionManager.getPreviousSceneList().size() > 0) {       
+                stage.setScene(transitionManager.getPreviousSceneClass());
+  //              transitionManager.previousSceneList.add(transitionManager.getNextSceneList().get(0));
+                currentScene = transitionManager.getCurrentTransitionScene();  
+                transitionManager.incrementPreviousSceneList();
             }
         };
     }

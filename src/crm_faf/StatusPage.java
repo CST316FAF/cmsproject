@@ -27,14 +27,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
-public class StatusPage extends AbstractActivity {
+public class StatusPage extends TransitionScene {
         private WindowTools toolbar;
         private WindowToolbar bar;
         private  TableView table;
         private  List<StatusEntry> entryData = new ArrayList<StatusEntry>();
         private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData);
     
-    
+
 	public Scene start(Stage primaryStage, WindowTools tBar) {
 		
 		primaryStage.setTitle("Status Page");
@@ -73,6 +73,7 @@ public class StatusPage extends AbstractActivity {
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
 		
+                
 		
 		TableView table = new TableView();
 		table.setPrefHeight(500);
@@ -103,6 +104,8 @@ public class StatusPage extends AbstractActivity {
 		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);
 		
+                //AppointmentNotifications notify = new AppointmentNotifications();
+                //notify.newMessage();
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();

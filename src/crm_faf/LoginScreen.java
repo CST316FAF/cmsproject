@@ -115,17 +115,17 @@ public class LoginScreen extends Application {
         } catch (Exception ex) {
             Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        btn.setDefaultButton(true);
         btn.setOnAction((ActionEvent e) -> {
-//            if(connection.login(userTextField.getText(), pwBox.getText())){
-//                primaryStage.setScene(new StatusPage().start(primaryStage));
-//            }
-//            else{
-//                message.setText("Invalid Pwd");
-//                message.setTextFill(Color.rgb(21, 39, 30));
-//                System.out.println("Invalid Username or Password");
-//            }
-            primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+            if(connection.login(userTextField.getText(), pwBox.getText())){
+                primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+            }
+            else{
+                message.setText("Invalid Pwd");
+                message.setTextFill(Color.rgb(21, 39, 30));
+                System.out.println("Invalid Username or Password");
+            }
+           // primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
         });
         
         createAcct.setOnAction((ActionEvent e) -> {

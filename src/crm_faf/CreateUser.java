@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author Austin
  */
-public class CreateUser {
+public class CreateUser extends TransitionScene{
     private TextField newuserTextField;
     private PasswordField pwBox0;
     private PasswordField pwBox1;
