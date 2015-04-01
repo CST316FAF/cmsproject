@@ -1,73 +1,93 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="CRM_FAF" default="default" basedir=".">
-    <description>Builds, tests, and runs the project CRM_FAF.</description>
-    <import file="nbproject/build-impl.xml"/>
-    <!--
+<project name="jfx-impl" default="init-fx-tasks" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
+    <property name="javafx.sdk.path" value="C:\Program Files\Java\jdk1.8.0_31"/>
 
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
+    <property name="app.name" value="CMS"/>
+    <property name="app.title" value="CMS"/>
+    <property name="app.description" value="Customer Management Service"/>
+    <property name="main.class" value="crm_faf.LoginScreen"/>
 
-    (Targets beginning with '-' are not intended to be called on their own.)
+    <property name="src.dir" value="src"/>
+    <property name="lib.dir" value="dist/lib"/>
+    <property name="src.test" location="test"/>
+    <property name="junit.results" value="test-results"/>
+    
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="distro.dir" value="${build.dir}/distro"/>
+    
 
-    Example of inserting an obfuscator after compilation could look like this:
-
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	
+    </path> 
+    <target name="init">
+ 	<mkdir dir="${build.dir}"/>
+	<mkdir dir="${distro.dir}"/>
+    </target>
 
 
-    Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
 
-      -init-macrodef-javac:     defines macro for javac compilation
-      -init-macrodef-junit:     defines macro for junit execution
-      -init-macrodef-debug:     defines macro for class debugging
-      -init-macrodef-java:      defines macro for class execution
-      -do-jar:                  JAR building
-      run:                      execution of project 
-      -javadoc-build:           Javadoc generation
-      test-report:              JUnit report generation
+    <target name="compile" depends="init">
+         <javac encoding="utf-8" debug="on" destdir="${build.dir}" includeantruntime="true" compiler="javac1.8">
+  		<src path="${src.dir}" />
+  		<src path="${src.test}" />
+ 		<classpath refid="classpath"/>
+ 	 </javac>
+    </target>
 
-    An example of overriding the target for project execution could look like this:
+    <target name="-pre-jar" depends="compile">
+       
+    </target>
 
-        <target name="run" depends="CRM_FAF-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
+    <target name="jar" depends="-pre-jar">
+        <fx:jar destfile="${distro.dir}/${app.name}.jar" verbose="true">
+            <fx:application mainClass="${main.class}"/>
+            <fileset dir="${classes.dir}/">
+                <include name="**"/>
+            </fileset>
+        </fx:jar>
+    </target>
+ 
+    <target name="init-fx-tasks">
+ 	<mkdir dir="${build.dir}"/>
+	<mkdir dir="${distro.dir}"/>
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+			</filelist>
+		</path>
+	
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+			uri="javafx:com.sun.javafx.tools.ant"
+			classpathref="fxant"/>
+ 
+   	 <fx:deploy width="800" height="600" nativeBundles="all" outdir="${build.dir}" embedJNLP="false" outfile="${app.name}">
+            <fx:info title="${app.title}"/>
+            <fx:application name="${app.title}" mainClass="${main.class}"/>
+            <fx:resources>
+		<fx:fileset dir="${lib.dir}" includes="*.jar"/>
+                <fx:fileset dir="${distro.dir}" includes="*.jar"/>
+                <fx:fileset dir="${lib.dir}" includes="*.dll"/>
+            </fx:resources>
+    	</fx:deploy>
+    </target>
+ 
+    <target name="test" depends="compile" description="Run unit tests">
+  	   <delete dir="${junit.results}"/>
+    	   <mkdir dir="${junit.results}"/>
+           <junit fork="no" errorProperty="test.failed" failureProperty="test.failed" >
+           <classpath refid="classpath.test" />
+           <formatter type="plain" usefile="false"/>
+   	   <formatter type="xml"/>
+   	   <batchtest todir="${junit.results}">
+    	   <fileset dir="${build.dir}" includes="**/*Test.class"/>
+   	   </batchtest>
+  	</junit> 
+    </target>
 
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
-    properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
-
-    -->
 </project>
