@@ -45,7 +45,7 @@ public class CustomerForm  extends TransitionScene{
 		pane.setHgap(10);
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
-		Scene scene = new Scene(pane2, 600, 400);
+		Scene scene = new Scene(pane2, 600, 600);
 		
                 
                 toolbar = new WindowTools();
