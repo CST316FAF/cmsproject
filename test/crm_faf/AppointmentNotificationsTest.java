@@ -63,5 +63,19 @@ public class AppointmentNotificationsTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    private static class AppointmentNotifications {
+
+        public AppointmentNotifications() {
+        }
+
+        private void start(Stage primaryStage) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private void newMessage() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
     
 }
