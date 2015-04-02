@@ -1,93 +1,53 @@
-<project name="jfx-impl" default="init-fx-tasks" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) --><!-- By default, only the Clean and Build commands use this build script. --><project name="CRM_FAF" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+    <description>Builds, tests, and runs the project CRM_FAF.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
 
-    <property name="javafx.sdk.path" value="C:\Program Files\Java\jdk1.8.0_31"/>
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. Those of them relevant for JavaFX project are: 
 
-    <property name="app.name" value="CMS"/>
-    <property name="app.title" value="CMS"/>
-    <property name="app.description" value="Customer Management Service"/>
-    <property name="main.class" value="crm_faf.LoginScreen"/>
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-jfx-jar:              called before FX SDK specific <fx:jar> task
+      -post-jfx-jar:             called after FX SDK specific <fx:jar> task
+      -pre-jfx-deploy:           called before FX SDK specific <fx:deploy> task
+      -post-jfx-deploy:          called after FX SDK specific <fx:deploy> task
+      -pre-jfx-native:           called just after -pre-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-jfx-native:          called just after -post-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-clean:               called after cleaning build products
 
-    <property name="src.dir" value="src"/>
-    <property name="lib.dir" value="dist/lib"/>
-    <property name="src.test" location="test"/>
-    <property name="junit.results" value="test-results"/>
-    
-    <property name="build.dir" value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="distro.dir" value="${build.dir}/distro"/>
-    
+    (Targets beginning with '-' are not intended to be called on their own.)
 
-    <path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
-	
-    </path> 
-    <target name="init">
- 	<mkdir dir="${build.dir}"/>
-	<mkdir dir="${distro.dir}"/>
-    </target>
+    Example of inserting a HTML postprocessor after javaFX SDK deployment:
 
+        <target name="-post-jfx-deploy">
+            <basename property="jfx.deployment.base" file="${jfx.deployment.jar}" suffix=".jar"/>
+            <property name="jfx.deployment.html" location="${jfx.deployment.dir}${file.separator}${jfx.deployment.base}.html"/>
+            <custompostprocess>
+                <fileset dir="${jfx.deployment.html}"/>
+            </custompostprocess>
+        </target>
 
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-    </target>
+    Example of calling an Ant task from JavaFX SDK. Note that access to JavaFX SDK Ant tasks must be
+    initialized; to ensure this is done add the dependence on -check-jfx-sdk-version target:
 
-    <target name="compile" depends="init">
-         <javac encoding="utf-8" debug="on" destdir="${build.dir}" includeantruntime="true" compiler="javac1.8">
-  		<src path="${src.dir}" />
-  		<src path="${src.test}" />
- 		<classpath refid="classpath"/>
- 	 </javac>
-    </target>
+        <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
+            <echo message="Calling jar task from JavaFX SDK"/>
+            <fx:jar ...>
+                ...
+            </fx:jar>
+        </target>
 
-    <target name="-pre-jar" depends="compile">
-       
-    </target>
+    For more details about JavaFX SDK Ant tasks go to
+    http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm
 
-    <target name="jar" depends="-pre-jar">
-        <fx:jar destfile="${distro.dir}/${app.name}.jar" verbose="true">
-            <fx:application mainClass="${main.class}"/>
-            <fileset dir="${classes.dir}/">
-                <include name="**"/>
-            </fileset>
-        </fx:jar>
-    </target>
- 
-    <target name="init-fx-tasks">
- 	<mkdir dir="${build.dir}"/>
-	<mkdir dir="${distro.dir}"/>
-		<path id="fxant">
-			<filelist>
-				<file name="${java.home}\..\lib\ant-javafx.jar"/>
-				<file name="${java.home}\lib\jfxrt.jar"/>
-			</filelist>
-		</path>
-	
-		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
-			uri="javafx:com.sun.javafx.tools.ant"
-			classpathref="fxant"/>
- 
-   	 <fx:deploy width="800" height="600" nativeBundles="all" outdir="${build.dir}" embedJNLP="false" outfile="${app.name}">
-            <fx:info title="${app.title}"/>
-            <fx:application name="${app.title}" mainClass="${main.class}"/>
-            <fx:resources>
-		<fx:fileset dir="${lib.dir}" includes="*.jar"/>
-                <fx:fileset dir="${distro.dir}" includes="*.jar"/>
-                <fx:fileset dir="${lib.dir}" includes="*.dll"/>
-            </fx:resources>
-    	</fx:deploy>
-    </target>
- 
-    <target name="test" depends="compile" description="Run unit tests">
-  	   <delete dir="${junit.results}"/>
-    	   <mkdir dir="${junit.results}"/>
-           <junit fork="no" errorProperty="test.failed" failureProperty="test.failed" >
-           <classpath refid="classpath.test" />
-           <formatter type="plain" usefile="false"/>
-   	   <formatter type="xml"/>
-   	   <batchtest todir="${junit.results}">
-    	   <fileset dir="${build.dir}" includes="**/*Test.class"/>
-   	   </batchtest>
-  	</junit> 
-    </target>
+    For list of available properties check the files
+    nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
+    -->
 </project>

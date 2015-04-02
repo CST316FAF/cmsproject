@@ -64,7 +64,7 @@ public class LoginScreenTest {
         instance.getuserTextField().setText("test");
         assert(instance.Buttons());
         
-        
+    
     }
     
 }

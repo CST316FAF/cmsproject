@@ -430,6 +430,7 @@ public class Inventory extends Application {
 		final TextField addTool = new TextField();
 		addTool.setPromptText("Tool Name");
 		// addTool.setMaxWidth(nameCol.getPrefWidth());
+              
 
 		final Button addToolButton = new Button("Add Tool");
 		addToolButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -573,7 +574,7 @@ public class Inventory extends Application {
 
 	
 	}
-
+  
 	public static void main(String[] args) {
 		launch(args);
 	}

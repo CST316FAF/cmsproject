@@ -60,7 +60,7 @@ public class DbConnection {
                     + "\" FROM \"" + table + "\" WHERE tech_ID = \"" + identifier + "\"");
             //String query = "SELECT \"" + column 
             //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
-            //System.out.println(query);
+            System.out.println(statement);
             results = statement.executeQuery();
             while (results.next()){
                 String tech_ID = results.getString("tech_ID");

@@ -146,7 +146,7 @@ public class StatusPage extends TransitionScene {
             locResults.getCharacterStream("Location");
             }catch(Exception e){System.out.println("4fail");};
             
-            System.out.println(IdResults.getShort("techID"));
+            System.out.println(IdResults.getShort("tech_ID"));
      //       System.out.println(locResults.getBytes("Location"));
        //     System.out.println(TypeResults.getBytes("Type"));
             System.out.println(AppointmentResults.getDate("Appointment"));
