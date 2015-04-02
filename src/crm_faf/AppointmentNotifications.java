@@ -1,137 +1,89 @@
 /*
 package crm_faf;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
-public class AppointmentNotifications extends Application {
-    private Object t;
-    
-    
-    public void newMessage(){
+public class AppointmentNotifications {
 
-        final Stage newConnDialog = new Stage();
-        newConnDialog.initStyle(StageStyle.UNDECORATED);
-        newConnDialog.initModality(Modality.WINDOW_MODAL);
+   public static void main(String[] args) {
+       
+      //Recipient's email ID needs to be mentioned.
+      String to = “kunaalgodiwala@gmail.com”; //change accordingly
 
-        //set position
-        newConnDialog.setX(150); //secondStage.setX(primaryStage.getX() + 250);
-        newConnDialog.setY(150);
+      //Sender's email ID needs to be mentioned
+      String from = “kunaalgodiwala@gmail.com”; //change accordingly
+      final String username = “kunaalgodiwala”; //change accordingly
+      final String password = “Godiwala123”; //change accordingly
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(5);
-        grid.setVgap(5);
-        grid.setPadding(new Insets(20, 20, 20, 20));
-        
-        Text t = new Text (10, 20, "Notification of Upcoming Appointment");
+      String host = "smtp.gmail.com";
 
-        //configure dialog size and background color
-        Scene aboutDialogScene = new Scene(grid, 200, 100, Color.WHITE);
-        newConnDialog.setScene(aboutDialogScene);
-        newConnDialog.show();
-                }
+      Properties props = new Properties();
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.starttls.enable", "true");
+      props.put("mail.smtp.host", host);
+      props.put("mail.smtp.port", "Enter Port Number Here");
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-};
+      Session session;
+       session = Session.getInstance(props,
+               new javax.mail.Authenticator() {
+                   @Override
+                   protected PasswordAuthentication getPasswordAuthentication() {
+                       return new PasswordAuthentication(username, password);
+                   }
+               });
 
+      try {
+         //Create a default MimeMessage object
+         Message message = new MimeMessage(session);
 
-import javafx.application.Application;
-import javafx.mail.Message;
-import javafx.mail.Send;
-import javafx.mail.internet.InternetAddress;
+         //Set From
+         message.setFrom(new InternetAddress(from));
 
+         //Set To
+         message.setRecipients(Message.RecipientType.TO,
+         InternetAddress.parse(to));
 
-public abstract class AppointmentNotifications extends Application {
-    static String from;
-    static String to;
-    static String subject;
-    static String content;
+         //Set Subject
+         message.setSubject(“Reminder of Upcoming Appointment”);
+          String date = null;
+          String time = null;
 
+         //Set the actual message
+         message.setText("Hello, this is a friendly reminder that you have on upcoming appointment on" + date + time);
 
-public AppointmentNotifications(String toEmail, String date, String time){
+         //Send message
+         Transport.send(message);
 
-    from = "kunaalgodiwala@yahoo.com";
-    to = toEmail;
-    subject = "Upcoming Appointment";
-    content = "Reminder of Upcoming Appointment\n"
-            + "Date of Appointment: " + date + "\n"
-            + "Time of Appointment: " + time;        
-}
+         //System.out.println(“Email Sent!“);
 
-    public static void send() {
+      } catch (MessagingException e) {
+            throw new RuntimeException(e);
+      }
+   }
 
-    Message msg;
-    msg = new Message();
-    msg.setFrom(new InternetAddress(from));
-    msg.setRecipient(new InternetAddress(to));
-    msg.setSubject(subject);
-    msg.setText(content);
+    private static class Upcoming {
 
-    
-    // Send the message
-    Send.send(msg);
-};
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-
-public class AppointmentNotifications extends Application {
-
-    @Override
-    public void start(Stage primaryStage) {
-        final HBox root = new HBox(5);
-        final TextField SendTo = new TextField("help@example.com");
-        final TextField From = new TextField("kunaalgodiwala@yahoo.com");
-        final TextField Subject = new TextField("Reminder of Upcoming Appointment");
-        final TextField Content = new TextField("Upcoming Appointment");
-        final Button ClickToSend = new Button("Send");
-
-        EventHandler<ActionEvent> goHandler = new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                getHostServices().showDocument("mailto:"+SendTo.getText());
-                getHostServices().showDocument("mailto:"+From.getText());
-                getHostServices().showDocument("mailto:"+Subject.getText());
-                getHostServices().showDocument("mailto:"+Content.getText());
-            }
-
-        };
-
-        SendTo.setOnAction(goHandler);
-        ClickToSend.setOnAction(goHandler);
-
-        root.getChildren().addAll(SendTo, ClickToSend, From, Subject, Content);
-        final Scene scene = new Scene(root, 250, 150);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        public Upcoming() {
+        }
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private static class Reminder {
+
+        public Reminder() {
+        }
+    }
+
+    private static class Email {
+
+        public Email() {
+        }
     }
 }
 */
