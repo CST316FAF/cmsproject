@@ -1,0 +1,101 @@
+<project name="jfx-impl" default="init-fx-tasks" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+    <property name="javafx.sdk.path" value="C:\Program Files\Java\jdk1.8.0_31"/>
+
+    <property name="app.name" value="CMS"/>
+    <property name="app.title" value="CMS"/>
+    <property name="app.description" value="Customer Management Service"/>
+    <property name="main.class" value="src/crm_faf/LoginScreen"/>
+
+    <property name="src.dir" value="src"/>
+    <property name="lib.dir" value="dist/lib"/>
+    <property name="src.test" location="test"/>
+    <property name="junit.results" value="test-results"/>
+    
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="distro.dir" value="${build.dir}/distro"/>
+    
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	
+    </path> 
+
+    <target name="init" depends="clean">
+ 	<mkdir dir="${build.dir}"/>
+	<mkdir dir="${distro.dir}"/>
+	
+    </target>
+
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+         <javac encoding="utf-8" debug="on" destdir="${build.dir}" includeantruntime="true" compiler="javac1.8">
+  		<src path="${src.dir}" />
+  		<src path="${src.test}" />
+ 		<classpath refid="classpath"/>
+ 	 </javac>
+    </target>
+
+    <target name="-pre-jar" depends="compile">
+       
+    </target>
+
+    <target name="jar" depends="-pre-jar">
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+			</filelist>
+		</path>
+
+        <fx:jar destfile="${distro.dir}/${app.name}.jar" verbose="true">
+            <fx:application mainClass="${main.class}"/>
+            <fileset dir="${classes.dir}/">
+                <include name="**"/>
+            </fileset>
+        </fx:jar>
+    </target>
+
+    <target name="init-fx-tasks" depends="init,clean,compile,test">
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+			</filelist>
+		</path>
+	
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+			uri="javafx:com.sun.javafx.tools.ant"
+			classpathref="fxant"/>
+ 
+   	 <fx:deploy width="800" height="600" nativeBundles="all" outdir="${build.dir}" embedJNLP="false" outfile="${app.name}">
+            <fx:info title="${app.title}"/>
+            <fx:application name="${app.title}" mainClass="${main.class}"/>
+            <fx:resources>
+		<fx:fileset dir="${lib.dir}" includes="*.jar"/>
+                <fx:fileset dir="${distro.dir}" includes="*.jar"/>
+                <fx:fileset dir="${lib.dir}" includes="*.dll"/>
+            </fx:resources>
+    	</fx:deploy>
+    </target>
+ 
+    <target name="test" depends="compile" description="Run unit tests">
+
+	   <delete dir="${junit.results}"/>
+    	   <mkdir dir="${junit.results}"/>
+           <junit fork="no" errorProperty="test.failed" failureProperty="test.failed" >
+           <classpath refid="classpath" />
+           <formatter type="plain" usefile="false"/>
+   	   <formatter type="xml"/>
+   	   <batchtest todir="${junit.results}">
+    	   <fileset dir="${build.dir}" includes="**/*Test.class"/>
+   	   </batchtest>
+  	</junit> 
+    </target>
+
+</project>
