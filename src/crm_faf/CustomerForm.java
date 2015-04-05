@@ -1,5 +1,11 @@
 package crm_faf;
 	
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -119,6 +125,20 @@ public class CustomerForm  extends TransitionScene{
                 String telephone = telephoneField.getText();
                 String email = emailField.getText();
                 Label errormsg = new Label("Fill out all");
+                
+                try {
+                                Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsDatabase", "root", "");
+                                Statement myStatement = myConn.createStatement();
+                                String sql = "insert into customer "
+                                        + " (cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone)"
+                                        + " values";
+                                myStatement.executeUpdate(sql);
+                                System.out.println("New Customer has been successfully added");
+                                
+                            } catch (SQLException ex) {
+                                Logger.getLogger(CustomerForm.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                
                 //Check and Validate that all fields are entered
                 if(fname.equals("") || lname.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("") ||
                         telephone.equals("") || email.equals("")) {
