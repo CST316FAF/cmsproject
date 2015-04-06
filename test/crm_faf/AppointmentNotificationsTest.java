@@ -77,5 +77,17 @@ public class AppointmentNotificationsTest {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
+
+    /**
+     * Test of main method, of class AppointmentNotifications.
+     */
+    @Test
+    public void testMain() {
+        System.out.println("emailNotify");
+        //String[] args = null;
+        crm_faf.AppointmentNotifications.emailNotify();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }
