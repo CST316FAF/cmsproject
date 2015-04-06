@@ -83,9 +83,9 @@ public class AppointmentNotificationsTest {
      */
     @Test
     public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        crm_faf.AppointmentNotifications.main(args);
+        System.out.println("emailNotify");
+        //String[] args = null;
+        crm_faf.AppointmentNotifications.emailNotify();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
