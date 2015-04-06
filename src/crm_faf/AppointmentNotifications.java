@@ -10,9 +10,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
-public class AppointmentNotifications {
+public abstract class AppointmentNotifications {
 
-   public static void main(String[] args) {
+    public static void emailNotify() {
 
       String host = "smtp.gmail.com";
 
@@ -26,9 +26,9 @@ public class AppointmentNotifications {
       Session session = Session.getDefaultInstance(props,
               new javax.mail.Authenticator() {
               protected PasswordAuthentication getPasswordAuthentication() {
-              return new PasswordAuthentication("abc@gmail.com", "password");
+                return new PasswordAuthentication("abc@gmail.com", "password");
               }
-              }
+        }
                       
    );
         try{
@@ -44,6 +44,5 @@ public class AppointmentNotifications {
         
         JOptionPane.showMessageDialog(null, e);
         }
-
-      
+    }
 }
