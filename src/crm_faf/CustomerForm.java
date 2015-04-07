@@ -21,9 +21,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 
 
@@ -126,6 +128,8 @@ public class CustomerForm  extends TransitionScene{
                 String email = emailField.getText();
                 Label errormsg = new Label("Fill out all");
                 
+                
+                
                 try {
                                 Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsDatabase", "root", "");
                                 Statement myStatement = myConn.createStatement();
@@ -139,17 +143,55 @@ public class CustomerForm  extends TransitionScene{
                                 Logger.getLogger(CustomerForm.class.getName()).log(Level.SEVERE, null, ex);
                             }
                 
-                //Check and Validate that all fields are entered
+                //Check and Validate that all fields are entered.
                 if(fname.equals("") || lname.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("") ||
                         telephone.equals("") || email.equals("")) {
+                    
                         final Popup popup = new Popup(); 
                         popup.setX(300); popup.setY(200);
                         popup.getContent().add(new HBox(8));
                         HBox hbox = new HBox(8); // spacing = 8
                         hbox.getChildren().add(errormsg);
                         popup.show(primaryStage);
-                        submitMessage.setText("Successfully submitted Customer Information");
-			}
+                        submitMessage.setText("Please fill in all fields.");
+                        }
+                
+                        //Check if first name, last name, address, city, state, and email are no more than 30 characters.
+			else if(fname.length() > 30 || lname.length() > 30 || address.length() > 30 || city.length() > 30 || state.length() > 30 || 
+                        email.length() > 30) {
+                            
+                        final Popup popup = new Popup(); 
+                        popup.setX(300); popup.setY(200);
+                        popup.getContent().add(new HBox(8));
+                        HBox hbox = new HBox(8); // spacing = 8
+                        hbox.getChildren().add(errormsg);
+                        popup.show(primaryStage);
+                        submitMessage.setText("Please do not exceed 30 characters in fields.");
+                        } 
+                         
+                        //Check to make sure the zip is exactly 5 characters and telephone is exactly 10 characters.
+                        else if(zip.length() != 5 || telephone.length() != 10) {
+                            
+                        final Popup popup = new Popup(); 
+                        popup.setX(300); popup.setY(200);
+                        popup.getContent().add(new HBox(8));
+                        HBox hbox = new HBox(8); // spacing = 8
+                        hbox.getChildren().add(errormsg);
+                        popup.show(primaryStage);
+                        submitMessage.setText("Please make sure zip is exactly 5 digits and telephone is exactly 10 digits.");
+                        } 
+                         
+                        //Check if the user has entered a number for zip and telephone fields.
+                        else if(!isDigit(zip) && !isDigit(telephone)) {
+                            
+                        final Popup popup = new Popup(); 
+                        popup.setX(300); popup.setY(200);
+                        popup.getContent().add(new HBox(8));
+                        HBox hbox = new HBox(8); // spacing = 8
+                        hbox.getChildren().add(errormsg);
+                        popup.show(primaryStage);
+                        submitMessage.setText("Please make sure zip and telephone are both numeric values");    
+                        }
                     }
 		});
 		
@@ -157,5 +199,15 @@ public class CustomerForm  extends TransitionScene{
 		primaryStage.show();
 	}
 	
-	
+        //isDigit Method checks to see if entered parameter is an Int or not.
+	public static boolean isDigit(String numberToCheck) {
+            try {
+                Integer.parseInt(numberToCheck);
+                
+            } catch (NumberFormatException e) {
+                
+                return false;
+            }
+            return true;
+        }
 }
