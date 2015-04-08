@@ -47,7 +47,7 @@ public class Technician extends TransitionScene{
 	private final HBox hb2 = new HBox();
 	private final TableView<Person> table = new TableView<>();
 	private ObservableList<Person> data = null;
-
+        private Button cancel;
 
 	private void buildTableData() {
 
@@ -174,10 +174,19 @@ public class Technician extends TransitionScene{
 			final TextField addWorkHours = new TextField();
 			addWorkHours.setPrefWidth(workHoursCol.getMinWidth());
 			addWorkHours.setPromptText("Work Hours");
-
+                        
+                        final Button cancel = new Button("Cancel");
+                        cancel.setMinWidth(50);
+                        cancel.setOnAction((ActionEvent e) -> {
+                            primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+                        });
+                        
 			final Button addButton = new Button("Add New Technician");
 			addButton.setMinWidth(50);
 			addButton.setOnAction((ActionEvent e) -> {
+                            
+                        
+                        
 				
 				
 				
