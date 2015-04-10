@@ -192,8 +192,33 @@ public class CustomerForm  extends TransitionScene{
                         popup.show(primaryStage);
                         submitMessage.setText("Please make sure zip and telephone are both numeric values");    
                         }
+                
+                
+                //If all checks locally have passed make connection to database and make sure there
+                // is no customer with the same first and last names in the database.
+                //else if(){
+                
+                //}
+                
+                //If there is no customer with the same first and last name then create the new customer.
+                        else {
+                            String checkSQL = "select cfName,clName from customer where cfName = '"+fname+"'clName = '"+lname+"'";
+                            try {
+                                myResultSet = myStatement.executeQuery(checkSQL);
+                                myResultSet.next();
+                                if ( myResultSet.getInt(1) == 0) {
+                                    System.out.println("doesn't exist");
+                                }                           else {
+                                    System.out.println("exists");
+                                }
+                            } catch(Exception e) {
+                                System.out.println("Error");
+                            }
+                            
+                        }
+                
                     }
-		});
+            });
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
