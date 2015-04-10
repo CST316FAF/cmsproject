@@ -51,7 +51,7 @@ public class CustomerFormTest {
     // The methods must be annotated with annotation @Test. For example:
     //
     @Test
-    public void submitButton() {
+    public void submitButton() throws Exception {
         
         CustomerForm formTest = new CustomerForm();
        

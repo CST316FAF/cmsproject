@@ -6,6 +6,8 @@
 package crm_faf;
 
 import DataCharts.Chart;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -80,14 +82,25 @@ public class WindowToolbar extends MenuBar {
         //adding add customer scene link
         MenuItem addCust = new MenuItem("Add Customer");
         addCust.setOnAction(goToCustomerAdd());
+        
+        
         MenuItem checkStatus = new MenuItem("Main");
         checkStatus.setOnAction(goToStatus());
+        
+        MenuItem statusNotes = new MenuItem("Status Notes");
+        statusNotes.setOnAction(goToStatusNotes());
+        UserMenu.getItems().add(statusNotes);
+               
         
         //add technician scene link
         
         MenuItem checkTech = new MenuItem("Technician List");
         checkTech.setOnAction(goToCheckTech());
         technicianMenu.getItems().add(checkTech);
+        
+        MenuItem techInventory = new MenuItem("Technician Inventory");
+        techInventory.setOnAction(goTotechInventory());
+        technicianMenu.getItems().add(techInventory);
         
         MenuItem techStat = new MenuItem("Technician Status");
         techStat.setOnAction(goToTechStatus());
@@ -271,4 +284,19 @@ public class WindowToolbar extends MenuBar {
         this.bar = bar;
     }
 
+    private EventHandler<ActionEvent> goTotechInventory() {
+        return (ActionEvent event) -> {
+            try {
+                new Inventory().start(stage);
+            } catch (Exception ex) {
+                Logger.getLogger(WindowToolbar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        };
+    }
+
+    private EventHandler<ActionEvent> goToStatusNotes() {
+        return (ActionEvent event) -> {
+                new StatusNotes().start(stage);
+        };
+    }
 }

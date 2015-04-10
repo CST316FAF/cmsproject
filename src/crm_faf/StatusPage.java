@@ -127,18 +127,36 @@ public class StatusPage extends TransitionScene {
             ResultSet TypeResults = db.selectDataColumn("technician", "Type", "1");
             ResultSet AppointmentResults = db.selectDataColumn("technician", "Appointment", "1");
             ArrayList<String> list = new ArrayList<String>();
-            while (locResults.next() ) { 
-               list.add(locResults.getString("Location"));
-               StatusEntry entry = new StatusEntry(locResults.getString("Location"), 
-                       ("" + IdResults.getInt("techID")), TypeResults.getString("Type"), 
-                       AppointmentResults.getString("Appointment"));
-            } 
+            System.out.println(IdResults.first());
+            try{
+            System.out.println(locResults.first());
+            System.out.printf(locResults.getCharacterStream("Location").getClass().toString());
+            }catch(Exception e){System.out.println("1fail");};
+            
+            try{
+            AppointmentResults.getDate("Appointment");
+            }catch(Exception e){System.out.println("2fail");};
+            
+            
+            try{
+            locResults.getNCharacterStream("Location");
+            }catch(Exception e){System.out.println("3fail");};
+            
+            try{
+            locResults.getCharacterStream("Location");
+            }catch(Exception e){System.out.println("4fail");};
+            
+            System.out.println(IdResults.getShort("tech_ID"));
+     //       System.out.println(locResults.getBytes("Location"));
+       //     System.out.println(TypeResults.getBytes("Type"));
+            System.out.println(AppointmentResults.getDate("Appointment"));
+//            while (locResults.next() ) { 
+//               list.add(locResults.getString("Location"));
+//               StatusEntry entry = new StatusEntry(locResults.getString("Location"), 
+//                       ("" + IdResults.getInt("techID")), TypeResults.getString("Type"), 
+//                       AppointmentResults.getString("Appointment"));
+//            } 
             System.out.print(locResults.toString());
-          final String [] aArray = new String [list.size()];
-          list.toArray(aArray);
-            IdResults.getArray("ID");
-            TypeResults.getArray("Type");
-            AppointmentResults.getArray("Appointment");
            // for(int x = 0; x <)
            // entryData.addAll(data);
         }
