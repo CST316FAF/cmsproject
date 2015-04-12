@@ -22,10 +22,8 @@ import java.util.logging.Logger;
  */
 public class DbConnection {
     private Connection connection = null;
-    private String userName;
-    private String password;
     
-    public void connect() throws Exception {
+    public boolean connect() throws Exception {
         try {
             Class.forName("com.mysql.jdbc.Driver");
           
@@ -41,14 +39,16 @@ public class DbConnection {
               System.out.println("no connection driver found");
               System.out.println(e);
              // Could not find the database driver
+              return false;
         }
         catch (SQLException ex) {
             
             System.out.println("connection failed");
             connection.close();
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
+        return true;
     }
     public ResultSet selectDataColumn(String table, String column, String identifier ) {
         ResultSet results = null;
@@ -118,8 +118,6 @@ public class DbConnection {
     
     public boolean login(String userName, String password) {
         boolean answer = false;
-        this.userName = userName;
-        this.password = password;
         Statement statement;
         try {
             statement = connection.createStatement();
