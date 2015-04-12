@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -42,7 +43,10 @@ public class CustomerForm  extends TransitionScene{
         private WindowTools toolbar;
         private WindowToolbar bar;
         VBox windowTopBox = new VBox();
-        
+    
+        ResultSet myResultSet;
+        Statement myStatement;
+    
         public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Customer Entry Form");
