@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -42,7 +43,10 @@ public class CustomerForm  extends TransitionScene{
         private WindowTools toolbar;
         private WindowToolbar bar;
         VBox windowTopBox = new VBox();
-        
+    
+        ResultSet myResultSet;
+        Statement myStatement;
+    
         public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Customer Entry Form");
@@ -192,8 +196,33 @@ public class CustomerForm  extends TransitionScene{
                         popup.show(primaryStage);
                         submitMessage.setText("Please make sure zip and telephone are both numeric values");    
                         }
+                
+                
+                //If all checks locally have passed make connection to database and make sure there
+                // is no customer with the same first and last names in the database.
+                //else if(){
+                
+                //}
+                
+                //If there is no customer with the same first and last name then create the new customer.
+                        else {
+                            String checkSQL = "select cfName,clName from customer where cfName = '"+fname+"'clName = '"+lname+"'";
+                            try {
+                                myResultSet = myStatement.executeQuery(checkSQL);
+                                myResultSet.next();
+                                if ( myResultSet.getInt(1) == 0) {
+                                    System.out.println("doesn't exist");
+                                }                           else {
+                                    System.out.println("exists");
+                                }
+                            } catch(Exception e) {
+                                System.out.println("Error");
+                            }
+                            
+                        }
+                
                     }
-		});
+            });
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
