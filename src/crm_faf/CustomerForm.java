@@ -1,5 +1,12 @@
 package crm_faf;
 	
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,6 +41,9 @@ public class CustomerForm  extends TransitionScene{
         private WindowTools toolbar;
         private WindowToolbar bar;
         VBox windowTopBox = new VBox();
+        
+        ResultSet myResultSet;
+        Statement myStatement;
         
         public void start(Stage primaryStage) {
 		
