@@ -56,7 +56,7 @@ public class CustomerFormTest {
         CustomerForm formTest = new CustomerForm();
        
         DbConnection connection = new DbConnection();
-        connection.connect();
+        
         TextField firstNameField = new TextField();
         TextField lastNameField = new TextField();
         TextField addressFeild = new TextField();
