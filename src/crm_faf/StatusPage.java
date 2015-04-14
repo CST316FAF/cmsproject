@@ -42,11 +42,10 @@ public class StatusPage extends TransitionScene {
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
 		this.primaryStage = primaryStage;
-		
-		
+                setup();
                 //AppointmentNotifications notify = new AppointmentNotifications();
                 //notify.newMessage();
-		
+	
 		primaryStage.setScene(scene);
 		primaryStage.show();
             try {
