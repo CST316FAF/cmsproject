@@ -29,7 +29,7 @@ public class Chart {
 
     public Canvas getCanvas(ArrayList<Location> locs, String type) {
         try {
-            if(locs != null || locs.isEmpty()) {
+            if(locs != null && !locs.isEmpty()) {
                 switch (type) {
                     case "line":
                         this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
