@@ -42,9 +42,6 @@ public class DataCreator {
         }
         return locs;
     }
-    private int randomInt() {
-        return (int)(Math.random() * 1234);
-    }
     
     private ArrayList<MonthData> createMonthData() {
         ArrayList<MonthData> months = new ArrayList<MonthData>();
