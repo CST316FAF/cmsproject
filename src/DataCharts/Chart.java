@@ -29,18 +29,20 @@ public class Chart {
 
     public Canvas getCanvas(ArrayList<Location> locs, String type) {
         try {
-            if(locs != null || locs.size() == 0) {
-                if(type == "line") {
-                    this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
-                }
-                else if(type == "pie") {
-                    this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
-                }
-                else if(type == "bar") {
-                    this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
-                }
-                else {
-                    this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+            if(locs != null || locs.isEmpty()) {
+                switch (type) {
+                    case "line":
+                        this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
+                        break;
+                    case "pie":
+                        this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
+                        break;
+                    case "bar":
+                        this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                        break;
+                    default:
+                        this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                        break;
                 }
             }
             else
