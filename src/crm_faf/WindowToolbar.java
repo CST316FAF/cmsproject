@@ -114,7 +114,6 @@ public class WindowToolbar extends MenuBar {
     private void setChartMenu() {
         Menu gChoices = new Menu("Graph Type");
         Menu dateChoices = new Menu("Date");
-        MenuItem AreaCode = new MenuItem("Area Code");
 
         //creating graph toggles
         final ToggleGroup graphChoices = new ToggleGroup();
