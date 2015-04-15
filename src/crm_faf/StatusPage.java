@@ -41,6 +41,7 @@ public class StatusPage extends TransitionScene {
         private GridPane pane;
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
+                this.toolbar = tBar;
 		this.primaryStage = primaryStage;
                 setup();
                 //AppointmentNotifications notify = new AppointmentNotifications();
@@ -125,32 +126,18 @@ public class StatusPage extends TransitionScene {
             DbConnection db = new DbConnection();
             db.connect();
             ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
-            ResultSet IdResults = db.selectDataColumn("technician", "techID", "1");
-            ResultSet TypeResults = db.selectDataColumn("technician", "Type", "1");
+            ResultSet TypeResults = db.selectDataColumn("technician", "type", "1");
             ResultSet AppointmentResults = db.selectDataColumn("technician", "Appointment", "1");
             ArrayList<String> list = new ArrayList<String>();
-            System.out.println(IdResults.first());
             try{
-            System.out.println(locResults.first());
-            System.out.printf(locResults.getCharacterStream("Location").getClass().toString());
+                System.out.println(locResults.first());
+                System.out.printf(locResults.getCharacterStream("Location").getClass().toString());
             }catch(Exception e){System.out.println("1fail");};
             
             try{
-            AppointmentResults.getDate("Appointment");
+            //AppointmentResults.getDate("Appointment");
             }catch(Exception e){System.out.println("2fail");};
             
-            
-            try{
-            locResults.getNCharacterStream("Location");
-            }catch(Exception e){System.out.println("3fail");};
-            
-            try{
-            locResults.getCharacterStream("Location");
-            }catch(Exception e){System.out.println("4fail");};
-            
-            System.out.println(IdResults.getShort("tech_ID"));
-     //       System.out.println(locResults.getBytes("Location"));
-       //     System.out.println(TypeResults.getBytes("Type"));
             System.out.println(AppointmentResults.getDate("Appointment"));
 //            while (locResults.next() ) { 
 //               list.add(locResults.getString("Location"));

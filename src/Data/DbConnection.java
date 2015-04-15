@@ -53,20 +53,22 @@ public class DbConnection {
     public ResultSet selectDataColumn(String table, String column, String identifier ) {
         ResultSet results = null;
         try {
-            System.out.println(column);
-            System.out.println(table);
-            System.out.println(identifier);
-            PreparedStatement statement = connection.prepareStatement("SELECT \"" + column 
-                    + "\" FROM \"" + table + "\" WHERE tech_ID = \"" + identifier + "\"");
+            System.out.println("SELECT " + column 
+                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
+            PreparedStatement statement = connection.prepareStatement("SELECT " + column 
+                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
             //String query = "SELECT \"" + column 
             //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
-            System.out.println(statement);
+            System.out.println(statement + column);
             results = statement.executeQuery();
+            //if(!results.isBeforeFirst()) {
+             //   System.out.println("no Data");
+           // }
             while (results.next()){
-                String tech_ID = results.getString("tech_ID");
+                String data = results.getString(1);
                 //String username = results.getString("USERNAME");
  
-                System.out.println("tech ID : " + tech_ID);
+                System.out.println(column + ": " + data);
 		//System.out.println("username : " + username);
             }
         } catch (SQLException ex) {
