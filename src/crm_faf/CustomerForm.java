@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -42,6 +43,9 @@ public class CustomerForm  extends TransitionScene{
         private WindowTools toolbar;
         private WindowToolbar bar;
         VBox windowTopBox = new VBox();
+    
+        ResultSet myResultSet;
+        Statement myStatement;
         
         public void start(Stage primaryStage) {
 		
@@ -117,31 +121,17 @@ public class CustomerForm  extends TransitionScene{
 			
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO : Add if statement to test for each TextField
+			// TODO : Add if statement to test for each TextField
                             String fname = fnameField.getText();
-                String lname = lnameField.getText();
-                String address = addressField.getText();
-                String city = cityField.getText();
-                String state = stateField.getText();
-                String zip = zipField.getText();
-                String telephone = telephoneField.getText();
-                String email = emailField.getText();
-                Label errormsg = new Label("Fill out all");
-                
-                
-                
-                try {
-                                Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsDatabase", "root", "");
-                                Statement myStatement = myConn.createStatement();
-                                String sql = "insert into customer "
-                                        + " (cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone)"
-                                        + " values";
-                                myStatement.executeUpdate(sql);
-                                System.out.println("New Customer has been successfully added");
-                                
-                            } catch (SQLException ex) {
-                                Logger.getLogger(CustomerForm.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            String lname = lnameField.getText();
+                            String address = addressField.getText();
+                            String city = cityField.getText();
+                            String state = stateField.getText();
+                            String zip = zipField.getText();
+                            String telephone = telephoneField.getText();
+                            String email = emailField.getText();
+                            Label errormsg = new Label("Fill out all");
+             
                 
                 //Check and Validate that all fields are entered.
                 if(fname.equals("") || lname.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("") ||
@@ -192,8 +182,48 @@ public class CustomerForm  extends TransitionScene{
                         popup.show(primaryStage);
                         submitMessage.setText("Please make sure zip and telephone are both numeric values");    
                         }
+                
+                
+                //If all checks locally have passed make connection to database and make sure there
+                // is no customer with the same first and last names in the database.
+                //If there is no customer with the same first and last name then create 
+                //the new customer and insert all their information into the database.
+                        else {
+                            try {
+                              
+                                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
+                                "root", "");
+                                Statement myStatement = connection.createStatement();
+                                String checkSQL = "select * from customer"; //where cfName = '"+fname+"'clName = '"+lname+"'";
+                                       // + "cfName,clName from customer where cfName = '"+fname+"'clName = '"+lname+"'";
+                                //PreparedStatement ps = connection.preparedStatement(checkSQL);
+                                
+                                ResultSet rs = myStatement.executeQuery(checkSQL);
+                               
+                                System.out.println("YOUUUU MADEEE IT!" + fname + lname);
+                                while(rs.next()) {
+                                    System.out.println(rs.getString("cfName") + ", " + rs.getString("clName"));
+                                    if(rs.getString("cfName").equals(fname) && rs.getString("clName").equals(lname)) {
+                                        System.out.println("There is already a customer with the same first and last name");
+                                    } else {
+                                        System.out.println("Add the new customer");
+                                        
+                                        myStatement.execute("insert into customer (cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone, cEmail) "
+                                        + "values ('"+fname+"', '"+lname+"', '"+address+"', '"+city+"', '"+zip+"', '"+state+"', '"+telephone+"', '"+email+"' )");
+                                        
+                                        System.out.println("Successfully added customer!");
+                                    }
+                                    
+                                } 
+                               
+                            } catch (SQLException ex) {
+                                Logger.getLogger(CustomerForm.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                         
+                        }
+                
                     }
-		});
+            });
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();

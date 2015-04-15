@@ -12,6 +12,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -53,10 +54,10 @@ public class UsercreationTest {
 
     @Test
     public void testSomeMethod() {
-        System.out.println("start");
-        Stage primaryStage = null;
-        CreateUser instance = new CreateUser();
-        Scene start = instance.start(primaryStage);
+//        System.out.println("start");
+//        Stage primaryStage = null;
+//        CreateUser instance = new CreateUser();
+//        Scene start = instance.start(primaryStage);
         
     }
     @Test
@@ -78,8 +79,16 @@ public class UsercreationTest {
         
         CreateUser instance = new CreateUser();
         Stage Stage = null;
+        Stage primaryStage = null;
+        
+        GridPane grid = new GridPane();
+        Scene scene = new Scene(grid, 300, 275);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+        
        
-        instance.start(Stage);
+        instance.start(primaryStage);
         Data.DbConnection connection = new Data.DbConnection();
         connection.connect();
         TextField ubox = new TextField();

@@ -58,11 +58,11 @@ public class StatusWidget extends Updateable {
                 notesColumn, importanceColumn);
  
     }
-    private void update(WidgetEntry wEntry) {
+    public void update(WidgetEntry wEntry) {
         entries.add(wEntry);
        
     }
-    private void updateAll(ArrayList<WidgetEntry> wEntries) {
+    public void updateAll(ArrayList<WidgetEntry> wEntries) {
         entries.addAll(wEntries);
     }
     public  TableView getTable() {

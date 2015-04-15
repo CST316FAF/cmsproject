@@ -261,7 +261,17 @@ public class LoginScreen extends Application {
     public boolean Buttons(){
         
         btn.setDefaultButton(true);
-        btn.setOnAction((ActionEvent e) -> {
+        btn.setOnAction(login());
+        
+        createAcct.setOnAction((ActionEvent e) -> {
+            
+            primaryStage.setScene(new CreateUser().start(primaryStage));
+        });
+
+        return true;
+    }
+    private EventHandler<ActionEvent> login() {
+        return (ActionEvent event) -> {
             if(connection.login(userTextField.getText(), pwBox.getText())){
                 primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
             }
@@ -270,14 +280,6 @@ public class LoginScreen extends Application {
                 message.setTextFill(Color.rgb(21, 39, 30));
                 System.out.println("Invalid Username or Password");
             }
-           // primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
-        });
-        
-        createAcct.setOnAction((ActionEvent e) -> {
-            
-            primaryStage.setScene(new CreateUser().start(primaryStage));
-        });
-
-        return true;
+        };
     }
 }

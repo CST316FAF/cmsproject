@@ -42,17 +42,12 @@ public class DataCreator {
         }
         return locs;
     }
-    private int randomInt() {
-        return (int)(Math.random() * 1234);
-    }
     
     private ArrayList<MonthData> createMonthData() {
         ArrayList<MonthData> months = new ArrayList<MonthData>();
         int year = 2014;
         for(int x = 0; x < 12; x++) {
-            if(x > 11) {
                 year++;
-            }
             months.add(new MonthData(new Month(x + 1, year), (int)(Math.random() * 42)));
         }
         return months;
