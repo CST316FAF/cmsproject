@@ -41,6 +41,7 @@ public class StatusPage extends TransitionScene {
         private GridPane pane;
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
+                this.toolbar = tBar;
 		this.primaryStage = primaryStage;
                 setup();
                 //AppointmentNotifications notify = new AppointmentNotifications();
