@@ -93,7 +93,7 @@ public class StatusPage extends TransitionScene {
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
 		
-		TableView table = new TableView();
+		table = new TableView();
 		table.setPrefHeight(500);
                 table.setEditable(true);
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
@@ -124,30 +124,29 @@ public class StatusPage extends TransitionScene {
         }
         public void update() throws Exception {
             DbConnection db = new DbConnection();
-            db.connect();
-            ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
-            ResultSet TypeResults = db.selectDataColumn("technician", "type", "1");
-            ResultSet AppointmentResults = db.selectDataColumn("technician", "Appointment", "1");
-            ArrayList<String> list = new ArrayList<String>();
-            try{
-                System.out.println(locResults.first());
-                System.out.printf(locResults.getCharacterStream("Location").getClass().toString());
-            }catch(Exception e){System.out.println("1fail");};
             
-            try{
-            //AppointmentResults.getDate("Appointment");
-            }catch(Exception e){System.out.println("2fail");};
-            
-            System.out.println(AppointmentResults.getDate("Appointment"));
-//            while (locResults.next() ) { 
-//               list.add(locResults.getString("Location"));
-//               StatusEntry entry = new StatusEntry(locResults.getString("Location"), 
-//                       ("" + IdResults.getInt("techID")), TypeResults.getString("Type"), 
-//                       AppointmentResults.getString("Appointment"));
-//            } 
-            System.out.print(locResults.toString());
-           // for(int x = 0; x <)
-           // entryData.addAll(data);
+            try {
+                db.connect();
+                ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
+                ResultSet typeResults = db.selectDataColumn("technician", "type", "1");
+                ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment", "1");
+                List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
+                    while(locResults.next() && typeResults.next() && appointmentResults.next()) {
+                        System.out.println(locResults.getString(1));
+                        System.out.println(typeResults.getString(1));
+                        System.out.println(appointmentResults.getDate(1));
+                        System.out.println("Need to change back" + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
+                        StatusEntry entry = new StatusEntry("Need to change back", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
+                        System.out.println("entry" + entry.toString());
+                        entryUpdate.add(entry);
+                    }
+                entries.removeAll(entries);
+                entries.addAll(entryUpdate);
+                table.setItems(entries);
+                System.out.println(entries.size());
+                table.autosize();
+                }catch(Exception e){System.out.println("1fail");};
+      
         }
 	
 }
