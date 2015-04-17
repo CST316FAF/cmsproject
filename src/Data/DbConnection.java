@@ -27,7 +27,7 @@ public class DbConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb1",
                   "root", "");
             System.out.println("Connected!");
 
@@ -51,11 +51,9 @@ public class DbConnection {
         ResultSet results = null;
         try {
             System.out.println("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
+                    + " FROM " + table + " WHERE userID = \"" + identifier + "\"");
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
-            //String query = "SELECT \"" + column 
-            //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
+                    + " FROM " + table + " WHERE userID = \"" + identifier + "\"");
             System.out.println(statement + column);
             results = statement.executeQuery();
             //if(!results.isBeforeFirst()) {
