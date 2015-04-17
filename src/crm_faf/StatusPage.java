@@ -144,6 +144,7 @@ public class StatusPage extends TransitionScene {
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
                 System.out.println(entries.size());
+                table.setMinHeight(200.5);
                 table.autosize();
                 }catch(Exception e){System.out.println("1fail");};
       
