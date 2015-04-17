@@ -27,11 +27,8 @@ public class DbConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
-                  "root", "");
-            System.out.println("Connected!");
-
-        } 
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb");
+        }
         catch (ClassNotFoundException e) {
               System.out.println("no connection driver found");
               System.out.println(e);
@@ -51,25 +48,12 @@ public class DbConnection {
         ResultSet results = null;
         try {
             System.out.println("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
+                    + " FROM " + table + " WHERE userID = \"" + identifier + "\"");
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
-            //String query = "SELECT \"" + column 
-            //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
+                    + " FROM " + table + " WHERE userID = \"" + identifier + "\"");
             System.out.println(statement + column);
             results = statement.executeQuery();
-            //if(!results.isBeforeFirst()) {
-             //   System.out.println("no Data");
-           // 
-            /*
-            while (results.next()){
-                String data = results.getString(1);
-                //String username = results.getString("USERNAME");
- 
-                System.out.println(column + ": " + data);
-		//System.out.println("username : " + username);
-            }
-            */
+
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
