@@ -8,7 +8,6 @@
     <property name="lib.dir" value="dist/lib"/>
     <property name="src.test" location="test"/>
     <property name="junit.results" value="report/junit"/>
-    <property name="clover.jar" location="dist/lib/clover.jar"/>
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="distro.dir" value="${build.dir}/distro"/>
@@ -19,17 +18,24 @@
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
     </path>
 	
-    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
-    <target name="init" depends="clean">
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${distro.dir}"/>
-    </target>
 	
     <target name="clean">
         <delete dir="${build.dir}"/>
 		<delete dir="${report.pmd.dir}"/>
 		<delete dir="${report.findbugs.dir}"/>
+		<delete dir="${junit.results}"/>
     </target>
+	
+    <target name="init" depends="clean">
+		<mkdir dir="${junit.results}"/>
+		<mkdir dir="${build.dir}/distro" />
+        <mkdir dir="${build.dir}"/>
+		<mkdir dir="${report.pmd.dir}"/>
+		<mkdir dir="${report.findbugs.dir}"/>
+		<mkdir dir="${report.pmd.dir}" />
+		<mkdir dir="${classes.dir}" />
+    </target>
+	
 	
     <target name="compile" depends="init, pmd">
         <javac encoding="utf-8" debug="on" destdir="${build.dir}" includeantruntime="true" compiler="javac1.8">
@@ -39,22 +45,7 @@
         </javac>
     </target>
 	
-    <target name="jar" depends="compile">
-        <path id="fxant">
-            <filelist>
-                <file name="${java.home}\..\lib\ant-javafx.jar"/>
-                <file name="${java.home}\lib\jfxrt.jar"/>
-            </filelist>
-        </path>
-        <fx:jar destfile="${distro.dir}/${app.name}.jar" verbose="true">
-            <fx:application mainClass="${main.class}"/>
-            <fileset dir="${classes.dir}/">
-                <include name="**"/>
-            </fileset>
-        </fx:jar>
-    </target>
-	
-    <target name="init-fx-tasks" depends="init,clean,compile,test,findbugs">
+    <target name="init-fx-tasks" depends="init,clean,compile,findbugs">
         <path id="fxant">
             <filelist>
                 <file name="${java.home}\..\lib\ant-javafx.jar"/>
@@ -69,17 +60,24 @@
             <fx:application name="${app.title}" mainClass="${main.class}"/>
             <fx:resources>
                 <fx:fileset dir="${lib.dir}" includes="*.jar"/>
-                <fx:fileset dir="${distro.dir}" includes="*.jar"/>
-                <fx:fileset dir="${lib.dir}" includes="*.dll"/>
             </fx:resources>
         </fx:deploy>
+		
+		<fx:jar destfile="${distro.dir}/${app.name}.jar" verbose="true"> 
+            <fx:application mainClass="${main.class}"/>
+            <fileset dir="${lib.dir}">
+                <include name="**"/>
+            </fileset>
+        </fx:jar>
+		<antcall target="test"/>
     </target>
 	
-    <target name="test" depends="compile" description="Run unit tests">
-        <delete dir="${junit.results}"/>
-        <mkdir dir="${junit.results}"/>
-        <junit fork="no" errorProperty="test.failed" failureProperty="test.failed" >
-            <classpath refid="classpath" />
+    <target name="test">
+        <junit fork="true"  haltonfailure="false">
+			<classpath>
+				<pathelement location="${build.dir}" />
+				<fileset dir="${lib.dir}" includes="**/*.jar"/>
+			</classpath>
             <formatter type="plain" usefile="false"/>
             <formatter type="xml"/>
             <batchtest todir="${junit.results}">
@@ -100,7 +98,6 @@
 	
 	<target name="pmd">
 		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="classpath"/>
-        <mkdir dir="${report.pmd.dir}" />
         <pmd rulesetfiles="rulesets/favorites.xml">
             <formatter type="xml" toFile="${report.pmd.dir}/pmd_report.xml" />
             <fileset dir="${src.dir}">

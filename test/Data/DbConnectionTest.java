@@ -48,8 +48,8 @@ public class DbConnectionTest {
     public void testConnect() throws Exception {
         System.out.println("connect");
         DbConnection instance2 = new DbConnection();
-        instance.connect();
-        fail("The test case is a prototype.");
+
+        assertTrue(instance2.connect());
     }
 
     /**
@@ -64,7 +64,7 @@ public class DbConnectionTest {
         instance = new DbConnection();
         ResultSet expResult = null;
         ResultSet result = instance.selectDataColumn(table, column, identifier);
-        assertEquals(expResult, result);
+        assertNotEquals(expResult, result);
     }
 
     /**

@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -21,35 +20,30 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import org.jfree.data.time.Month;
 
 
 public class WindowToolbar extends MenuBar {
-    UpdateManager manager = new UpdateManager();
-    WindowTools bar;
+    private UpdateManager manager = new UpdateManager();
+    private WindowTools bar;
+    private Month startDate;
+    private Month endDate;
     
-    Month startDate;
-    Month endDate;
-    Chart active;
-    
-    Menu fileMenu = new Menu("File");
-    Menu UserMenu = new Menu("User");
-    Menu customerMenu = new Menu("Customer");
-    Menu settingsMenu = new Menu("Settings");
-    Menu chartMenu = new Menu("Chart");
-    Menu technicianMenu = new Menu("Technician");
+    private Menu fileMenu = new Menu("File");
+    private Menu UserMenu = new Menu("User");
+    private Menu customerMenu = new Menu("Customer");
+    private Menu settingsMenu = new Menu("Settings");
+    private Menu chartMenu = new Menu("Chart");
+    private Menu technicianMenu = new Menu("Technician");
     /*
     *I plan to change way graph is used
     */
-    Canvas gLine;
-    Canvas gPie;
-    Canvas gBar;
-    Scene scene;
-    Stage stage;
-    Scene last;
+    private Canvas gLine;
+    private Canvas gPie;
+    private Canvas gBar;
+    private Scene scene;
+    private Stage stage;
     
     public WindowToolbar() {
     // for testing purposes   
@@ -114,7 +108,6 @@ public class WindowToolbar extends MenuBar {
     private void setChartMenu() {
         Menu gChoices = new Menu("Graph Type");
         Menu dateChoices = new Menu("Date");
-        MenuItem AreaCode = new MenuItem("Area Code");
 
         //creating graph toggles
         final ToggleGroup graphChoices = new ToggleGroup();
@@ -134,8 +127,6 @@ public class WindowToolbar extends MenuBar {
         RadioMenuItem noGraph = new RadioMenuItem("None");
         pieGraph.setOnAction(emptySwitch());
         pieGraph.setToggleGroup(graphChoices);
-        
-        final ToggleGroup dateToggle = new ToggleGroup();
         
         RadioMenuItem startItem = new RadioMenuItem("Start Date");
         startItem.setOnAction(startSwitch());
@@ -260,7 +251,7 @@ public class WindowToolbar extends MenuBar {
             for(int x = 0; x < 12; x++) {
                 
                 if(monthChoices.getSelectedToggle().equals(months[x])) {
-                    setMonth(m, x);
+                    //broken
                 }
             }
         });
@@ -269,16 +260,11 @@ public class WindowToolbar extends MenuBar {
             final int y = x;
             months[x].setToggleGroup(monthChoices);
         }
-        RadioButton fif = new RadioButton("2015");
         popup.setX(300);
         popup.setY(400);
             
     
     }
-     
-   private void setMonth(Month m, int x) {
-        m = new Month(0, x);
-    }   
 
     void setToolbar(WindowTools bar) {
         this.bar = bar;
