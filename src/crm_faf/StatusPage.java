@@ -5,7 +5,6 @@ import Data.DbConnection;
 import Data.Location;
 import DataCharts.Chart;
 import java.util.ArrayList;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -18,8 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.control.ScrollPane;
-import com.zenjava.jfxflow.actvity.AbstractActivity;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -130,13 +127,16 @@ public class StatusPage extends TransitionScene {
                 ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
                 ResultSet typeResults = db.selectDataColumn("technician", "type", "1");
                 ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment", "1");
+                ResultSet techIDResults = db.selectDataColumn("technician", "TechID", "1");
+                
                 List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
-                    while(locResults.next() && typeResults.next() && appointmentResults.next()) {
+                    while(locResults.next() && typeResults.next() && appointmentResults.next()
+                                && techIDResults.next()) {
                         System.out.println(locResults.getString(1));
                         System.out.println(typeResults.getString(1));
                         System.out.println(appointmentResults.getDate(1));
-                        System.out.println("Need to change back" + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
-                        StatusEntry entry = new StatusEntry("Need to change back", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
+                        System.out.println(techIDResults.getInt(1) + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
+                        StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
                         System.out.println("entry" + entry.toString());
                         entryUpdate.add(entry);
                     }

@@ -27,8 +27,11 @@ public class DbConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb");
-        }
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb1",
+                  "root", "");
+            System.out.println("Connected!");
+
+        } 
         catch (ClassNotFoundException e) {
               System.out.println("no connection driver found");
               System.out.println(e);
@@ -53,7 +56,18 @@ public class DbConnection {
                     + " FROM " + table + " WHERE userID = \"" + identifier + "\"");
             System.out.println(statement + column);
             results = statement.executeQuery();
-
+            //if(!results.isBeforeFirst()) {
+             //   System.out.println("no Data");
+           // 
+            /*
+            while (results.next()){
+                String data = results.getString(1);
+                //String username = results.getString("USERNAME");
+ 
+                System.out.println(column + ": " + data);
+		//System.out.println("username : " + username);
+            }
+            */
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
