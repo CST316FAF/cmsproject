@@ -39,6 +39,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
 
 import java.sql.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 /**
@@ -50,6 +53,7 @@ public class StatusNotes extends Application
     
     Button saveButton = new Button();
     Button addNoteButton = new Button();
+    Button deleteNoteButton = new Button();
     
     public HBox addHBox() {
         
@@ -62,6 +66,8 @@ public class StatusNotes extends Application
         saveButton.setText("Save Note");
         Button addNoteButton = this.addNoteButton;
         addNoteButton.setText("Add New Note");
+        Button deleteNoteButton = this.deleteNoteButton;
+        deleteNoteButton.setText("Delete Note");
         
         addNoteButton.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -74,14 +80,14 @@ public class StatusNotes extends Application
         //saveButton.setOnAction(this);
         //addNoteButton.setOnAction(this);
         
-        hbox.getChildren().addAll(saveButton, addNoteButton);
+        hbox.getChildren().addAll(saveButton, addNoteButton, deleteNoteButton);
         
         return hbox;
         
     }
     
-    Hyperlink options[] = new Hyperlink[0];
-    ArrayList<String> text = new ArrayList<>();
+    ListView<String> notesList = new ListView<String>();
+    ObservableList<String> notesItems = FXCollections.observableArrayList();
     
     public VBox addLeftVBox() {
         
@@ -92,36 +98,32 @@ public class StatusNotes extends Application
         Text title = new Text("Status Notes");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
-        
-        Hyperlink options[] = new Hyperlink[] {
-            new Hyperlink("New Note")
-        };
-        
-        ArrayList<String> text = this.text;
-        text.add("Hello");
-        
-        
-        int listLength = options.length;
-        for (int i = 0; i < listLength; i++) {
-            VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
-            vbox.getChildren().add(options[i]);
-        }
-        
+    
+        notesItems = this.notesItems;
+        notesItems = FXCollections.observableArrayList(
+        "Notes", "2nd Note");
+        notesList.setItems(notesItems);
+        notesList.setPrefSize(100, 600);
+        vbox.getChildren().add(notesList);
         
         return vbox;
         
     }
     
+    TextField techNameField = new TextField();
+    TextField notesTitleField = new TextField();
+    TextField notesArea = new TextField();
+    
     public VBox addRightVBox() {
         VBox vbox = new VBox();
-        TextField noteTitleField = new TextField();
-        noteTitleField.setPromptText("Enter note title here..");
         
-        TextArea notesArea = new TextArea();
+        techNameField.setPromptText("Enter Technician Name here..");
+        techNameField.setPrefWidth(20);
+        notesTitleField.setPromptText("Enter note title here..");
         notesArea.setPromptText("Enter your note here...");
         notesArea.setPrefSize(300, 460);
         
-        vbox.getChildren().addAll(noteTitleField, notesArea);
+        vbox.getChildren().addAll(techNameField,notesTitleField, notesArea);
         
         return vbox;
     }
@@ -148,9 +150,28 @@ public class StatusNotes extends Application
             
             @Override
             public void handle(ActionEvent event) {
-                
-                
-                System.out.println("Save!");
+                if(notesArea.getText() == "" || notesTitleField.getText() == "") {
+                	//TODO: Add a message dialgo to notify user that the title field and notes are cannot be left blank
+                	System.out.println("Please fill in both title notes text field and the notes area text field.");
+                } else {
+            	notesItems.add(notesTitleField.getText());
+            	try{
+            		System.out.println("Connect");
+            	// 1. Get a connection to database
+                Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+                System.out.println("2nd");
+                // 2. Create a statement
+                Statement myStatement = myConn.createStatement();
+                System.out.println("3rd");
+                // 3. Execute SQL query
+                myStatement.execute("insert into statusnotes (notetitle, notecontent, technician) "
+                        + "values ('"+notesTitleField.getText()+"', '"+notesArea.getText()+"', '"+techNameField.getText()+"')");
+               
+                System.out.println("Saved Note!");
+            	} catch (Exception e) {
+            		
+            	}
+                }
             }
             
         });
@@ -160,13 +181,38 @@ public class StatusNotes extends Application
             @Override
             public void handle(ActionEvent event) {
                 
-                
+                techNameField.clear();
+                notesTitleField.clear();
+                notesArea.clear();
                 System.out.println("New Note!");
                 
             }
             
             
         });
+        
+        deleteNoteButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				final int selectedIdx = notesList.getSelectionModel().getSelectedIndex();
+		        if (selectedIdx != -1) {
+		          String itemToRemove = notesList.getSelectionModel().getSelectedItem();
+		 
+		          final int newSelectedIdx =
+		            (selectedIdx == notesList.getItems().size() - 1)
+		               ? selectedIdx - 1
+		               : selectedIdx;
+		 
+		          notesList.getItems().remove(selectedIdx);
+		          //status.setText("Removed " + itemToRemove);
+		          notesList.getSelectionModel().select(newSelectedIdx);
+		        } else {
+		        	System.out.println("Did Not Remove ..");
+		        }
+			}
+		});
         
         
         Scene scene = new Scene(root,400,460);
@@ -181,7 +227,7 @@ public class StatusNotes extends Application
         
         try {
             // 1. Get a connection to database
-            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsDatabase", "root", "");
+            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
             
             // 2. Create a statement
             Statement myStatement = myConn.createStatement();
