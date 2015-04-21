@@ -73,7 +73,7 @@ public class StatusPage extends TransitionScene {
                 pieGraph.getCanvas(locs, "line");
 
                 pane2 = new BorderPane();
-                scene = new Scene(pane2, 1200, 740);
+                scene = new Scene(pane2, 1400, 740);
 		
                 VBox windowTopBox = new VBox();
                 
@@ -94,31 +94,53 @@ public class StatusPage extends TransitionScene {
 		table = new TableView();
 		table.setPrefHeight(500);
                 table.setEditable(true);
+                
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
                 employeeIDColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("ID"));
-		employeeIDColumn.setPrefWidth(200);
-                TableColumn employeeNameColumn = new TableColumn("Employee Name");
-                employeeNameColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Name"));
-		employeeNameColumn.setPrefWidth(200);
+		employeeIDColumn.setPrefWidth(100);
+                
+                TableColumn employeeFirstNameColumn = new TableColumn("Employee First Name");
+                employeeFirstNameColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("FirstName"));
+		employeeFirstNameColumn.setPrefWidth(150);
+                
+                TableColumn employeeLastNameColumn = new TableColumn("Employee Last Name");
+                employeeLastNameColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("LastName"));
+		employeeLastNameColumn.setPrefWidth(150);
+                
 		TableColumn locationColumn = new TableColumn("Current Location");
-		locationColumn.setPrefWidth(200);
                 locationColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Location"));                
-		TableColumn typeOfWorkColumn = new TableColumn("Work being Performed");
-		typeOfWorkColumn.setPrefWidth(200);
+                    new PropertyValueFactory<WidgetEntry,String>("Location"));
+                locationColumn.setPrefWidth(200);
+                
+		TableColumn typeOfWorkColumn = new TableColumn("Type of Work");
                 typeOfWorkColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Type")); 
-		TableColumn nextAppointmentColumn = new TableColumn("Next Appointment Time");
-		nextAppointmentColumn.setPrefWidth(200);
-                nextAppointmentColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
-		table.getColumns().addAll(employeeIDColumn, employeeNameColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
+                    new PropertyValueFactory<WidgetEntry,String>("Type"));
+                typeOfWorkColumn.setPrefWidth(100);
+                
+                TableColumn nextAppointmentDateColumn = new TableColumn("Next Appointment Date");
+                nextAppointmentDateColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("AppointmentDate"));  
+                nextAppointmentDateColumn.setPrefWidth(180);
+                
+		TableColumn nextAppointmentTimeColumn = new TableColumn("Next Appointment Time");
+                nextAppointmentTimeColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("AppointmentTime"));  
+                nextAppointmentTimeColumn.setPrefWidth(180);
+                
+                TableColumn nextAppointmentLocationColumn = new TableColumn("Next Appointment Location");
+                nextAppointmentLocationColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("AppointmentLocation"));  
+                nextAppointmentLocationColumn.setPrefWidth(230);
+                
+		table.getColumns().addAll(employeeIDColumn, employeeFirstNameColumn, employeeLastNameColumn, 
+                        locationColumn, typeOfWorkColumn, nextAppointmentDateColumn, nextAppointmentTimeColumn, nextAppointmentLocationColumn);
 		
                 
                 final VBox vbox = new VBox();
-		vbox.setPrefWidth(1000);
+		vbox.setPrefWidth(1300);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
 		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
