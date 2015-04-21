@@ -85,6 +85,9 @@ public class WindowToolbar extends MenuBar {
         statusNotes.setOnAction(goToStatusNotes());
         UserMenu.getItems().add(statusNotes);
                
+        MenuItem statusPage = new MenuItem("Status Page");
+        statusPage.setOnAction(goToStatus());
+        UserMenu.getItems().add(statusPage);
         
         //add technician scene link
         
