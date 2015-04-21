@@ -8,7 +8,6 @@ package crm_faf;
 import Data.DataCreator;
 import Data.Location;
 import DataCharts.Chart;
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -32,12 +31,8 @@ import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
 import java.sql.Savepoint;
 import java.util.prefs.Preferences;
-
 import javafx.event.Event;
 import javafx.event.EventHandler;
-
-import javafx.scene.control.Hyperlink;
-
 import java.sql.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -282,8 +277,8 @@ public class StatusNotes extends Application
 		               : selectedIdx;
 		          System.out.println(notesList.getItems().get(selectedIdx));
 		          try{
-		        	  // 1. Get a connection to database
-		        	  Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+                              // 1. Get a connection to database
+                              Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
 		                
 		              // 2. Create a statement
 		              Statement myStatement = myConn.createStatement();
