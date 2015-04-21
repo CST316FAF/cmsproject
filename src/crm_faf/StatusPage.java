@@ -24,7 +24,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 
 public class StatusPage extends TransitionScene {
@@ -110,10 +116,10 @@ public class StatusPage extends TransitionScene {
                     new PropertyValueFactory<WidgetEntry,String>("LastName"));
 		employeeLastNameColumn.setPrefWidth(150);
                 
-		TableColumn locationColumn = new TableColumn("Current Location");
-                locationColumn.setCellValueFactory(
+		TableColumn currentLocationColumn = new TableColumn("Current Location");
+                currentLocationColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("Location"));
-                locationColumn.setPrefWidth(200);
+                currentLocationColumn.setPrefWidth(200);
                 
 		TableColumn typeOfWorkColumn = new TableColumn("Type of Work");
                 typeOfWorkColumn.setCellValueFactory(
@@ -136,15 +142,73 @@ public class StatusPage extends TransitionScene {
                 nextAppointmentLocationColumn.setPrefWidth(230);
                 
 		table.getColumns().addAll(employeeIDColumn, employeeFirstNameColumn, employeeLastNameColumn, 
-                        locationColumn, typeOfWorkColumn, nextAppointmentDateColumn, nextAppointmentTimeColumn, nextAppointmentLocationColumn);
+                        currentLocationColumn, typeOfWorkColumn, nextAppointmentDateColumn, nextAppointmentTimeColumn, nextAppointmentLocationColumn);
 		
+                HBox hbox = new HBox();
+                final TextField employeeFirstNameField = new TextField();
+                employeeFirstNameField.setPromptText("Employee First Name");
+                employeeFirstNameField.setMaxWidth(employeeFirstNameColumn.getPrefWidth());
+                
+                final TextField employeeLastNameField = new TextField();
+                employeeLastNameField.setPromptText("Employee Last Name");
+                employeeLastNameField.setMaxWidth(employeeLastNameColumn.getPrefWidth());
+                
+                final TextField currentLocationField = new TextField();
+                currentLocationField.setPromptText("Current Location");
+                currentLocationField.setPrefWidth(250);
+                
+                final TextField typeOfWorkField = new TextField();
+                typeOfWorkField.setPromptText("Type of Work");
+                typeOfWorkField.setMaxWidth(employeeFirstNameColumn.getPrefWidth());
+                
+                final DatePicker nextAppointmentDatePicker = new DatePicker();
+                nextAppointmentDatePicker.setPromptText("Next Appointment Date");
+                nextAppointmentDatePicker.setPrefWidth(190);
+                
+                final TextField nextAppointmentTimeField = new TextField();
+                nextAppointmentTimeField.setPromptText("Next Appointment Time");
+                nextAppointmentTimeField.setMaxWidth(nextAppointmentTimeColumn.getPrefWidth());
+                
+                final TextField nextAppointmentLocationField = new TextField();
+                nextAppointmentLocationField.setPromptText("Next Appointment Location");
+                nextAppointmentLocationField.setPrefWidth(250);
+                
+                hbox.getChildren().addAll(employeeFirstNameField, employeeLastNameField, currentLocationField,
+                        typeOfWorkField, nextAppointmentDatePicker, nextAppointmentTimeField, nextAppointmentLocationField);
+                
+                Button addNewStatusButton = new Button();
+                addNewStatusButton.setText("Add New Status");
+                addNewStatusButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        
+                    }
+                });
+                
+                Button clearButton = new Button();
+                clearButton.setText("Clear Fields");
+                clearButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        employeeFirstNameField.clear();
+                        employeeLastNameField.clear();;
+                        currentLocationField.clear();
+                        typeOfWorkField.clear();
+                        
+                        nextAppointmentTimeField.clear();
+                        nextAppointmentLocationField.clear();
+                    }
+                });
                 
                 final VBox vbox = new VBox();
 		vbox.setPrefWidth(1300);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(addNewStatusButton, clearButton, hbox, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);   
+                
         }
         public void update() throws Exception {
             DbConnection db = new DbConnection();
