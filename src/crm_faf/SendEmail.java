@@ -20,7 +20,6 @@ import javafx.application.Application;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 
 
 /**
@@ -29,74 +28,55 @@ import javax.activation.*;
  */
 public class SendEmail extends Application {
     
-    Button sendButton = new Button();
-    
-    public HBox addHBox() {
-        
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
-        hbox.setStyle("-fx-background-color: #00FF00;");
-        
-        Button sendButton = this.sendButton;
-        sendButton.setText("Send Email");
-       
-        hbox.getChildren().addAll(sendButton);
-        
-        return hbox;
-        
-    }
+//    Button sendButton = new Button();
+//    
+//    public HBox addHBox() {
+//        
+//        HBox hbox = new HBox();
+//        hbox.setPadding(new Insets(15, 12, 15, 12));
+//        hbox.setSpacing(10);
+//        hbox.setStyle("-fx-background-color: #00FF00;");
+//        
+//        Button sendButton = this.sendButton;
+//        sendButton.setText("Send Email");
+//       
+//        hbox.getChildren().addAll(sendButton);
+//        
+//        return hbox;
+//    }
 
-    ArrayList<String> text = new ArrayList<>();   
+    //ArrayList<String> text = new ArrayList<>();   
     
-    public VBox addcenterVBox() {
-        VBox vbox = new VBox();
-        
-        TextField recipients = new TextField();
-        recipients.setPromptText("Enter Email Recipients");
-        
-        TextField subject = new TextField();
-        subject.setPromptText("Enter Subject of Email");
-        
-        TextArea content = new TextArea();
-        content.setPromptText("Enter Content of Email");
-        content.setPrefSize(300, 460);
-        
-        vbox.getChildren().addAll(recipients, subject, content);
-        
-        return vbox;
-    }
-    
-    private Session session1;
-    public synchronized void sendMail(String subject, String body, String sender, String recipients) 
-            throws Exception {   
-        try{
-        MimeMessage message = new MimeMessage(session1);   
-        //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
-        message.setSender(new InternetAddress(sender));   
-        message.setSubject(subject);   
-        //message.setDataHandler(handler);   
-        if (recipients.indexOf(',') > 0)   
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
-        else  
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
-        Transport.send(message);   
-        }catch(Exception e){
+//    public VBox addcenterVBox() {
+//        VBox vbox = new VBox();
+//        
+//        TextField recipients = new TextField();
+//        recipients.setPromptText("Enter Email Recipients");
+//        
+//        TextField subject = new TextField();
+//        subject.setPromptText("Enter Subject of Email");
+//        
+//        TextArea content = new TextArea();
+//        content.setPromptText("Enter Content of Email");
+//        content.setPrefSize(300, 460);
+//        
+//        vbox.getChildren().addAll(recipients, subject, content);
+//        
+//        return vbox;
+//    }
 
-        }
-    } 
-    Stage primaryStage = new Stage();
+    //Stage primaryStage = new Stage();
     
     @Override
     public void start(Stage primaryStage) {
-        primaryStage = this.primaryStage;
-        primaryStage.setTitle("Send Email");
-        BorderPane root = new BorderPane();
-        HBox hbox = addHBox();
-        VBox center = addcenterVBox();
+        //primaryStage = this.primaryStage;
+        //primaryStage.setTitle("Send Email");
+        //BorderPane root = new BorderPane();
+        //HBox hbox = addHBox();
+        //VBox center = addcenterVBox();
         
-        root.setBottom(hbox);
-        root.setCenter(center);
+        //root.setBottom(hbox);
+        //root.setCenter(center);
         
       String to = "failedandfurious@gmail.com";
       String from = "failedandfurious@gmail.com";
@@ -108,15 +88,16 @@ public class SendEmail extends Application {
 
       properties.put("mail.smtp.auth", "true");
       properties.put("mail.smtp.starttls.enable", "true");
-      properties.put("mail.smtp.host", "imap.gmail.com");
-      properties.put("mail.smtp.port", "587");
+      properties.put("mail.smtp.host", "smtp.asu.edu");
+      properties.put("mail.smtp.port", "25");
 
       properties.setProperty("mail.user", username);
       properties.setProperty("mail.password", password);
 
-      Session session = Session.getDefaultInstance(properties,
+      Session session = Session.getInstance(properties,
       
         new javax.mail.Authenticator() {
+            @Override
               protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
               }
@@ -124,10 +105,10 @@ public class SendEmail extends Application {
                       
         );
         
-        sendButton.setOnAction(new EventHandler<ActionEvent>() {
+        //sendButton.setOnAction(new EventHandler<ActionEvent>() {
             
-            @Override
-            public void handle(ActionEvent event) {
+            //@Override
+            //public void handle(ActionEvent event) {
                 try {
                     
                     MimeMessage message = new MimeMessage(session);
@@ -144,16 +125,14 @@ public class SendEmail extends Application {
                 } catch (MessagingException e) {
                 throw new RuntimeException(e);
                 }
-                System.out.println("Message Delivered!");
+                //System.out.println("Message Delivered!");
 
             }    
 
-        });        
+        //});        
         
-        Scene scene = new Scene(root, 400, 460);
+        //Scene scene = new Scene(root, 400, 460);
         
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        
+        //primaryStage.setScene(scene);
+        //primaryStage.show();      
     }
-}
