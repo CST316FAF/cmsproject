@@ -40,8 +40,9 @@ public class AppointmentNotificationsTest {
     /**
      * Test of emailNotify method, of class AppointmentNotifications.
      * 
-     *  Blackbox test
+     *
      */
+
     @Test
     public void testEmailNotify() {
         System.out.println("emailNotify");

@@ -5,27 +5,29 @@
  */
 package crm_faf;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
-import javax.swing.*;
+import javafx.application.Application;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
 
 /**
  *
  * @author kunaalgodiwala
  */
-public class SendEmail extends Application
-{
+public class SendEmail extends Application {
     
     Button sendButton = new Button();
     
@@ -38,29 +40,17 @@ public class SendEmail extends Application
         
         Button sendButton = this.sendButton;
         sendButton.setText("Send Email");
-        
-        sendButton.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                
-            }
-            
-        });
-        
+       
         hbox.getChildren().addAll(sendButton);
         
         return hbox;
         
     }
 
-    ArrayList<String> text = new ArrayList<>();
-    
+    ArrayList<String> text = new ArrayList<>();   
     
     public VBox addcenterVBox() {
         VBox vbox = new VBox();
-        TextField sender = new TextField();
-        sender.setPromptText("Enter Email Sender");
         
         TextField recipients = new TextField();
         recipients.setPromptText("Enter Email Recipients");
@@ -72,14 +62,29 @@ public class SendEmail extends Application
         content.setPromptText("Enter Content of Email");
         content.setPrefSize(300, 460);
         
-        vbox.getChildren().addAll(sender, recipients, subject, content);
+        vbox.getChildren().addAll(recipients, subject, content);
         
         return vbox;
     }
     
+    private Session session1;
+    public synchronized void sendMail(String subject, String body, String sender, String recipients) 
+            throws Exception {   
+        try{
+        MimeMessage message = new MimeMessage(session1);   
+        //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
+        message.setSender(new InternetAddress(sender));   
+        message.setSubject(subject);   
+        //message.setDataHandler(handler);   
+        if (recipients.indexOf(',') > 0)   
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
+        else  
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
+        Transport.send(message);   
+        }catch(Exception e){
 
-    
-    
+        }
+    } 
     Stage primaryStage = new Stage();
     
     @Override
@@ -93,18 +98,57 @@ public class SendEmail extends Application
         root.setBottom(hbox);
         root.setCenter(center);
         
+      String to = "failedandfurious@gmail.com";
+      String from = "failedandfurious@gmail.com";
+      final String username = "failedandfurious@gmail.com";
+      final String password = "FailedFurious";
+      String subject = "Reminder of Upcoming Appointment";
+
+      Properties properties = System.getProperties();
+
+      properties.put("mail.smtp.auth", "true");
+      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.smtp.host", "imap.gmail.com");
+      properties.put("mail.smtp.port", "587");
+
+      properties.setProperty("mail.user", username);
+      properties.setProperty("mail.password", password);
+
+      Session session = Session.getDefaultInstance(properties,
+      
+        new javax.mail.Authenticator() {
+              protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+              }
+        }
+                      
+        );
+        
         sendButton.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
-                
-                //JOptionPane.showMessageDialog(null, "Email Sent");
+                try {
+                    
+                    MimeMessage message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress(from));
+                    message.setRecipients(Message.RecipientType.TO,
+                            InternetAddress.parse(to));
+                    message.setSubject(subject);
+                    message.setContent("<h:body style=background color:white;font-family:verdana;color:#00FF00;"
+                    + "If you are getting this you wrote your first email!<br/><br/>"
+                    + "</body>", "text/html; charset=utf-8");
+                    Transport.send(message);
 
-                System.out.println("Email Sent!");
-            }
-            
-        });
-        
+                    System.out.println("Message Sent!");
+                } catch (MessagingException e) {
+                throw new RuntimeException(e);
+                }
+                System.out.println("Message Delivered!");
+
+            }    
+
+        });        
         
         Scene scene = new Scene(root, 400, 460);
         
