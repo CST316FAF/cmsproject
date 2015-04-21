@@ -73,7 +73,7 @@ public class StatusPage extends TransitionScene {
                 pieGraph.getCanvas(locs, "line");
 
                 pane2 = new BorderPane();
-                scene = new Scene(pane2, 800, 600);
+                scene = new Scene(pane2, 1200, 740);
 		
                 VBox windowTopBox = new VBox();
                 
@@ -97,24 +97,28 @@ public class StatusPage extends TransitionScene {
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
                 employeeIDColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("ID"));
-		employeeIDColumn.setPrefWidth(100);
+		employeeIDColumn.setPrefWidth(200);
+                TableColumn employeeNameColumn = new TableColumn("Employee Name");
+                employeeNameColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Name"));
+		employeeNameColumn.setPrefWidth(200);
 		TableColumn locationColumn = new TableColumn("Current Location");
 		locationColumn.setPrefWidth(200);
                 locationColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("Location"));                
 		TableColumn typeOfWorkColumn = new TableColumn("Work being Performed");
-		typeOfWorkColumn.setPrefWidth(150);
+		typeOfWorkColumn.setPrefWidth(200);
                 typeOfWorkColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("Type")); 
 		TableColumn nextAppointmentColumn = new TableColumn("Next Appointment Time");
 		nextAppointmentColumn.setPrefWidth(200);
                 nextAppointmentColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
-		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
+		table.getColumns().addAll(employeeIDColumn, employeeNameColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
                 
                 final VBox vbox = new VBox();
-		vbox.setPrefWidth(700);
+		vbox.setPrefWidth(1000);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
 		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
