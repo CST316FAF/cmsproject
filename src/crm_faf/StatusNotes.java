@@ -43,6 +43,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -98,21 +99,47 @@ public class StatusNotes extends Application
         Text title = new Text("Status Notes");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
-    
-        notesItems = this.notesItems;
+        //notesItems = this.notesItems;
         notesItems = FXCollections.observableArrayList(
-        "Notes", "2nd Note");
+        "Sample Note");
         notesList.setItems(notesItems);
-        notesList.setPrefSize(100, 600);
+        notesList.setPrefSize(160, 600);
+        try {
+            // 1. Get a connection to database
+            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+            
+            // 2. Create a statement
+            Statement myStatement = myConn.createStatement();
+            
+            // 3. Execute SQL query
+            ResultSet myRs = myStatement.executeQuery("select * from statusnotes");
+            
+            // 4. Process the result set
+            while (myRs.next()) {
+                System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
+                
+                notesItems.add(myRs.getString("notetitle"));
+                techNameField.setText(myRs.getString("technician"));
+                notesTitleField.setText(myRs.getString("notetitle"));
+                notesArea.setText(myRs.getString("notecontent"));
+                
+            }
+        } 
+        catch (Exception ecx) {
+            
+        }
+        
+        
         vbox.getChildren().add(notesList);
         
         return vbox;
         
     }
+ 
     
     TextField techNameField = new TextField();
     TextField notesTitleField = new TextField();
-    TextField notesArea = new TextField();
+    TextArea notesArea = new TextArea();
     
     public VBox addRightVBox() {
         VBox vbox = new VBox();
@@ -146,12 +173,62 @@ public class StatusNotes extends Application
         root.setLeft(leftVbox);
         root.setRight(rightVBox);
         
+        notesList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println("Clicked");
+				final int selectedIdx = notesList.getSelectionModel().getSelectedIndex();
+		        if (selectedIdx != -1) {
+		 
+		          final int newSelectedIdx =
+		            (selectedIdx == notesList.getItems().size() - 1)
+		               ? selectedIdx - 1
+		               : selectedIdx;
+		 
+		          System.out.println(notesList.getSelectionModel().getSelectedItem());
+		          
+		          try {
+			            // 1. Get a connection to database
+			            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+			            
+			            // 2. Create a statement
+			            Statement myStatement = myConn.createStatement();
+			            System.out.println("3");
+			            // 3. Execute SQL query
+			            ResultSet myRs = myStatement.executeQuery("select * from statusnotes where notetitle='"+notesList.getSelectionModel().getSelectedItem()+"'");
+			           while(myRs.next()) {
+			            if(myRs.getString("notetitle").equals(notesList.getSelectionModel().getSelectedItem())) {
+			            	System.out.println("it worked!");
+			            	
+			            	techNameField.setText(myRs.getString("technician"));
+			            	notesTitleField.setText(myRs.getString("notetitle"));
+			            	notesArea.setText(myRs.getString("notecontent"));
+			            } else {
+			            	System.out.println("nope");
+			            }
+			            }
+			            
+			            System.out.println(myRs.getBoolean("notetitle"));
+			            
+			            
+			        } 
+			        catch (Exception ecx) {
+			            
+			        }
+		          
+		        } else {
+		        	System.out.println("Did Select Item ..");
+		        }
+			}
+		});
+        
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
-                if(notesArea.getText() == "" || notesTitleField.getText() == "") {
-                	//TODO: Add a message dialgo to notify user that the title field and notes are cannot be left blank
+                if(notesArea.getText() == "" || notesTitleField.getText() == "" || techNameField.getText() == "") {
+                	//TODO: Add a message dialog to notify user that the title field and notes are cannot be left blank
                 	System.out.println("Please fill in both title notes text field and the notes area text field.");
                 } else {
             	notesItems.add(notesTitleField.getText());
@@ -198,16 +275,29 @@ public class StatusNotes extends Application
 
 				final int selectedIdx = notesList.getSelectionModel().getSelectedIndex();
 		        if (selectedIdx != -1) {
-		          String itemToRemove = notesList.getSelectionModel().getSelectedItem();
 		 
 		          final int newSelectedIdx =
 		            (selectedIdx == notesList.getItems().size() - 1)
 		               ? selectedIdx - 1
 		               : selectedIdx;
-		 
+		          System.out.println(notesList.getItems().get(selectedIdx));
+		          try{
+		        	  // 1. Get a connection to database
+		        	  Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+		                
+		              // 2. Create a statement
+		              Statement myStatement = myConn.createStatement();
+		                
+		              // 3. Execute SQL query
+		              myStatement.execute("delete from statusnotes where notetitle='"+notesList.getItems().get(selectedIdx)+"'");
+			          } catch(Exception e) {
+			        	  
+			          }
 		          notesList.getItems().remove(selectedIdx);
-		          //status.setText("Removed " + itemToRemove);
+		          
 		          notesList.getSelectionModel().select(newSelectedIdx);
+		          
+		         
 		        } else {
 		        	System.out.println("Did Not Remove ..");
 		        }
@@ -215,7 +305,7 @@ public class StatusNotes extends Application
 		});
         
         
-        Scene scene = new Scene(root,400,460);
+        Scene scene = new Scene(root,500,560);
         
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -224,27 +314,9 @@ public class StatusNotes extends Application
     
     
     public static void main(String[] args) {
-        
-        try {
-            // 1. Get a connection to database
-            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
-            
-            // 2. Create a statement
-            Statement myStatement = myConn.createStatement();
-            
-            // 3. Execute SQL query
-            ResultSet myRs = myStatement.executeQuery("select * from statusnotes");
-            
-            // 4. Process the result set
-            while (myRs.next()) {
-                System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
-            }
-        } 
-        catch (Exception ecx) {
-            
-        }
-
+    	
         launch(args);
+        
     }
     
     public File getNoteFilePath() {
