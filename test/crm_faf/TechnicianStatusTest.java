@@ -17,10 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Davis
- */
+
 public class TechnicianStatusTest {
     
     public TechnicianStatusTest() {
@@ -43,20 +40,6 @@ public class TechnicianStatusTest {
     }
 
     /**
-     * Test of start method, of class TechnicianStatus.
-     */
-    @Test
-    public void testStart() {
-        System.out.println("start");
-        Stage primaryStage = null;
-        WindowTools tBar = null;
-        TechnicianStatus instance = new TechnicianStatus();
-        instance.start(primaryStage, tBar);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getAttributes method, of class TechnicianStatus.
      */
     @Test
@@ -66,8 +49,8 @@ public class TechnicianStatusTest {
         StackPane root = new StackPane();
         instance.setRoot(root);
         Hashtable result = instance.getAttributes();
-        assert(result != null);
-        assert(result.get("root") == root);
+        assertTrue(result != null);
+        assertTrue(result.get("root") == root);
     }
 
     /**

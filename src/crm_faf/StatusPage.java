@@ -1,3 +1,4 @@
+
 package crm_faf;
 	
 import Data.DataCreator;
@@ -5,7 +6,6 @@ import Data.DbConnection;
 import Data.Location;
 import DataCharts.Chart;
 import java.util.ArrayList;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -18,8 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.control.ScrollPane;
-import com.zenjava.jfxflow.actvity.AbstractActivity;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -93,7 +91,7 @@ public class StatusPage extends TransitionScene {
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
 		
-		TableView table = new TableView();
+		table = new TableView();
 		table.setPrefHeight(500);
                 table.setEditable(true);
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
@@ -124,30 +122,33 @@ public class StatusPage extends TransitionScene {
         }
         public void update() throws Exception {
             DbConnection db = new DbConnection();
-            db.connect();
-            ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
-            ResultSet TypeResults = db.selectDataColumn("technician", "type", "1");
-            ResultSet AppointmentResults = db.selectDataColumn("technician", "Appointment", "1");
-            ArrayList<String> list = new ArrayList<String>();
-            try{
-                System.out.println(locResults.first());
-                System.out.printf(locResults.getCharacterStream("Location").getClass().toString());
-            }catch(Exception e){System.out.println("1fail");};
             
-            try{
-            //AppointmentResults.getDate("Appointment");
-            }catch(Exception e){System.out.println("2fail");};
-            
-            System.out.println(AppointmentResults.getDate("Appointment"));
-//            while (locResults.next() ) { 
-//               list.add(locResults.getString("Location"));
-//               StatusEntry entry = new StatusEntry(locResults.getString("Location"), 
-//                       ("" + IdResults.getInt("techID")), TypeResults.getString("Type"), 
-//                       AppointmentResults.getString("Appointment"));
-//            } 
-            System.out.print(locResults.toString());
-           // for(int x = 0; x <)
-           // entryData.addAll(data);
+            try {
+                db.connect();
+                ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
+                ResultSet typeResults = db.selectDataColumn("technician", "type", "1");
+                ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment", "1");
+                ResultSet techIDResults = db.selectDataColumn("technician", "TechID", "1");
+                
+                List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
+                    while(locResults.next() && typeResults.next() && appointmentResults.next()
+                                && techIDResults.next()) {
+                        System.out.println(locResults.getString(1));
+                        System.out.println(typeResults.getString(1));
+                        System.out.println(appointmentResults.getDate(1));
+                        System.out.println(techIDResults.getInt(1) + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
+                        StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
+                        System.out.println("entry" + entry.toString());
+                        entryUpdate.add(entry);
+                    }
+                entries.removeAll(entries);
+                entries.addAll(entryUpdate);
+                table.setItems(entries);
+                System.out.println(entries.size());
+                table.setMinHeight(200.5);
+                table.autosize();
+                }catch(Exception e){System.out.println("1fail");};
+      
         }
 	
 }

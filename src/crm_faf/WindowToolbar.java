@@ -29,7 +29,6 @@ public class WindowToolbar extends MenuBar {
     private WindowTools bar;
     private Month startDate;
     private Month endDate;
-    private Chart active;
     
     private Menu fileMenu = new Menu("File");
     private Menu UserMenu = new Menu("User");
@@ -45,7 +44,6 @@ public class WindowToolbar extends MenuBar {
     private Canvas gBar;
     private Scene scene;
     private Stage stage;
-    private Scene last;
     
     public WindowToolbar() {
     // for testing purposes   
@@ -87,6 +85,9 @@ public class WindowToolbar extends MenuBar {
         statusNotes.setOnAction(goToStatusNotes());
         UserMenu.getItems().add(statusNotes);
                
+        MenuItem statusPage = new MenuItem("Status Page");
+        statusPage.setOnAction(goToStatus());
+        UserMenu.getItems().add(statusPage);
         
         //add technician scene link
         

@@ -73,7 +73,7 @@
     </target>
 	
     <target name="test">
-        <junit fork="no"  haltonfailure="false">
+        <junit fork="true"  haltonfailure="false">
 			<classpath>
 				<pathelement location="${build.dir}" />
 				<fileset dir="${lib.dir}" includes="**/*.jar"/>

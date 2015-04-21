@@ -11,9 +11,11 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CRM_FAF.jar" size="130531" download="eager" />
+    <jar href="CRM_FAF.jar" size="169827" download="eager" />
+    <jar href="lib/com.mysql.jdbc_5.1.5.jar" size="676712" download="eager" />
     <jar href="lib/fxgraphics2d-1.1.jar" size="14072" download="eager" />
     <jar href="lib/hamcrest-core-1.3.jar" size="45024" download="eager" />
+    <jar href="lib/java-mail-1.4.4.jar" size="494975" download="eager" />
     <jar href="lib/jcommon-1.0.23.jar" size="330246" download="eager" />
     <jar href="lib/jfreechart-1.0.19-experimental.jar" size="13796" download="eager" />
     <jar href="lib/jfreechart-1.0.19-swt.jar" size="79793" download="eager" />

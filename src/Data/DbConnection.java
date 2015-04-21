@@ -26,14 +26,11 @@ public class DbConnection {
     public boolean connect() throws Exception {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-          
-            //connection = DriverManager.getConnection("jdbc:mysql:sql3.freemysqlhosting.net:3306",
-            //      "sql368756", "qG6%pU4%");
+
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
                   "root", "");
             System.out.println("Connected!");
-            //connection = DriverManager.getConnection("jdbc:mysql://localhost/phpmyadmin/cmsdb",
-              //    "root", "");
+
         } 
         catch (ClassNotFoundException e) {
               System.out.println("no connection driver found");
@@ -54,16 +51,15 @@ public class DbConnection {
         ResultSet results = null;
         try {
             System.out.println("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
+                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
-                    + " FROM " + table + " WHERE techID = \"" + identifier + "\"");
-            //String query = "SELECT \"" + column 
-            //        + "\" FROM \"" + table + "\" WHERE P_ID = \"" + identifier + "\"";
+                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
             System.out.println(statement + column);
             results = statement.executeQuery();
             //if(!results.isBeforeFirst()) {
              //   System.out.println("no Data");
-           // }
+           // 
+            /*
             while (results.next()){
                 String data = results.getString(1);
                 //String username = results.getString("USERNAME");
@@ -71,6 +67,7 @@ public class DbConnection {
                 System.out.println(column + ": " + data);
 		//System.out.println("username : " + username);
             }
+            */
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
