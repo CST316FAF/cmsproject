@@ -55,6 +55,8 @@ public class StatusPage extends TransitionScene {
         private TabPane statusPane;
         private Chart barGraph;
         private Chart pieGraph;
+
+
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
                 this.toolbar = tBar;

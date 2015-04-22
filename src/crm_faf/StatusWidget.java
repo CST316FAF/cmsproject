@@ -55,7 +55,7 @@ public class StatusWidget {
 	importanceColumn.setPrefWidth(50);
         importanceColumn.setCellValueFactory(
                 new PropertyValueFactory<>("NAN"));
-        table.getColumns().addAll(sourceColumn, actionColumn, statusColumn, 
+        table.getColumns().addAll(sourceColumn,  statusColumn, 
                 notesColumn, importanceColumn);
  
     }
@@ -74,15 +74,14 @@ public class StatusWidget {
     private boolean checkStatus() {
         try {
             DbConnection db = new DbConnection();
-            ResultSet inventoryCheck = db.selectDataColumn("jobs", "*", "1");
-            for (int x = 2; inventoryCheck.getMetaData().getColumnCount() > x; x++)
-                while(inventoryCheck.next()) {
-                    if (inventoryCheck.getInt(x) <= 0) {
-                        new WidgetEntry("Inventory", "inventory empty", "unresolved", "", "yes" );
-                    }
+            ResultSet jobsCheck = db.selectDataColumn("jobs", "*", "1");
+            while(jobsCheck.next()) {
+                if(jobsCheck.getBoolean("problem")){
+                    entries.add(new WidgetEntry("none", jobsCheck.getString("notes"), "problem", 
+            "average", "Jobs"));
                 }
-            
-            return true;
+            }
+                return true;
         } catch (SQLException ex) {
             Logger.getLogger(StatusWidget.class.getName()).log(Level.SEVERE, null, ex);
         }

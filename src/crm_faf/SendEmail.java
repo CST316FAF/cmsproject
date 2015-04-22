@@ -5,6 +5,7 @@
  */
 package crm_faf;
 
+import Data.DbConnection;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import java.util.*;
@@ -20,7 +21,8 @@ public class SendEmail extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        
+      DbConnection db = new DbConnection();
+      
       String to = "failedandfurious@gmail.com";
       String from = "failedandfurious@gmail.com";
       final String username = "failedandfurious@gmail.com";
