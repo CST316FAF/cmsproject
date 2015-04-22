@@ -144,7 +144,9 @@ public class StatusPage extends TransitionScene {
 		table.getColumns().addAll(employeeIDColumn, employeeFirstNameColumn, employeeLastNameColumn, 
                         currentLocationColumn, typeOfWorkColumn, nextAppointmentDateColumn, nextAppointmentTimeColumn, nextAppointmentLocationColumn);
 		
-                HBox hbox = new HBox();
+                HBox inputFieldsHbox = new HBox();
+                HBox buttonsHbox = new HBox();
+                
                 final TextField employeeFirstNameField = new TextField();
                 employeeFirstNameField.setPromptText("Employee First Name");
                 employeeFirstNameField.setMaxWidth(employeeFirstNameColumn.getPrefWidth());
@@ -173,11 +175,24 @@ public class StatusPage extends TransitionScene {
                 nextAppointmentLocationField.setPromptText("Next Appointment Location");
                 nextAppointmentLocationField.setPrefWidth(250);
                 
-                hbox.getChildren().addAll(employeeFirstNameField, employeeLastNameField, currentLocationField,
+                inputFieldsHbox.getChildren().addAll(employeeFirstNameField, employeeLastNameField, currentLocationField,
                         typeOfWorkField, nextAppointmentDatePicker, nextAppointmentTimeField, nextAppointmentLocationField);
                 
                 Button addNewStatusButton = new Button();
                 addNewStatusButton.setText("Add New Status");
+                addNewStatusButton.setPadding(new Insets(10, 10, 10, 10));
+                
+                Button clearButton = new Button();
+                clearButton.setText("Clear Fields");
+                clearButton.setPadding(new Insets(10, 10, 10, 10));
+                
+                Button removeStatusButton = new Button();
+                removeStatusButton.setText("Remove Status");
+                removeStatusButton.setPadding(new Insets(10, 10, 10, 10));
+                
+                buttonsHbox.setSpacing(10);
+                buttonsHbox.setPadding(new Insets(20, 20, 20, 20));
+                buttonsHbox.getChildren().addAll(addNewStatusButton, clearButton, removeStatusButton);
                 addNewStatusButton.setOnAction(new EventHandler<ActionEvent>() {
 
                     @Override
@@ -190,14 +205,16 @@ public class StatusPage extends TransitionScene {
                             //notesItems.add(notesTitleField.getText());
                             //entryData.add(employeeFirstNameField.getText());
                             
+                        
                         } else {
                             System.out.println("Enter New Status!");
+                             entries.add(new StatusEntry(employeeFirstNameField.getText(), employeeLastNameField.getText(),
+                                     currentLocationField.getText(), typeOfWorkField.getText()
+                             ));
                         }
                     }
                 });
-                
-                Button clearButton = new Button();
-                clearButton.setText("Clear Fields");
+                          
                 clearButton.setOnAction(new EventHandler<ActionEvent>() {
 
                     @Override
@@ -212,11 +229,19 @@ public class StatusPage extends TransitionScene {
                     }
                 });
                 
+                removeStatusButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        
+                    }
+                });
+                
                 final VBox vbox = new VBox();
 		vbox.setPrefWidth(1300);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(addNewStatusButton, clearButton, hbox, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(buttonsHbox, inputFieldsHbox, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
 		pane.add(vbox, 0, 1);   
                 
         }
