@@ -166,7 +166,7 @@ public class CreateJob extends TransitionScene{
                                     } else {
                                         System.out.println("Add the new customer");
                                         
-                                        myStatement.execute("insert into customer (P_ID, jobsID, CustomerID, title, cost, date, completed, "
+                                        myStatement.execute("insert into jobs (P_ID, jobsID, CustomerID, title, cost, date, completed, "
                                                 + "problem, notes) "
                                         + "values ('"+P_ID+"','"+jobsID+"','"+customerID+"','"+job+"', '"+cost+"', '"+date+"', '"+completed+"', "
                                                 + "'"+problem+"','"+notes+"')");
