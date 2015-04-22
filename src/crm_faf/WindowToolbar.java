@@ -79,6 +79,10 @@ public class WindowToolbar extends MenuBar {
         MenuItem checkStatus = new MenuItem("Main");
         checkStatus.setOnAction(goToStatus());
         
+        MenuItem addJobs = new MenuItem("Add Jobs");
+        addJobs.setOnAction(goToAddJobs());
+        customerMenu.getItems().add(addJobs);
+        
         MenuItem statusNotes = new MenuItem("Status Notes");
         statusNotes.setOnAction(goToStatusNotes());
         UserMenu.getItems().add(statusNotes);
@@ -191,6 +195,13 @@ public class WindowToolbar extends MenuBar {
             new StatusPage().start(stage, bar);
         };
     }
+    
+    private EventHandler<ActionEvent> goToAddJobs() {
+        return (ActionEvent event) -> {
+            new CreateJob().start(stage);
+        };
+    }
+    
     private EventHandler<ActionEvent> goToCheckTech() {
         return (ActionEvent event) -> {
             System.out.println(scene);
@@ -283,4 +294,6 @@ public class WindowToolbar extends MenuBar {
                 new StatusNotes().start(stage);
         };
     }
+
+    
 }

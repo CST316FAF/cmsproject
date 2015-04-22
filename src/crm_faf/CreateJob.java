@@ -160,7 +160,7 @@ public class CreateJob extends TransitionScene{
                                
                                 System.out.println("YOUUUU MADEEE IT!" + job + cost);
                                 while(rs.next()) {
-                                    System.out.println(rs.getString("P_ID") + ", " + rs.getString("clName"));
+                                    System.out.println(rs.getString("P_ID"));
                                     if(rs.getString("jobsID").equals(jobsID)) {
                                         System.out.println("There is already a customer with that ID number");
                                     } else {
@@ -169,7 +169,7 @@ public class CreateJob extends TransitionScene{
                                         myStatement.execute("insert into customer (P_ID, jobsID, CustomerID, title, cost, date, completed, "
                                                 + "problem, notes) "
                                         + "values ('"+P_ID+"','"+jobsID+"','"+customerID+"','"+job+"', '"+cost+"', '"+date+"', '"+completed+"', "
-                                                + "'"+problem+"','"+notes+"', '"+jobsID+"')");
+                                                + "'"+problem+"','"+notes+"')");
                                         
                                         System.out.println("Successfully added job!");
                                     }
