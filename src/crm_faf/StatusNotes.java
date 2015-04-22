@@ -5,33 +5,21 @@
  */
 package crm_faf;
 	
-import Data.DataCreator;
-import Data.Location;
-import DataCharts.Chart;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.control.ScrollPane;
-import com.zenjava.jfxflow.actvity.AbstractActivity;
 import java.io.File;
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.event.ActionEvent;
-import java.sql.Savepoint;
 import java.util.prefs.Preferences;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import java.sql.*;
 import javafx.collections.FXCollections;
@@ -308,11 +296,11 @@ public class StatusNotes extends Application
     }
     
     
-    public static void main(String[] args) {
-    	
-        launch(args);
-        
-    }
+//    public static void main(String[] args) {
+//    	
+//        launch(args);
+//        
+//    }
     
     public File getNoteFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(StatusNotes.class);

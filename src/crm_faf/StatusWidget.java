@@ -5,27 +5,28 @@
  */
 package crm_faf;
 
+import Data.DbConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 
-public class StatusWidget extends Updateable {
+public class StatusWidget {
 
     private  TableView table;
     private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
     private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
     private  boolean hasFeed = false;
-
+    private  List<String> problemData = new ArrayList<String>();
+    
     StatusWidget() {
         Setup();
     }
@@ -37,23 +38,23 @@ public class StatusWidget extends Updateable {
         TableColumn sourceColumn = new TableColumn("Source");
         sourceColumn.setPrefWidth(100);
         sourceColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("source"));
+                new PropertyValueFactory<>("source"));
         TableColumn actionColumn = new TableColumn("Action");
         actionColumn.setPrefWidth(100);
         actionColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("action"));
+                new PropertyValueFactory<>("action"));
         TableColumn statusColumn = new TableColumn("Status");
         statusColumn.setPrefWidth(200);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("status"));
+                new PropertyValueFactory<>("status"));
 	TableColumn notesColumn = new TableColumn("Notes");
 	notesColumn.setPrefWidth(150);
         notesColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("notes"));
+                new PropertyValueFactory<>("notes"));
 	TableColumn importanceColumn = new TableColumn("Needs Attention");
 	importanceColumn.setPrefWidth(50);
         importanceColumn.setCellValueFactory(
-                new PropertyValueFactory<WidgetEntry,String>("NAN"));
+                new PropertyValueFactory<>("NAN"));
         table.getColumns().addAll(sourceColumn, actionColumn, statusColumn, 
                 notesColumn, importanceColumn);
  
@@ -69,18 +70,22 @@ public class StatusWidget extends Updateable {
         return table;
     }
 
-    @Override
-    public boolean getIsFeed() {
-        return this.hasFeed;
+
+    private boolean checkStatus() {
+        try {
+            DbConnection db = new DbConnection();
+            ResultSet inventoryCheck = db.selectDataColumn("jobs", "*", "1");
+            for (int x = 2; inventoryCheck.getMetaData().getColumnCount() > x; x++)
+                while(inventoryCheck.next()) {
+                    if (inventoryCheck.getInt(x) <= 0) {
+                        new WidgetEntry("Inventory", "inventory empty", "unresolved", "", "yes" );
+                    }
+                }
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(StatusWidget.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
-    
-    public void setFeed(String url) {
-        RSSFeedInput input = new RSSFeedInput(url);
-      entries.removeAll(entries);
-        entries.addAll(input.getList());
-        table.setItems(entries);  
-        hasFeed = true;
-        table.columnResizePolicyProperty();
-    }
-    
 }

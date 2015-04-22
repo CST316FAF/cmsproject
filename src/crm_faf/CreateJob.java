@@ -32,17 +32,15 @@ import javafx.stage.Modality;
 import javafx.stage.Popup;
 
 
-public class CustomerForm  extends TransitionScene{
+public class CreateJob extends TransitionScene{
 
-        final TextField emailField = new TextField();
-        final TextField telephoneField = new TextField();
-        final TextField zipField = new TextField();
-        final TextField fnameField = new TextField();
-	final TextField lnameField = new TextField();
-        final TextField addressField = new TextField();
-        final TextField cityField = new TextField();
-        final TextField stateField = new TextField();
-        final TextField customerId = new TextField();
+        final TextField jobField = new TextField();
+        final TextField costField = new TextField();
+        final TextField dateField = new TextField();
+        final TextField notesField = new TextField();
+        final TextField jobsidField = new TextField();
+        final TextField customeridField = new TextField();
+	
         private WindowTools toolbar;
         private WindowToolbar bar;
         VBox windowTopBox = new VBox();
@@ -54,7 +52,7 @@ public class CustomerForm  extends TransitionScene{
         public void start(Stage primaryStage) {
 		
                 primaryStage = this.primaryStage;
-		primaryStage.setTitle("Customer Entry Form");
+		primaryStage.setTitle("Job Creation Form");
 		BorderPane pane2 = new BorderPane();
                 GridPane pane = new GridPane();
                 
@@ -71,51 +69,39 @@ public class CustomerForm  extends TransitionScene{
                 pane2.setTop(windowTopBox);
                 
                 
-		Text sceneTitle = new Text("Enter Customer Information:");
+		Text sceneTitle = new Text("Enter New Job Information:");
 		sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL,20));
 		pane.add(sceneTitle, 0, 0, 2, 1);
                 
-                pane.add(fnameField, 1, 1);
-		Label firstName = new Label("First Name:");
-		pane.add(firstName, 0, 1);
+                pane.add(jobField, 1, 1);
+		Label job = new Label("Job name:");
+		pane.add(job, 0, 1);
 		
-		pane.add(lnameField, 1, 2);
-		Label lastName = new Label("Last Name:");
-		pane.add(lastName, 0, 2);
+		pane.add(costField, 1, 2);
+		Label cost = new Label("Job cost:");
+		pane.add(cost, 0, 2);
 		
-		pane.add(addressField, 1, 3);
-		Label address = new Label("Address:");
-		pane.add(address, 0, 3);
+		pane.add(dateField, 1, 3);
+		Label date = new Label("Date (2015-01-31):");
+		pane.add(date, 0, 3);
 		
-		pane.add(cityField, 1, 4);
-		Label city = new Label("City:");
-		pane.add(city, 0, 4);
+		pane.add(notesField, 1, 4);
+		Label notes = new Label("Notes:");
+		pane.add(notes, 0, 4);
 		
-		pane.add(stateField, 1, 5);
-		Label state = new Label("State:");
-		pane.add(state, 0, 5);
-		
-		pane.add(zipField, 1, 6);
-		Label zip = new Label("Zip:");
-		pane.add(zip, 0, 6);
-		
-		pane.add(telephoneField, 1, 7);
-		Label telephone = new Label("Telephone:");
-		pane.add(telephone, 0, 7);
-		
-		pane.add(emailField, 1, 8);
-		Label email = new Label("E-Mail:");
-		pane.add(email, 0, 8);
+                pane.add(jobsidField, 1, 5);
+		Label jobsID = new Label("Job ID:");
+		pane.add(jobsID, 0, 5);
                 
-                pane.add(customerId, 1, 9);
-		Label customerID = new Label("Custom ID:");
-		pane.add(customerID, 0, 9);
+                //pane.add(customeridField, 1, 6);
+		//Label customerID = new Label("Customer ID:");
+		//pane.add(customerID, 0, 6);
 		
 		Button submitButton = new Button("Submit Info");
 		HBox hbox = new HBox(10);
 		hbox.setAlignment(Pos.BOTTOM_RIGHT);
 		hbox.getChildren().add(submitButton);
-		pane.add(hbox, 1, 10);
+		pane.add(hbox, 1, 6);
 		
 		
 		final Text submitMessage = new Text();
@@ -131,22 +117,20 @@ public class CustomerForm  extends TransitionScene{
 			@Override
 			public void handle(ActionEvent event) {
 			// TODO : Add if statement to test for each TextField
-                            String fname = fnameField.getText();
-                            String lname = lnameField.getText();
-                            String address = addressField.getText();
-                            String city = cityField.getText();
-                            String state = stateField.getText();
-                            String zip = zipField.getText();
-                            String telephone = telephoneField.getText();
-                            String email = emailField.getText();
-                            String customerID = customerId.getText();
+                            String job = jobField.getText();
+                            String cost = costField.getText();
+                            String date = dateField.getText();
+                            String notes = notesField.getText();
+                            String jobsID = jobsidField.getText();
+                            String customerID = "2";
                             String P_ID = "1";
+                            String completed = "0";
+                            String problem = "0";
                             Label errormsg = new Label("Fill out all");
-             
-                
+ 
                 //Check and Validate that all fields are entered.
-                if(fname.equals("") || lname.equals("") || address.equals("") || city.equals("") || state.equals("") || zip.equals("") ||
-                        telephone.equals("") || email.equals("")) {
+                if(job.equals("") || cost.equals("") || date.equals("") || notes.equals("") || jobsID.equals("") 
+                        || customerID.equals("")) {
                     
                         final Popup popup = new Popup(); 
                         popup.setX(300); popup.setY(200);
@@ -155,43 +139,6 @@ public class CustomerForm  extends TransitionScene{
                         hbox.getChildren().add(errormsg);
                         //popup.show(primaryStage);
                         submitMessage.setText("Please fill in all fields.");
-                        }
-                
-                        //Check if first name, last name, address, city, state, and email are no more than 30 characters.
-			else if(fname.length() > 30 || lname.length() > 30 || address.length() > 30 || city.length() > 30 || state.length() > 30 || 
-                        email.length() > 30) {
-                            
-                        final Popup popup = new Popup(); 
-                        popup.setX(300); popup.setY(200);
-                        popup.getContent().add(new HBox(8));
-                        HBox hbox = new HBox(8); // spacing = 8
-                        hbox.getChildren().add(errormsg);
-                        //popup.show(primaryStage);
-                        submitMessage.setText("Please do not exceed 30 characters in fields.");
-                        } 
-                         
-                        //Check to make sure the zip is exactly 5 characters and telephone is exactly 10 characters.
-                        else if(zip.length() != 5 || telephone.length() != 10) {
-                            
-                        final Popup popup = new Popup(); 
-                        popup.setX(300); popup.setY(200);
-                        popup.getContent().add(new HBox(8));
-                        HBox hbox = new HBox(8); // spacing = 8
-                        hbox.getChildren().add(errormsg);
-                        //popup.show(primaryStage);
-                        submitMessage.setText("Please make sure zip is exactly 5 digits and telephone is exactly 10 digits.");
-                        } 
-                         
-                        //Check if the user has entered a number for zip and telephone fields.
-                        else if(!isDigit(zip) && !isDigit(telephone)) {
-                            
-                        final Popup popup = new Popup(); 
-                        popup.setX(300); popup.setY(200);
-                        popup.getContent().add(new HBox(8));
-                        HBox hbox = new HBox(8); // spacing = 8
-                        hbox.getChildren().add(errormsg);
-                        //popup.show(primaryStage);
-                        submitMessage.setText("Please make sure zip and telephone are both numeric values");    
                         }
                 
                 
@@ -205,24 +152,26 @@ public class CustomerForm  extends TransitionScene{
                                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
                                 "root", "");
                                 Statement myStatement = connection.createStatement();
-                                String checkSQL = "select * from customer"; //where cfName = '"+fname+"'clName = '"+lname+"'";
-                                       // + "cfName,clName from customer where cfName = '"+fname+"'clName = '"+lname+"'";
+                                String checkSQL = "select * from jobs"; //where cfName = '"+job+"'clName = '"+cost+"'";
+                                       // + "cfName,clName from customer where cfName = '"+job+"'clName = '"+cost+"'";
                                 //PreparedStatement ps = connection.preparedStatement(checkSQL);
                                 
                                 ResultSet rs = myStatement.executeQuery(checkSQL);
                                
-                                System.out.println("YOUUUU MADEEE IT!" + fname + lname);
+                                System.out.println("YOUUUU MADEEE IT!" + job + cost);
                                 while(rs.next()) {
                                     System.out.println(rs.getString("P_ID") + ", " + rs.getString("clName"));
-                                    if(rs.getString("customerID").equals(customerID)) {
+                                    if(rs.getString("jobsID").equals(jobsID)) {
                                         System.out.println("There is already a customer with that ID number");
                                     } else {
                                         System.out.println("Add the new customer");
                                         
-                                        myStatement.execute("insert into customer (P_ID, customerID, cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone, cEmail) "
-                                        + "values ('"+P_ID+"','"+customerID+"','"+fname+"', '"+lname+"', '"+address+"', '"+city+"', '"+zip+"', '"+state+"', '"+telephone+"', '"+email+"' )");
+                                        myStatement.execute("insert into customer (P_ID, jobsID, CustomerID, title, cost, date, completed, "
+                                                + "problem, notes) "
+                                        + "values ('"+P_ID+"','"+jobsID+"','"+customerID+"','"+job+"', '"+cost+"', '"+date+"', '"+completed+"', "
+                                                + "'"+problem+"','"+notes+"', '"+jobsID+"')");
                                         
-                                        System.out.println("Successfully added customer!");
+                                        System.out.println("Successfully added job!");
                                     }
                                     
                                 } 
@@ -263,7 +212,7 @@ public class CustomerForm  extends TransitionScene{
             
                 while(!generated) {
                     Statement myStatement = connection.createStatement();
-                    ResultSet rs = myStatement.executeQuery("SELECT 1 FROM customer WHERE CUSTOMERID = \"" 
+                    ResultSet rs = myStatement.executeQuery("SELECT 1 FROM jobs WHERE jobsID = \"" 
                     + idNum + "\" and P_ID = \"" + 1 + "\"");
                     if(!rs.first()) {
                     generated = true;

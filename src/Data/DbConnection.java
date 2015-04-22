@@ -50,24 +50,27 @@ public class DbConnection {
     public ResultSet selectDataColumn(String table, String column, String identifier ) {
         ResultSet results = null;
         try {
-            System.out.println("SELECT " + column 
-                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
                     + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
             System.out.println(statement + column);
             results = statement.executeQuery();
-            //if(!results.isBeforeFirst()) {
-             //   System.out.println("no Data");
-           // 
-            /*
-            while (results.next()){
-                String data = results.getString(1);
-                //String username = results.getString("USERNAME");
- 
-                System.out.println(column + ": " + data);
-		//System.out.println("username : " + username);
-            }
-            */
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
+    }
+    public ResultSet selectDataColumn(String table, String column, String modifier, String modifierColumn, String identifier ) {
+        ResultSet results = null;
+        try {
+            System.out.println("SELECT " + column 
+                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\" AND Where " 
+                    + modifierColumn + " = \"" + modifier + "\"");
+            PreparedStatement statement = connection.prepareStatement("SELECT " + column 
+                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
+            System.out.println(statement + column);
+            results = statement.executeQuery();
+
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

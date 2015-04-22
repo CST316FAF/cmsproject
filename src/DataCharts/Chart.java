@@ -7,9 +7,10 @@ package DataCharts;
 
 
 import Data.MonthData;
-import Data.Location;
+import Data.YearData;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
@@ -27,7 +28,7 @@ public class Chart {
 
     private Canvas canvas;
 
-    public Canvas getCanvas(ArrayList<Location> locs, String type) {
+    public Canvas getCanvas(ArrayList<YearData> locs, String type) {
         try {
             if(locs != null && !locs.isEmpty()) {
                 switch (type) {
@@ -102,41 +103,77 @@ public class Chart {
      * Methods are for display purposes at this point and may be refactored and 
      * modified based on necessity
      */
-    private static XYDataset createXYDataset(ArrayList<Location> locs) {
+    private static XYDataset createXYDataset(ArrayList<YearData> locs) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         for(int x = 0; x < locs.size(); x++) {
-            TimeSeries time = new TimeSeries("" + locs.get(x).getAreaCode());
-            ArrayList<MonthData> months = locs.get(x).getMonths();
-            for(int y =0; y < months.size(); y++) {
-                time.add(months.get(y).getMonth(), months.get(y).getNumCustomers());
-            }
-        dataset.addSeries(time);
+           
+            for(int y = 0; y < 12; y++) {
+                MonthData[] months = locs.get(x).getMonths();
+                for(int z = 0; z < months[y].getAreaCodeData().size(); z++){
+                    TimeSeries time = new TimeSeries("" + months[y].getAreaCodeData().get(x).getAreaCode());
+                    months = locs.get(x).getMonths();
+                    for(int f =0; f < months.length; f++) {
+                        time.add(months[f].getMonth(), months[f].getAreaCodeData().get(f).getAreaCode());
+                    }
+                    dataset.addSeries(time);
+                }
+            } 
         }
         return dataset;
     }
 
-    private static PieDataset createPieDataset(ArrayList<Location> locs) {
+    private static PieDataset createPieDataset(ArrayList<YearData> locs) {
         DefaultPieDataset dataset = new DefaultPieDataset();
+        for(int x = 0; x < locs.size(); x++) {
+            for(int y = 0; y < 12; y++) {
+                MonthData[] months = locs.get(x).getMonths();
+                for(int z = 0; z < 12; z++){
+                    if(months[y].getAreaCodeData().size() > 0){
+                        dataset.setValue("" +months[y].getMonth().toString(), 
+                                months[y].getAreaCodeData().get(z).getAreaCode());
+                    }
+                }
+            }
+        }    
         for(int x = 0; x < locs.size(); x++) {         
-            dataset.setValue("" +locs.get(x).getAreaCode(), locs.get(x).getCustomers());
+            ;
         }
         return dataset;
     }
     
-    private CategoryDataset createCategoryDataset(ArrayList<Location> locs) {
+    private CategoryDataset createCategoryDataset(ArrayList<YearData> locs) {
        
         final String series2 = "Technicians";
         final String series1 = "Customers";
 
         ArrayList<String> category = new ArrayList<String>();
-        for(int x = 0; x < locs.size(); x++) {         
-            category.add("" + locs.get(x).getAreaCode());
+        for(int x = 0; x < locs.size(); x++) { 
+                MonthData[] months = locs.get(x).getMonths();
+                for(int y = 0; y < 12; y++) {
+                    for(int z = 0; z < 12; z++) {
+                        if( months[y] != null && months[y].getAreaCodeData().size() > 0 && 
+                                months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
+                         category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
+                        }
+                    }
+                   
+                }
         }
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
-        for(int x = 0; x < category.size(); x++) {         
-            dataset.addValue(locs.get(x).getCustomers(), series1, category.get(x));
-            dataset.addValue(locs.get(x).getWorkers().size(), series2, category.get(x));
+        for(int x = 0; x < category.size(); x++) {   
+            MonthData[] months = locs.get(x).getMonths();
+            for(int y = 0; y < 12; y++) {
+                for(int z = 0; z < 12; z++) {
+                    if( months[y] != null && months[y].getAreaCodeData() != null && 
+                                months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
+                        dataset.addValue(months[y].getAreaCodeData().get(z).getCustomerNumber(), series1, category.get(x));
+                        dataset.addValue(months[y].getAreaCodeData().get(z).getJobNumber(), series2, category.get(x));
+                        category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
+                    }
+                }
+            }
+
         }  
         return dataset;
         

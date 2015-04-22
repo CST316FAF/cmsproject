@@ -3,8 +3,9 @@ package crm_faf;
 	
 import Data.DataCreator;
 import Data.DbConnection;
-import Data.Location;
+import Data.YearData;
 import DataCharts.Chart;
+import DataCharts.FailedChart;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +25,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+
 
 
 public class StatusPage extends TransitionScene {
@@ -37,13 +48,24 @@ public class StatusPage extends TransitionScene {
         private BorderPane pane2;
         private Stage primaryStage;
         private GridPane pane;
+        private Tab graphTab;
+        private Tab technicianTab;
+        private Tab customerTab;
+        private Tab jobTab;
+        private TabPane statusPane;
+        private Chart barGraph;
+        private Chart pieGraph;
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
                 this.toolbar = tBar;
 		this.primaryStage = primaryStage;
+            try {
                 setup();
                 //AppointmentNotifications notify = new AppointmentNotifications();
                 //notify.newMessage();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -54,7 +76,7 @@ public class StatusPage extends TransitionScene {
             }
 		return scene;
 	}
-        private void setup() {
+        private void setup() throws Exception {
                 primaryStage.setTitle("Status Page");
 		pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
@@ -62,14 +84,14 @@ public class StatusPage extends TransitionScene {
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
                 Chart lineGraph = new Chart();
-                Chart barGraph = new Chart();
-                Chart pieGraph = new Chart();
+                barGraph = new Chart();
+                pieGraph = new Chart();
 
-                ArrayList<Location> locs = new DataCreator().createLocations(); 
+                ArrayList<YearData> locs = new DataCreator().generateYearData(); 
 
                 lineGraph.getCanvas(locs, "bar");
                 lineGraph.getCanvas(locs, "bar");
-                barGraph.getCanvas(locs, "pie");
+                barGraph.getCanvas(locs, "line");
                 pieGraph.getCanvas(locs, "line");
 
                 pane2 = new BorderPane();
@@ -112,12 +134,12 @@ public class StatusPage extends TransitionScene {
                     new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
 		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
-                
+                tabSetup();
                 final VBox vbox = new VBox();
 		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(statusPane);
 		pane.add(vbox, 0, 1);   
         }
         public void update() throws Exception {
@@ -133,22 +155,50 @@ public class StatusPage extends TransitionScene {
                 List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
-                        System.out.println(locResults.getString(1));
-                        System.out.println(typeResults.getString(1));
-                        System.out.println(appointmentResults.getDate(1));
-                        System.out.println(techIDResults.getInt(1) + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
                         StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
                         System.out.println("entry" + entry.toString());
                         entryUpdate.add(entry);
                     }
+                table.setMinHeight(200);
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
                 System.out.println(entries.size());
-                table.setMinHeight(200.5);
-                table.autosize();
                 }catch(Exception e){System.out.println("1fail");};
       
         }
-	
+	private void tabSetup() {
+            statusPane = new TabPane();
+            JobsTable jobTable = new JobsTable();
+            try {
+                jobTable.update();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jobTab = new Tab("Jobs");
+            jobTab.setClosable(false);
+            jobTab.setContent(jobTable.getTable());
+            technicianTab = new Tab("Technicians");
+            technicianTab.setContent(table);
+            technicianTab.setClosable(false);
+            customerTab = new Tab("Customer");
+            CustomerTable customerTable = new CustomerTable();
+            try {
+                customerTable.update();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            customerTab.setClosable(false);
+            customerTab.setContent(customerTable.getTable());
+            graphTab = new Tab("Chart");
+            graphTab.setClosable(false);
+           
+            VBox chartBox = new VBox();
+            chartBox.getChildren().add(pieGraph.getCanvas());
+            
+            graphTab.setContent(chartBox);
+            
+            statusPane.getTabs().addAll(jobTab, technicianTab, customerTab, graphTab);
+            
+        }
 }
