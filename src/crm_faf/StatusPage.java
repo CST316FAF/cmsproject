@@ -182,7 +182,17 @@ public class StatusPage extends TransitionScene {
 
                     @Override
                     public void handle(ActionEvent event) {
-                        
+                        if(employeeFirstNameField.getText().equals("") || employeeLastNameField.getText().equals("") || 
+                           currentLocationField.getText().equals("")|| typeOfWorkField.getText().equals("") ||
+                                nextAppointmentTimeField.getText().equals("")
+                                || nextAppointmentLocationField.getText().equals("")) {
+                            System.out.println("Please make sure all fields have been entered");
+                            //notesItems.add(notesTitleField.getText());
+                            //entryData.add(employeeFirstNameField.getText());
+                            
+                        } else {
+                            System.out.println("Enter New Status!");
+                        }
                     }
                 });
                 
