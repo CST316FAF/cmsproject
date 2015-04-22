@@ -126,10 +126,7 @@ public class StatusNotes extends Application
         
         return vbox;
     }
-    
-
-    
-    
+ 
     Stage primaryStage = new Stage();
     
     @Override
@@ -275,18 +272,11 @@ public class StatusNotes extends Application
 		        }
 			}
 		});
-        
-        
+
         Scene scene = new Scene(root,500,560);
-        
         primaryStage.setScene(scene);
         primaryStage.show();
         
     }
-    
-    public static void main(String[] args) {
-    	
-        launch(args);
-        
-    }
+   
 }
