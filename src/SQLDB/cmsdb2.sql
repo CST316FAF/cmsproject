@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2015 at 05:24 AM
+-- Generation Time: Apr 22, 2015 at 09:23 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -48,7 +48,10 @@ INSERT INTO `customer` (`P_ID`, `CustomerID`, `cfName`, `clName`, `cstreetAddy`,
 (1, 2, 'Katie', 'Blunt', '345 E. Power Rd', 'Gilbert', 85234, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
 (1, 3, 'Master', 'Chief', '857 S. Cooper Rd', 'Mesa', 85342, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
 (1, 4, 'Greg', 'Hunt', '112 E. Elliot Rd', 'Gilbert', 85786, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
-(1, 5, 'Billy', 'Bob', '438 Rittenhouse Rd.', 'Queen Creek', 85142, 'AZ', 2147483647, 'failedandfurious@gmail.com');
+(1, 5, 'Billy', 'Bob', '438 Rittenhouse Rd.', 'Queen Creek', 85142, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
+(1, 6, 'Austin', 'Pruitt', '123 east st', 'Queen Creek', 85142, 'AZ', 1232342431, 'asdf@gmail.com'),
+(1, 7, 'Davis', 'Kendry', '123 Wazzup St', 'Gilbert', 85234, 'AZ', 1232346758, 'davis@gmail.com'),
+(1, 8, 'test', 'test', 'test', 'test', 12345, 'test', 1234543456, 'e@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -64,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `cost` int(255) NOT NULL,
   `date` date NOT NULL,
   `completed` tinyint(1) NOT NULL,
+  `problem` tinyint(1) NOT NULL,
   `notes` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -71,10 +75,10 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 -- Dumping data for table `jobs`
 --
 
-INSERT INTO `jobs` (`P_ID`, `jobsID`, `CustomerID`, `title`, `cost`, `date`, `completed`, `notes`) VALUES
-(1, 1, 1, 'Pool cleaning', 400, '2015-04-16', 0, 'Pool is extremely dirty, allow extra time to clean'),
-(1, 2, 2, 'Window Cleaning', 250, '2015-04-30', 0, 'Clean all windows, especially the second story ones.'),
-(1, 3, 3, 'Yard work', 120, '2015-04-08', 1, 'Cleanup customer''s front yard.');
+INSERT INTO `jobs` (`P_ID`, `jobsID`, `CustomerID`, `title`, `cost`, `date`, `completed`, `problem`, `notes`) VALUES
+(1, 1, 1, 'Pool cleaning', 400, '2015-04-16', 0, 0, 'Pool is extremely dirty, allow extra time to clean'),
+(1, 2, 2, 'Window Cleaning', 250, '2015-04-30', 0, 0, 'Clean all windows, especially the second story ones.'),
+(1, 3, 3, 'Yard work', 120, '2015-04-08', 1, 0, 'Cleanup customer''s front yard.');
 
 -- --------------------------------------------------------
 
