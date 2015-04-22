@@ -219,7 +219,7 @@ public class CustomerForm  extends TransitionScene{
                                     } else {
                                         System.out.println("Add the new customer");
                                         
-                                        myStatement.execute("insert into customer (P_ID, customerID, cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone, cEmail) "
+                                        myStatement.execute("insert into customer (P_ID, CustomerID, cfName, clName, cstreetAddy, cCity, cZip, cState, cPhone, cEmail) "
                                         + "values ('"+P_ID+"','"+customerID+"','"+fname+"', '"+lname+"', '"+address+"', '"+city+"', '"+zip+"', '"+state+"', '"+telephone+"', '"+email+"' )");
                                         
                                         System.out.println("Successfully added customer!");

@@ -33,7 +33,6 @@ public class CreateUser extends TransitionScene{
     private PasswordField pwBox0;
     private PasswordField pwBox1;
     private Button createAcct;
-    private Stage primaryStage;
     
     public void setNewUserTextField(TextField newuserTextField) {
         this.newuserTextField = newuserTextField;
