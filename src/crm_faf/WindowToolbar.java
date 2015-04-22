@@ -89,6 +89,10 @@ public class WindowToolbar extends MenuBar {
         statusPage.setOnAction(goToStatus());
         UserMenu.getItems().add(statusPage);
         
+        MenuItem sendEmail = new MenuItem("Send Email");
+        sendEmail.setOnAction(goToSendEmail());
+        UserMenu.getItems().add(sendEmail);
+        
         //add technician scene link
         
         MenuItem checkTech = new MenuItem("Technician List");
@@ -288,4 +292,9 @@ public class WindowToolbar extends MenuBar {
                 new StatusNotes().start(stage);
         };
     }
+
+    private EventHandler<ActionEvent> goToSendEmail() {
+        return (ActionEvent event) -> {
+                new SendEmail().start(stage);
+        };    }
 }
