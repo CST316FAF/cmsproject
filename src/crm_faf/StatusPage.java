@@ -3,8 +3,9 @@ package crm_faf;
 	
 import Data.DataCreator;
 import Data.DbConnection;
-import Data.Location;
+import Data.YearData;
 import DataCharts.Chart;
+import DataCharts.FailedChart;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,11 +27,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+
 
 
 public class StatusPage extends TransitionScene {
@@ -43,13 +48,24 @@ public class StatusPage extends TransitionScene {
         private BorderPane pane2;
         private Stage primaryStage;
         private GridPane pane;
+        private Tab graphTab;
+        private Tab technicianTab;
+        private Tab customerTab;
+        private Tab jobTab;
+        private TabPane statusPane;
+        private Chart barGraph;
+        private Chart pieGraph;
         
 	public Scene start(Stage primaryStage, WindowTools tBar) {
                 this.toolbar = tBar;
 		this.primaryStage = primaryStage;
+            try {
                 setup();
                 //AppointmentNotifications notify = new AppointmentNotifications();
                 //notify.newMessage();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -60,7 +76,7 @@ public class StatusPage extends TransitionScene {
             }
 		return scene;
 	}
-        private void setup() {
+        private void setup() throws Exception {
                 primaryStage.setTitle("Status Page");
 		pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
@@ -68,18 +84,18 @@ public class StatusPage extends TransitionScene {
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
                 Chart lineGraph = new Chart();
-                Chart barGraph = new Chart();
-                Chart pieGraph = new Chart();
+                barGraph = new Chart();
+                pieGraph = new Chart();
 
-                ArrayList<Location> locs = new DataCreator().createLocations(); 
+                ArrayList<YearData> locs = new DataCreator().generateYearData(); 
 
                 lineGraph.getCanvas(locs, "bar");
                 lineGraph.getCanvas(locs, "bar");
-                barGraph.getCanvas(locs, "pie");
+                barGraph.getCanvas(locs, "line");
                 pieGraph.getCanvas(locs, "line");
 
                 pane2 = new BorderPane();
-                scene = new Scene(pane2, 1400, 740);
+                scene = new Scene(pane2, 800, 600);
 		
                 VBox windowTopBox = new VBox();
                 
@@ -100,150 +116,31 @@ public class StatusPage extends TransitionScene {
 		table = new TableView();
 		table.setPrefHeight(500);
                 table.setEditable(true);
-                
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
                 employeeIDColumn.setCellValueFactory(
                     new PropertyValueFactory<WidgetEntry,String>("ID"));
 		employeeIDColumn.setPrefWidth(100);
-                
-                TableColumn employeeFirstNameColumn = new TableColumn("Employee First Name");
-                employeeFirstNameColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("FirstName"));
-		employeeFirstNameColumn.setPrefWidth(150);
-                
-                TableColumn employeeLastNameColumn = new TableColumn("Employee Last Name");
-                employeeLastNameColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("LastName"));
-		employeeLastNameColumn.setPrefWidth(150);
-                
-		TableColumn currentLocationColumn = new TableColumn("Current Location");
-                currentLocationColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Location"));
-                currentLocationColumn.setPrefWidth(200);
-                
-		TableColumn typeOfWorkColumn = new TableColumn("Type of Work");
+		TableColumn locationColumn = new TableColumn("Current Location");
+		locationColumn.setPrefWidth(200);
+                locationColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Location"));                
+		TableColumn typeOfWorkColumn = new TableColumn("Work being Performed");
+		typeOfWorkColumn.setPrefWidth(150);
                 typeOfWorkColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Type"));
-                typeOfWorkColumn.setPrefWidth(100);
-                
-                TableColumn nextAppointmentDateColumn = new TableColumn("Next Appointment Date");
-                nextAppointmentDateColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("AppointmentDate"));  
-                nextAppointmentDateColumn.setPrefWidth(180);
-                
-		TableColumn nextAppointmentTimeColumn = new TableColumn("Next Appointment Time");
-                nextAppointmentTimeColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("AppointmentTime"));  
-                nextAppointmentTimeColumn.setPrefWidth(180);
-                
-                TableColumn nextAppointmentLocationColumn = new TableColumn("Next Appointment Location");
-                nextAppointmentLocationColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("AppointmentLocation"));  
-                nextAppointmentLocationColumn.setPrefWidth(230);
-                
-		table.getColumns().addAll(employeeIDColumn, employeeFirstNameColumn, employeeLastNameColumn, 
-                        currentLocationColumn, typeOfWorkColumn, nextAppointmentDateColumn, nextAppointmentTimeColumn, nextAppointmentLocationColumn);
+                    new PropertyValueFactory<WidgetEntry,String>("Type")); 
+		TableColumn nextAppointmentColumn = new TableColumn("Next Appointment Time");
+		nextAppointmentColumn.setPrefWidth(200);
+                nextAppointmentColumn.setCellValueFactory(
+                    new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
+		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
-                HBox inputFieldsHbox = new HBox();
-                HBox buttonsHbox = new HBox();
-                
-                final TextField employeeFirstNameField = new TextField();
-                employeeFirstNameField.setPromptText("Employee First Name");
-                employeeFirstNameField.setMaxWidth(employeeFirstNameColumn.getPrefWidth());
-                
-                final TextField employeeLastNameField = new TextField();
-                employeeLastNameField.setPromptText("Employee Last Name");
-                employeeLastNameField.setMaxWidth(employeeLastNameColumn.getPrefWidth());
-                
-                final TextField currentLocationField = new TextField();
-                currentLocationField.setPromptText("Current Location");
-                currentLocationField.setPrefWidth(250);
-                
-                final TextField typeOfWorkField = new TextField();
-                typeOfWorkField.setPromptText("Type of Work");
-                typeOfWorkField.setMaxWidth(employeeFirstNameColumn.getPrefWidth());
-                
-                final DatePicker nextAppointmentDatePicker = new DatePicker();
-                nextAppointmentDatePicker.setPromptText("Next Appointment Date");
-                nextAppointmentDatePicker.setPrefWidth(190);
-                
-                final TextField nextAppointmentTimeField = new TextField();
-                nextAppointmentTimeField.setPromptText("Next Appointment Time");
-                nextAppointmentTimeField.setMaxWidth(nextAppointmentTimeColumn.getPrefWidth());
-                
-                final TextField nextAppointmentLocationField = new TextField();
-                nextAppointmentLocationField.setPromptText("Next Appointment Location");
-                nextAppointmentLocationField.setPrefWidth(250);
-                
-                inputFieldsHbox.getChildren().addAll(employeeFirstNameField, employeeLastNameField, currentLocationField,
-                        typeOfWorkField, nextAppointmentDatePicker, nextAppointmentTimeField, nextAppointmentLocationField);
-                
-                Button addNewStatusButton = new Button();
-                addNewStatusButton.setText("Add New Status");
-                addNewStatusButton.setPadding(new Insets(10, 10, 10, 10));
-                
-                Button clearButton = new Button();
-                clearButton.setText("Clear Fields");
-                clearButton.setPadding(new Insets(10, 10, 10, 10));
-                
-                Button removeStatusButton = new Button();
-                removeStatusButton.setText("Remove Status");
-                removeStatusButton.setPadding(new Insets(10, 10, 10, 10));
-                
-                buttonsHbox.setSpacing(10);
-                buttonsHbox.setPadding(new Insets(20, 20, 20, 20));
-                buttonsHbox.getChildren().addAll(addNewStatusButton, clearButton, removeStatusButton);
-                addNewStatusButton.setOnAction(new EventHandler<ActionEvent>() {
-
-                    @Override
-                    public void handle(ActionEvent event) {
-                        if(employeeFirstNameField.getText().equals("") || employeeLastNameField.getText().equals("") || 
-                           currentLocationField.getText().equals("")|| typeOfWorkField.getText().equals("") ||
-                                nextAppointmentTimeField.getText().equals("")
-                                || nextAppointmentLocationField.getText().equals("")) {
-                            System.out.println("Please make sure all fields have been entered");
-                            //notesItems.add(notesTitleField.getText());
-                            //entryData.add(employeeFirstNameField.getText());
-                            
-                        
-                        } else {
-                            System.out.println("Enter New Status!");
-                             entries.add(new StatusEntry(employeeFirstNameField.getText(), employeeLastNameField.getText(),
-                                     currentLocationField.getText(), typeOfWorkField.getText()
-                             ));
-                        }
-                    }
-                });
-                          
-                clearButton.setOnAction(new EventHandler<ActionEvent>() {
-
-                    @Override
-                    public void handle(ActionEvent event) {
-                        employeeFirstNameField.clear();
-                        employeeLastNameField.clear();;
-                        currentLocationField.clear();
-                        typeOfWorkField.clear();
-                        
-                        nextAppointmentTimeField.clear();
-                        nextAppointmentLocationField.clear();
-                    }
-                });
-                
-                removeStatusButton.setOnAction(new EventHandler<ActionEvent>() {
-
-                    @Override
-                    public void handle(ActionEvent event) {
-                        
-                    }
-                });
-                
+                tabSetup();
                 final VBox vbox = new VBox();
-		vbox.setPrefWidth(1300);
+		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(buttonsHbox, inputFieldsHbox, table,lineGraph.getCanvas(),barGraph.getCanvas(),pieGraph.getCanvas());
+		vbox.getChildren().addAll(statusPane);
 		pane.add(vbox, 0, 1);   
-                
         }
         public void update() throws Exception {
             DbConnection db = new DbConnection();
@@ -258,22 +155,50 @@ public class StatusPage extends TransitionScene {
                 List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
-                        System.out.println(locResults.getString(1));
-                        System.out.println(typeResults.getString(1));
-                        System.out.println(appointmentResults.getDate(1));
-                        System.out.println(techIDResults.getInt(1) + locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getDate(1));
                         StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
                         System.out.println("entry" + entry.toString());
                         entryUpdate.add(entry);
                     }
+                table.setMinHeight(200);
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
                 System.out.println(entries.size());
-                table.setMinHeight(200.5);
-                table.autosize();
                 }catch(Exception e){System.out.println("1fail");};
       
         }
-	
+	private void tabSetup() {
+            statusPane = new TabPane();
+            JobsTable jobTable = new JobsTable();
+            try {
+                jobTable.update();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jobTab = new Tab("Jobs");
+            jobTab.setClosable(false);
+            jobTab.setContent(jobTable.getTable());
+            technicianTab = new Tab("Technicians");
+            technicianTab.setContent(table);
+            technicianTab.setClosable(false);
+            customerTab = new Tab("Customer");
+            CustomerTable customerTable = new CustomerTable();
+            try {
+                customerTable.update();
+            } catch (Exception ex) {
+                Logger.getLogger(StatusPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            customerTab.setClosable(false);
+            customerTab.setContent(customerTable.getTable());
+            graphTab = new Tab("Chart");
+            graphTab.setClosable(false);
+           
+            VBox chartBox = new VBox();
+            chartBox.getChildren().add(pieGraph.getCanvas());
+            
+            graphTab.setContent(chartBox);
+            
+            statusPane.getTabs().addAll(jobTab, technicianTab, customerTab, graphTab);
+            
+        }
 }

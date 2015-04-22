@@ -25,7 +25,6 @@ public class WindowTools extends ToolBar {
     private Button widgetButton = new Button();
     private Button nextButton =new Button();
     private Button previousButton = new Button();
-    private TransitionManager transitionManager = new TransitionManager();
     private StatusWidget widget;
     
     public WindowTools(){
@@ -40,8 +39,6 @@ public class WindowTools extends ToolBar {
         widgetButton.setGraphic(new ImageView(statusOk));
         buttonBar.getChildren().addAll(widgetButton, previousButton, nextButton);
         widgetButton.setOnAction(activateWidget());
-        nextButton.setOnAction(goToNext());
-        previousButton.setOnAction(goToPrevious());
         this.getItems().add(buttonBar);  
     }
     
@@ -60,11 +57,7 @@ public class WindowTools extends ToolBar {
     public void setPrevious(Scene last) {
         System.out.println("added scene to previous");
         System.out.println(last.toString());
-        transitionManager.addPreviousScene(currentScene);
         
-    }
-    public void setNext(Scene next) {
-        transitionManager.addNextScene(currentScene);
     }
 
     private EventHandler<ActionEvent> activateWidget() {
@@ -80,26 +73,5 @@ public class WindowTools extends ToolBar {
             popup.setY(400);
         };
     }
-    
-    private EventHandler<ActionEvent> goToNext() {
-        return (ActionEvent event) -> {
-            if(transitionManager.getNextSceneList().size() > 0) {       
-                stage.setScene(transitionManager.getNextSceneClass());
-    //          transitionManager.previousSceneList.add(transitionManager.getNextSceneList().get(0));
-                currentScene = transitionManager.getCurrentTransitionScene();
-                transitionManager.incrementNextSceneList();
-            }
-        };
-    }
-    
-    private EventHandler<ActionEvent> goToPrevious() {
-         return (ActionEvent event) -> {
-            if(transitionManager.getPreviousSceneList().size() > 0) {       
-                stage.setScene(transitionManager.getPreviousSceneClass());
-  //              transitionManager.previousSceneList.add(transitionManager.getNextSceneList().get(0));
-                currentScene = transitionManager.getCurrentTransitionScene();  
-                transitionManager.incrementPreviousSceneList();
-            }
-        };
-    }
+
 }

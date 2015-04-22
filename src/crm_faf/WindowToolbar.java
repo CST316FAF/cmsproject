@@ -25,7 +25,6 @@ import org.jfree.data.time.Month;
 
 
 public class WindowToolbar extends MenuBar {
-    private UpdateManager manager = new UpdateManager();
     private WindowTools bar;
     private Month startDate;
     private Month endDate;
@@ -58,7 +57,6 @@ public class WindowToolbar extends MenuBar {
         this.stage = stage;
         setUp(scene, stage);
         setUpCharts(a,b,c);
-        manager.run();
     }
 
     //adds Menu to stage without charts needed
@@ -85,13 +83,6 @@ public class WindowToolbar extends MenuBar {
         statusNotes.setOnAction(goToStatusNotes());
         UserMenu.getItems().add(statusNotes);
                
-        MenuItem statusPage = new MenuItem("Status Page");
-        statusPage.setOnAction(goToStatus());
-        UserMenu.getItems().add(statusPage);
-        
-        MenuItem sendEmail = new MenuItem("Send Email");
-        sendEmail.setOnAction(goToSendEmail());
-        UserMenu.getItems().add(sendEmail);
         
         //add technician scene link
         
@@ -292,9 +283,4 @@ public class WindowToolbar extends MenuBar {
                 new StatusNotes().start(stage);
         };
     }
-
-    private EventHandler<ActionEvent> goToSendEmail() {
-        return (ActionEvent event) -> {
-                new SendEmail().start(stage);
-        };    }
 }

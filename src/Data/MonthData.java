@@ -5,16 +5,26 @@
  */
 package Data;
 
+import java.util.ArrayList;
 import org.jfree.data.time.Month;
 
 
 public class MonthData {
     private Month month;
-    private int numCustomers;
+
+    private ArrayList<AreaData> areaCodeData = new ArrayList<AreaData>();
     
-    public MonthData(Month month, int numCustomers){
+    public ArrayList<AreaData> getAreaCodeData() {
+        return areaCodeData;
+    }
+
+    public void setAreaCodeData(ArrayList<AreaData> areaCodeData) {
+        this.areaCodeData = areaCodeData;
+    }
+    
+    public MonthData(Month month){
         this.month = month;
-        this.numCustomers = numCustomers;
+        
     }
     public void setMonth(Month month){
         this.month = month;
@@ -23,12 +33,5 @@ public class MonthData {
     public Month getMonth() {
         return month;
     }
-    
-    public void setNumCustomers(int numCustomers) {
-        this.numCustomers = numCustomers;
-    }
-    
-    public int getNumCustomers() {
-        return numCustomers;
-    }
+
 }

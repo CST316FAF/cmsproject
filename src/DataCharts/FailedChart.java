@@ -23,7 +23,7 @@ import javax.swing.JFrame;
 public class FailedChart extends Canvas {
     private static Font sanSerifFont = new Font("SanSerif", Font.PLAIN, 12);
 
-    FailedChart() {
+    public FailedChart() {
         super();
     }
 
