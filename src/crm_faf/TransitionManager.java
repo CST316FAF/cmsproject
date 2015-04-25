@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 /**
  *
  * @author Davis
  */
+
 public class TransitionManager {
     ArrayList<Class> classList = new ArrayList<>();
     ArrayList<StoredScene> previousSceneList = new ArrayList<>();

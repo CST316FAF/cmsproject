@@ -5,7 +5,6 @@
  */
 package crm_faf;
 
-import DataCharts.Chart;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;

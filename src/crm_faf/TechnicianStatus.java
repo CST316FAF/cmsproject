@@ -1,8 +1,6 @@
 package crm_faf;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
