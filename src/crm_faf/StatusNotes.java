@@ -170,31 +170,27 @@ public class StatusNotes extends Application
 		               : selectedIdx;
 		 
 		          System.out.println(notesList.getSelectionModel().getSelectedItem());
-		          
+                          
+		          DbConnection db = new DbConnection();
 		          try {
-			            // 1. Get a connection to database
-			            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+			            //Get a connection to database
+			            db.connect(); 
+                                    
+                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
+                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
 			            
-			            // 2. Create a statement
-			            Statement myStatement = myConn.createStatement();
-			            System.out.println("3");
-			            // 3. Execute SQL query
-			            ResultSet myRs = myStatement.executeQuery("select * from statusnotes where notetitle='"+notesList.getSelectionModel().getSelectedItem()+"'");
-			           while(myRs.next()) {
-			            if(myRs.getString("notetitle").equals(notesList.getSelectionModel().getSelectedItem())) {
+			           while(notesTitleResult.next() && notesResult.next()) {
+			            if(notesTitleResult.getString("title").equals(notesList.getSelectionModel().getSelectedItem())) {
 			            	System.out.println("it worked!");
 			            	
-			            	techNameField.setText(myRs.getString("technician"));
-			            	notesTitleField.setText(myRs.getString("notetitle"));
-			            	notesArea.setText(myRs.getString("notecontent"));
+			            	//techNameField.setText(myRs.getString("technician"));
+			            	notesTitleField.setText(notesTitleResult.getString("title"));
+			            	notesArea.setText(notesResult.getString("notes"));
 			            } else {
 			            	System.out.println("nope");
 			            }
 			            }
-			            
-			            System.out.println(myRs.getBoolean("notetitle"));
-			            
-			            
+			          
 			        } 
 			        catch (Exception ecx) {
 			            
