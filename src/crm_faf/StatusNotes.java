@@ -291,13 +291,6 @@ public class StatusNotes extends Application
         
     }
     
-    
-//    public static void main(String[] args) {
-//    	
-//        launch(args);
-//        
-//    }
-    
     public File getNoteFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(StatusNotes.class);
         String filePath = prefs.get("filePath", null);
