@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import Data.DbConnection;
 
 /**
  *
@@ -87,24 +88,23 @@ public class StatusNotes extends Application
         "Sample Note");
         notesList.setItems(notesItems);
         notesList.setPrefSize(160, 600);
+        
+        DbConnection db = new DbConnection();
         try {
-            // 1. Get a connection to database
-            Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb", "root", "");
+            //Get a connection to database
+            db.connect(); 
             
-            // 2. Create a statement
-            Statement myStatement = myConn.createStatement();
+            //ResultSet technicianResult = db.selectDataColumn("technician", "techFName", "1");
+            ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
+            ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
             
-            // 3. Execute SQL query
-            ResultSet myRs = myStatement.executeQuery("select * from statusnotes");
-            
-            // 4. Process the result set
-            while (myRs.next()) {
-                System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
+            while (notesResult.next() && notesTitleResult.next()) {
+                //System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
                 
-                notesItems.add(myRs.getString("notetitle"));
-                techNameField.setText(myRs.getString("technician"));
-                notesTitleField.setText(myRs.getString("notetitle"));
-                notesArea.setText(myRs.getString("notecontent"));
+                notesItems.add(notesTitleResult.getString("title"));
+                //techNameField.setText(myRs.getString("technician"));
+                notesTitleField.setText(notesTitleResult.getString("title"));
+                notesArea.setText(notesResult.getString("notes"));
                 
             }
         } 
