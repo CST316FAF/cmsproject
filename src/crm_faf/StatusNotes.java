@@ -54,17 +54,6 @@ public class StatusNotes extends Application
         Button deleteNoteButton = this.deleteNoteButton;
         deleteNoteButton.setText("Delete Note");
         
-        addNoteButton.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                
-                
-            }
-        });
-        //saveButton.setOnAction(this);
-        //addNoteButton.setOnAction(this);
-        
         hbox.getChildren().addAll(saveButton, addNoteButton, deleteNoteButton);
         
         return hbox;
