@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class DbConnection {
     private Connection connection = null;
+    private String identifier;
     
     public boolean connect() throws Exception {
         try {
@@ -47,12 +48,11 @@ public class DbConnection {
         }
         return true;
     }
-    public ResultSet selectDataColumn(String table, String column, String identifier ) {
+    public ResultSet selectDataColumn(String table, String column) {
         ResultSet results = null;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
                     + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
-            System.out.println(statement + column);
             results = statement.executeQuery();
 
         } catch (SQLException ex) {
@@ -60,12 +60,9 @@ public class DbConnection {
         }
         return results;
     }
-    public ResultSet selectDataColumn(String table, String column, String modifier, String modifierColumn, String identifier ) {
+    public ResultSet selectDataColumn(String table, String column, String modifier, String modifierColumn) {
         ResultSet results = null;
         try {
-            System.out.println("SELECT " + column 
-                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\" AND Where " 
-                    + modifierColumn + " = \"" + modifier + "\"");
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
                     + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
             System.out.println(statement + column);
@@ -80,8 +77,8 @@ public class DbConnection {
         ResultSet results = null;
         try {
             Statement statement = connection.createStatement();
-             String query = new String("SELECT + * FROM" + column  + " "
-                    + " + FROM "+ table + " WHERE ");
+             String query = "SELECT + * FROM" + column  + " "
+                     + " + FROM "+ table + " WHERE ";
             for(int x = 0; x < identifiers.size(); x++) {
                if (x > 0)
                    query += " and ";
@@ -97,10 +94,8 @@ public class DbConnection {
     public void insertData(String table, ArrayList<String> values) {
         try {
             Statement statement = connection.createStatement();
-            String query = new String("INSERT INTO " + table + "Values (");
-            for(int x = 0; x < values.size(); x++) {
-                query += values.get(x) + ",";
-            }
+            String query = "INSERT INTO " + table + "Values (";
+            query = values.stream().map((value) -> value + ",").reduce(query, String::concat);
             query += ")"; 
             statement.executeQuery(query);
         } catch (SQLException ex) {
@@ -128,8 +123,10 @@ public class DbConnection {
             
             ResultSet results = statement.executeQuery("SELECT 1 FROM user WHERE userName = \"" 
                     + userName + "\" and passWd = \"" + password + "\""); 
-            if(results.first())
+            if(results.first()) {
+                identifier = results.getInt(1) +"";
                 answer = true;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }       
