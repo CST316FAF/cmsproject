@@ -73,7 +73,6 @@ public class StatusNotes extends Application
         Text title = new Text("Current Jobs");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
-        //notesItems = this.notesItems;
         notesItems = FXCollections.observableArrayList(
         "Sample Note");
         notesList.setItems(notesItems);
@@ -183,7 +182,7 @@ public class StatusNotes extends Application
 			            	//techNameField.setText(myRs.getString("technician"));
 			            	notesTitleField.setText(notesTitleResult.getString("title"));
 			            	notesArea.setText(notesResult.getString("notes"));
-			            } else {
+                                    } else {
 			            	System.out.println("nope");
 			            }
 			            }
@@ -204,7 +203,7 @@ public class StatusNotes extends Application
             @Override
             public void handle(ActionEvent event) {
                 if(notesArea.getText() == "" || notesTitleField.getText() == "" || techNameField.getText() == "") {
-                	//TODO: Add a message dialog to notify user that the title field and notes are cannot be left blank
+                	
                 	System.out.println("Please fill in both title notes text field and the notes area text field.");
                 } else {
             	notesItems.add(notesTitleField.getText());
