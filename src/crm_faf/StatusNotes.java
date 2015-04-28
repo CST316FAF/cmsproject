@@ -28,6 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import Data.DbConnection;
+import javafx.scene.control.Label;
 
 /**
  *
@@ -115,14 +116,21 @@ public class StatusNotes extends Application
     
     public VBox addRightVBox() {
         VBox vbox = new VBox();
-        
+        Label notesTitleLabel = new Label();
+        notesTitleLabel.setText("Note Title");
+        notesTitleLabel.setFont(Font.font("Arial", 14));
+        notesTitleLabel.setStyle("-fx-font-weight: bold");
+        Label notesAreaLabel = new Label();
+        notesAreaLabel.setText("Note");
+        notesAreaLabel.setFont(Font.font("Arial", 14));
+        notesAreaLabel.setStyle("-fx-font-weight: bold");
         techNameField.setPromptText("Enter Technician Name here..");
         techNameField.setPrefWidth(20);
         notesTitleField.setPromptText("Enter note title here..");
         notesArea.setPromptText("Enter your note here...");
         notesArea.setPrefSize(300, 460);
         
-        vbox.getChildren().addAll(techNameField,notesTitleField, notesArea);
+        vbox.getChildren().addAll(techNameField, notesTitleLabel, notesTitleField, notesAreaLabel, notesArea);
         
         return vbox;
     }
