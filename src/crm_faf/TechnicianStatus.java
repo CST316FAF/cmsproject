@@ -1,5 +1,6 @@
 package crm_faf;
 
+import Data.DbConnection;
 import java.util.Hashtable;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,8 +20,71 @@ public class TechnicianStatus extends TransitionScene{
     private WindowToolbar bar;
     private VBox windowTopBox;
     private Scene scene;
+    private DbConnection db;
+    
+    public void start(final Stage primaryStage, WindowTools tBar, DbConnection db) {
+        this.db = db;
+        primaryStage.setTitle("Technician Status");
+        root = new StackPane();
+        border = new BorderPane();
+        
+        windowTopBox = new VBox();
+        
+        scene = new Scene(border, 300, 250); 
+        
+        bar = new WindowToolbar(scene, primaryStage, db);
+        bar.setToolbar(tBar);
+        windowTopBox.getChildren().addAll(bar, tBar);
+        border.setTop(windowTopBox);
+        border.setCenter(root);
+        
+        
+        dateChooser = new DateChooser();
+        root.getChildren().add(dateChooser);
+               
+        primaryStage.setScene(scene);
+        primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
 
-    public Scene getScene() {
+                    public void handle(WindowEvent event) {
+                        System.out.println("date " + dateChooser.getDate());
+                    }
+                });
+        primaryStage.show();
+    }
+    
+   // @Override 
+    @Override
+    public Hashtable getAttributes(){
+        Hashtable table = new Hashtable<String, Object>();
+        if(scene != null)
+            table.put("scene", scene);
+        if(border != null)
+            table.put("border", border);
+        if(root != null)
+            table.put("root", root);
+        if(dateChooser != null)
+            table.put("dateChooser", dateChooser);
+        if(toolbar != null)
+            table.put("toolbar", toolbar);
+        if(bar != null)
+            table.put("bar", bar);
+        if(windowTopBox != null)
+            table.put("windowTopBox", windowTopBox);
+        return table;
+
+    }
+    @Override
+    public void setAttributes(Hashtable attValues) {
+        this.scene = (Scene) attValues.get("scene");
+        this.bar = (WindowToolbar) attValues.get("bar");
+        this.border = (BorderPane) attValues.get("border");
+        this.root = (StackPane) attValues.get("root");
+        this.toolbar = (WindowTools) attValues.get("toolbar");
+        this.bar = (WindowToolbar) attValues.get("bar");
+        this.windowTopBox = (VBox) attValues.get("windowTopBox");
+    }
+    
+       public Scene getScene() {
         return scene;
     }
 
@@ -82,68 +146,6 @@ public class TechnicianStatus extends TransitionScene{
 
     public void setStored(boolean stored) {
         this.stored = stored;
-    }
-
-    
-    public void start(final Stage primaryStage, WindowTools tBar) {
-        primaryStage.setTitle("Technician Status");
-        root = new StackPane();
-        border = new BorderPane();
-        
-        windowTopBox = new VBox();
-        
-        scene = new Scene(border, 300, 250); 
-        
-        bar = new WindowToolbar(scene, primaryStage);
-        bar.setToolbar(tBar);
-        windowTopBox.getChildren().addAll(bar, tBar);
-        border.setTop(windowTopBox);
-        border.setCenter(root);
-        
-        
-        dateChooser = new DateChooser();
-        root.getChildren().add(dateChooser);
-               
-        primaryStage.setScene(scene);
-        primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
-
-                    public void handle(WindowEvent event) {
-                        System.out.println("date " + dateChooser.getDate());
-                    }
-                });
-        primaryStage.show();
-    }
-    
-   // @Override 
-    @Override
-    public Hashtable getAttributes(){
-        Hashtable table = new Hashtable<String, Object>();
-        if(scene != null)
-            table.put("scene", scene);
-        if(border != null)
-            table.put("border", border);
-        if(root != null)
-            table.put("root", root);
-        if(dateChooser != null)
-            table.put("dateChooser", dateChooser);
-        if(toolbar != null)
-            table.put("toolbar", toolbar);
-        if(bar != null)
-            table.put("bar", bar);
-        if(windowTopBox != null)
-            table.put("windowTopBox", windowTopBox);
-        return table;
-
-    }
-    @Override
-    public void setAttributes(Hashtable attValues) {
-        this.scene = (Scene) attValues.get("scene");
-        this.bar = (WindowToolbar) attValues.get("bar");
-        this.border = (BorderPane) attValues.get("border");
-        this.root = (StackPane) attValues.get("root");
-        this.toolbar = (WindowTools) attValues.get("toolbar");
-        this.bar = (WindowToolbar) attValues.get("bar");
-        this.windowTopBox = (VBox) attValues.get("windowTopBox");
     }
 
 }

@@ -47,10 +47,12 @@ public class StatusPage extends TransitionScene {
         private TabPane statusPane;
         private Chart barGraph;
         private Chart pieGraph;
+        private DbConnection db;
 
 
         
-	public Scene start(Stage primaryStage, WindowTools tBar) {
+	public Scene start(Stage primaryStage, WindowTools tBar, DbConnection db) {
+                this.db = db;
                 this.toolbar = tBar;
 		this.primaryStage = primaryStage;
             try {
@@ -81,7 +83,7 @@ public class StatusPage extends TransitionScene {
                 barGraph = new Chart();
                 pieGraph = new Chart();
 
-                ArrayList<YearData> locs = new DataCreator().generateYearData(); 
+                ArrayList<YearData> locs = new DataCreator(db).generateYearData(); 
 
                 lineGraph.getCanvas(locs, "bar");
                 lineGraph.getCanvas(locs, "bar");
@@ -95,7 +97,7 @@ public class StatusPage extends TransitionScene {
                 
                 bar = new WindowToolbar(lineGraph.getCanvas(), 
                         barGraph.getCanvas(), pieGraph.getCanvas(),
-                        scene, primaryStage);
+                        scene, primaryStage, db);
                 bar.setToolbar(toolbar);
 
                 pane2.setCenter(pane);
@@ -137,14 +139,12 @@ public class StatusPage extends TransitionScene {
 		pane.add(vbox, 0, 1);   
         }
         public void update() throws Exception {
-            DbConnection db = new DbConnection();
             
             try {
-                db.connect();
-                ResultSet locResults = db.selectDataColumn("technician", "Location", "1");
-                ResultSet typeResults = db.selectDataColumn("technician", "type", "1");
-                ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment", "1");
-                ResultSet techIDResults = db.selectDataColumn("technician", "TechID", "1");
+                ResultSet locResults = db.selectDataColumn("technician", "Location");
+                ResultSet typeResults = db.selectDataColumn("technician", "type");
+                ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment");
+                ResultSet techIDResults = db.selectDataColumn("technician", "TechID");
                 
                 List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
@@ -161,7 +161,7 @@ public class StatusPage extends TransitionScene {
         }
 	private void tabSetup() {
             statusPane = new TabPane();
-            JobsTable jobTable = new JobsTable();
+            JobsTable jobTable = new JobsTable(db);
             try {
                 jobTable.update();
             } catch (Exception ex) {
@@ -174,7 +174,7 @@ public class StatusPage extends TransitionScene {
             technicianTab.setContent(table);
             technicianTab.setClosable(false);
             customerTab = new Tab("Customer");
-            CustomerTable customerTable = new CustomerTable();
+            CustomerTable customerTable = new CustomerTable(db);
             try {
                 customerTable.update();
             } catch (Exception ex) {

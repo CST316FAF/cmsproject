@@ -5,6 +5,7 @@
  */
 package crm_faf;
 
+import Data.DbConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -27,6 +28,7 @@ public class WindowTools extends ToolBar {
     private Button previousButton = new Button();
     private Button emailButton =new Button();
     private Button refreshButton = new Button();
+    private DbConnection db;
 
   
 
@@ -35,8 +37,9 @@ public class WindowTools extends ToolBar {
     }
     private StatusWidget widget;
     
-    public WindowTools(){
+    public WindowTools(DbConnection db){
         super();
+        this.db = db;
         setup();
     }
 
@@ -80,7 +83,7 @@ public class WindowTools extends ToolBar {
         return (ActionEvent event) -> {
             Stage popup = new Stage();
             VBox comp = new VBox();
-            StatusWidget widget = new StatusWidget();
+            StatusWidget widget = new StatusWidget(db);
             comp.getChildren().add(widget.getTable());
             Scene popupScene = new Scene(comp, 300, 300);
             popup.setScene(popupScene);
@@ -172,7 +175,7 @@ public class WindowTools extends ToolBar {
 
         private EventHandler<ActionEvent> refresh() {
             return (ActionEvent event) -> {
-                stage.setScene(new StatusPage().start(stage, this));
+                stage.setScene(new StatusPage().start(stage, this,db));
                 
             };
          }

@@ -69,6 +69,7 @@ public class LoginScreen extends Application {
     private Button createAcct;
     private GridPane grid;
     private Scene scene;
+    private DbConnection db = new DbConnection();
     
    
     private TextField userTextField;
@@ -138,15 +139,14 @@ public class LoginScreen extends Application {
     }
 
     public DbConnection getConnection() {
-        return connection;
+        return db;
     }
 
     public void setConnection(DbConnection connection) {
-        this.connection = connection;
+        this.db = connection;
     }
 
-    
-    DbConnection connection = new DbConnection();
+
     
     public void setuserTextField(TextField userTextField) {
         this.userTextField = userTextField;
@@ -161,7 +161,7 @@ public class LoginScreen extends Application {
         return this.pwbox;
     }
     public void setbtn(Button setbtn) {
-        this.btn = btn;
+        this.btn = setbtn;
     }
     public PasswordField getbtn() {
         return this.pwbox;
@@ -253,7 +253,7 @@ public class LoginScreen extends Application {
     }
     public void Connection(){
          try {
-            this.connection.connect();
+            this.db.connect();
         } catch (Exception ex) {
             Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -265,15 +265,15 @@ public class LoginScreen extends Application {
         
         createAcct.setOnAction((ActionEvent e) -> {
             
-            primaryStage.setScene(new CreateUser().start(primaryStage));
+            primaryStage.setScene(new CreateUser().start(primaryStage, db));
         });
 
         return true;
     }
     private EventHandler<ActionEvent> login() {
         return (ActionEvent event) -> {
-            if(connection.login(userTextField.getText(), pwBox.getText())){
-                primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+            if(db.login(userTextField.getText(), pwBox.getText())){
+                primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools(db), db));
             }
             else{
                 message.setText("Invalid Pwd");

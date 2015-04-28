@@ -63,7 +63,7 @@ public class DbConnectionTest {
         String identifier = "test";
         instance = new DbConnection();
         ResultSet expResult = null;
-        ResultSet result = instance.selectDataColumn(table, column, identifier);
+        ResultSet result = instance.selectDataColumn(table, column);
         assertNotEquals(expResult, result);
     }
 

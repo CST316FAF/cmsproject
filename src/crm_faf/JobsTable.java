@@ -18,8 +18,10 @@ public class JobsTable {
     private  List<JobsEntry> entryData = new ArrayList<JobsEntry>();
     private  ObservableList<JobsEntry> entries = FXCollections.observableList(entryData); 
     private  List<String> problemData = new ArrayList<String>();
+    private final DbConnection db;
     
-    JobsTable() {
+    JobsTable(DbConnection db) {
+        this.db = db;
         Setup();
     }
     
@@ -51,20 +53,18 @@ public class JobsTable {
     }
     
     public void update() throws Exception {
-            DbConnection db = new DbConnection();
             
             try {
-                db.connect();
-                ResultSet customerIdResults = db.selectDataColumn("jobs", "CustomerID", "1");
-                ResultSet titleResults = db.selectDataColumn("jobs", "title", "1");
-                ResultSet costResults = db.selectDataColumn("jobs", "cost", "1");
-                ResultSet dateResults = db.selectDataColumn("jobs", "date", "1");
-                ResultSet completedResults = db.selectDataColumn("jobs", "completed", "1");
+                ResultSet customerIdResults = db.selectDataColumn("jobs", "CustomerID");
+                ResultSet titleResults = db.selectDataColumn("jobs", "title");
+                ResultSet costResults = db.selectDataColumn("jobs", "cost");
+                ResultSet dateResults = db.selectDataColumn("jobs", "date");
+                ResultSet completedResults = db.selectDataColumn("jobs", "completed");
                 
                 List<JobsEntry> entryUpdate = new ArrayList<JobsEntry>();
                     while(customerIdResults.next() && titleResults.next() && costResults.next()
                                 && dateResults.next() && completedResults.next()) {
-                        ResultSet customerName = db.selectDataColumn("customer", "clName", "1");
+                        ResultSet customerName = db.selectDataColumn("customer", "clName");
                         customerName.next();
                         String name = customerName.getString(1);
                         String completed = "no";

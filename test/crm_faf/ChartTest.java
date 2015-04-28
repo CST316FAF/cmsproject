@@ -2,6 +2,7 @@ package crm_faf;
 
 
 import Data.DataCreator;
+import Data.DbConnection;
 import Data.YearData;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -36,7 +37,7 @@ public class ChartTest extends TestCase {
     private Chart barGraph;
     private ArrayList<YearData> locationTestData;
     private Object lineCanvas;
-
+    private DbConnection db;
     public ChartTest() {
     }
 
@@ -50,7 +51,8 @@ public class ChartTest extends TestCase {
     barGraph = new Chart();
     pieGraph = new Chart();
         try {
-            locationTestData = new DataCreator().generateYearData();
+            db.connect();
+            locationTestData = new DataCreator(db).generateYearData();
         } catch (Exception ex) {
             Logger.getLogger(ChartTest.class.getName()).log(Level.SEVERE, null, ex);
         }

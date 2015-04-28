@@ -85,8 +85,8 @@ public class StatusNotes extends Application
             db.connect(); 
             
             //ResultSet technicianResult = db.selectDataColumn("technician", "techFName", "1");
-            ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
-            ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
+            ResultSet notesResult = db.selectDataColumn("jobs", "notes");
+            ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
             
             while (notesResult.next() && notesTitleResult.next()) {
                 //System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
@@ -173,8 +173,8 @@ public class StatusNotes extends Application
 			            //Get a connection to database
 			            db.connect(); 
                                     
-                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
-                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
+                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
+                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes");
 			            
 			           while(notesTitleResult.next() && notesResult.next()) {
 			            if(notesTitleResult.getString("title").equals(notesList.getSelectionModel().getSelectedItem())) {

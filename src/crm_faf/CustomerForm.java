@@ -1,5 +1,6 @@
 package crm_faf;
 	
+import Data.DbConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -45,9 +46,10 @@ public class CustomerForm  extends TransitionScene{
         ResultSet myResultSet;
         Statement myStatement;
         Stage primaryStage = new Stage();
+    private DbConnection db;
         
-        public void start(Stage primaryStage) {
-		
+        public void start(Stage primaryStage, DbConnection db) {
+		this.db = db;
                 primaryStage = this.primaryStage;
 		primaryStage.setTitle("Customer Entry Form");
 		BorderPane pane2 = new BorderPane();
@@ -60,8 +62,8 @@ public class CustomerForm  extends TransitionScene{
 		Scene scene = new Scene(pane2, 600, 600);
 		
                 
-                toolbar = new WindowTools();
-                bar = new WindowToolbar(scene, primaryStage);
+                toolbar = new WindowTools(db);
+                bar = new WindowToolbar(scene, primaryStage, db);
                 windowTopBox.getChildren().addAll(bar, toolbar);
                 pane2.setTop(windowTopBox);
                 

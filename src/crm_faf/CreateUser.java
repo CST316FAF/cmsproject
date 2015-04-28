@@ -5,6 +5,7 @@
  */
 package crm_faf;
 
+import Data.DbConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,6 +32,7 @@ public class CreateUser extends TransitionScene{
     private PasswordField pwBox0;
     private PasswordField pwBox1;
     private Button createAcct;
+    private DbConnection db;
     
     public void setNewUserTextField(TextField newuserTextField) {
         this.newuserTextField = newuserTextField;
@@ -57,8 +59,9 @@ public class CreateUser extends TransitionScene{
         return this.createAcct;
     }
     
-    public Scene start(Stage primaryStage) {
+    public Scene start(Stage primaryStage, DbConnection db) {
     
+        this.db = db;
         primaryStage.setTitle("BEST CMS EVER");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -104,7 +107,7 @@ public class CreateUser extends TransitionScene{
             public void handle(ActionEvent e) {
                 if((pwBox0.getText().compareTo(pwBox1.getText()) == 0) && pwBox0.getText().length() > 7
                         && newuserTextField.getText().length() > 0){
-                    primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools()));
+                    primaryStage.setScene(new StatusPage().start(primaryStage, new WindowTools(db), db));
                 }
                 else if(pwBox0.getText().length() <= 7) {
                     message.setText("Password must be > 7");

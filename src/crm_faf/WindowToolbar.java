@@ -5,6 +5,7 @@
  */
 package crm_faf;
 
+import Data.DbConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -34,6 +35,7 @@ public class WindowToolbar extends MenuBar {
     private Menu settingsMenu = new Menu("Settings");
     private Menu chartMenu = new Menu("Chart");
     private Menu technicianMenu = new Menu("Technician");
+    private DbConnection db;
     /*
     *I plan to change way graph is used
     */
@@ -46,12 +48,14 @@ public class WindowToolbar extends MenuBar {
     public WindowToolbar() {
     // for testing purposes   
     }
-    public WindowToolbar(Scene scene, Stage stage) {
+    public WindowToolbar(Scene scene, Stage stage, DbConnection db) {
+        this.db = db;
         setUp(scene, stage);
     }
     
     //adds menu to stage with charts - might change after actual data is used
-    public WindowToolbar(Canvas a, Canvas b, Canvas c, Scene scene, Stage stage) {  
+    public WindowToolbar(Canvas a, Canvas b, Canvas c, Scene scene, Stage stage, DbConnection db) {  
+        this.db = db;
         this.scene = scene;
         this.stage = stage;
         setUp(scene, stage);
@@ -137,7 +141,7 @@ public class WindowToolbar extends MenuBar {
     }
     private EventHandler<ActionEvent> goToCustomerAdd() {
         return (ActionEvent event) -> {
-            new CustomerForm().start(stage);
+            new CustomerForm().start(stage, db);
         };
     }
     private EventHandler<ActionEvent> barSwitch() {
@@ -183,19 +187,19 @@ public class WindowToolbar extends MenuBar {
     
     private EventHandler<ActionEvent> goToStatus() {
         return (ActionEvent event) -> {
-            new StatusPage().start(stage, bar);
+            new StatusPage().start(stage, bar, db);
         };
     }
     
     private EventHandler<ActionEvent> goToAddJobs() {
         return (ActionEvent event) -> {
-            new CreateJob().start(stage);
+            new CreateJob().start(stage, db);
         };
     }
     
     private EventHandler<ActionEvent> goToCheckTech() {
         return (ActionEvent event) -> {
-            new Technician().start(stage);
+            new Technician().start(stage, db);
         };
     }
 

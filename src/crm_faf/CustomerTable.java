@@ -18,8 +18,9 @@ public class CustomerTable {
     private  List<CustomerEntry> entryData = new ArrayList<CustomerEntry>();
     private  ObservableList<CustomerEntry> entries = FXCollections.observableList(entryData); 
     private  List<String> problemData = new ArrayList<String>();
-    
-    CustomerTable() {
+    private  DbConnection db;
+    CustomerTable(DbConnection db) {
+        this.db = db;
         Setup();
     }
     
@@ -63,18 +64,16 @@ public class CustomerTable {
     }
     
     public void update() throws Exception {
-            DbConnection db = new DbConnection();
             
             try {
-                db.connect();
-                ResultSet customerfNameResults = db.selectDataColumn("customer", "cfName", "1");
-                ResultSet customerlNameResults = db.selectDataColumn("customer", "clName", "1");
-                ResultSet streetAddressResults = db.selectDataColumn("customer", "cstreetAddy", "1");
-                ResultSet cityResults = db.selectDataColumn("customer", "cCity", "1");
-                ResultSet zipResults = db.selectDataColumn("customer", "cZip", "1");
-                ResultSet stateResults = db.selectDataColumn("customer", "cState", "1");
-                ResultSet phoneResults = db.selectDataColumn("customer", "cPhone", "1");
-                ResultSet emailResults = db.selectDataColumn("customer", "cEmail", "1");
+                ResultSet customerfNameResults = db.selectDataColumn("customer", "cfName");
+                ResultSet customerlNameResults = db.selectDataColumn("customer", "clName");
+                ResultSet streetAddressResults = db.selectDataColumn("customer", "cstreetAddy");
+                ResultSet cityResults = db.selectDataColumn("customer", "cCity");
+                ResultSet zipResults = db.selectDataColumn("customer", "cZip");
+                ResultSet stateResults = db.selectDataColumn("customer", "cState");
+                ResultSet phoneResults = db.selectDataColumn("customer", "cPhone");
+                ResultSet emailResults = db.selectDataColumn("customer", "cEmail");
                 
                 List<CustomerEntry> entryUpdate = new ArrayList<CustomerEntry>();
                     while(customerfNameResults.next() && customerlNameResults.next() && streetAddressResults.next()

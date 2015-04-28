@@ -24,10 +24,11 @@ public class StatusWidget {
     private  TableView table;
     private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
     private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
-    private  boolean hasFeed = false;
     private  List<String> problemData = new ArrayList<String>();
+    private DbConnection db;
     
-    StatusWidget() {
+    StatusWidget(DbConnection db) {
+        this.db = db;
         Setup();
     }
     
@@ -73,8 +74,7 @@ public class StatusWidget {
 
     private boolean checkStatus() {
         try {
-            DbConnection db = new DbConnection();
-            ResultSet jobsCheck = db.selectDataColumn("jobs", "*", "1");
+            ResultSet jobsCheck = db.selectDataColumn("jobs", "*");
             while(jobsCheck.next()) {
                 if(jobsCheck.getBoolean("problem")){
                     entries.add(new WidgetEntry("none", jobsCheck.getString("notes"), "problem", 

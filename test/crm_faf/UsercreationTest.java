@@ -85,10 +85,11 @@ public class UsercreationTest {
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
         primaryStage.show();
+        DbConnection db = new DbConnection();
         
         
        
-        instance.start(primaryStage);
+        instance.start(primaryStage, db);
         Data.DbConnection connection = new Data.DbConnection();
         connection.connect();
         TextField ubox = new TextField();
