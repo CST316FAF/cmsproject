@@ -70,7 +70,7 @@ public class StatusNotes extends Application
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(10);
         
-        Text title = new Text("Status Notes");
+        Text title = new Text("Current Jobs");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
         //notesItems = this.notesItems;
