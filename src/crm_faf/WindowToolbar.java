@@ -89,17 +89,9 @@ public class WindowToolbar extends MenuBar {
         
         //add technician scene link
         
-        MenuItem checkTech = new MenuItem("Technician List");
+        MenuItem checkTech = new MenuItem("Add Technician");
         checkTech.setOnAction(goToCheckTech());
         technicianMenu.getItems().add(checkTech);
-        
-        MenuItem techInventory = new MenuItem("Technician Inventory");
-        techInventory.setOnAction(goTotechInventory());
-        technicianMenu.getItems().add(techInventory);
-        
-        MenuItem techStat = new MenuItem("Technician Status");
-        techStat.setOnAction(goToTechStatus());
-        technicianMenu.getItems().add(techStat);
         
         this.UserMenu.getItems().add(checkStatus);
         this.customerMenu.getItems().add(addCust);
@@ -203,18 +195,10 @@ public class WindowToolbar extends MenuBar {
     
     private EventHandler<ActionEvent> goToCheckTech() {
         return (ActionEvent event) -> {
-            System.out.println(scene);
-            new Technician().start(stage, bar);
+            new Technician().start(stage);
         };
     }
 
-    private EventHandler<ActionEvent> goToTechStatus() {
-        return (ActionEvent event) -> {
-            new TechnicianStatus().start(stage, bar);
-        };
-    }
-
-    
     private void setUpCharts(Canvas a, Canvas b, Canvas c) {
         this.getMenus().add(chartMenu);
         setChartMenu();
@@ -276,16 +260,6 @@ public class WindowToolbar extends MenuBar {
 
     void setToolbar(WindowTools bar) {
         this.bar = bar;
-    }
-
-    private EventHandler<ActionEvent> goTotechInventory() {
-        return (ActionEvent event) -> {
-            try {
-                new Inventory().start(stage);
-            } catch (Exception ex) {
-                Logger.getLogger(WindowToolbar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        };
     }
 
     private EventHandler<ActionEvent> goToStatusNotes() {
