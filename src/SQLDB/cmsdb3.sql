@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2015 at 09:23 PM
+-- Generation Time: Apr 28, 2015 at 07:00 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `cCity` varchar(24) NOT NULL,
   `cZip` int(5) NOT NULL,
   `cState` varchar(24) NOT NULL,
-  `cPhone` int(255) NOT NULL,
+  `cPhone` varchar(255) NOT NULL,
   `cEmail` varchar(48) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -44,14 +44,16 @@ CREATE TABLE IF NOT EXISTS `customer` (
 --
 
 INSERT INTO `customer` (`P_ID`, `CustomerID`, `cfName`, `clName`, `cstreetAddy`, `cCity`, `cZip`, `cState`, `cPhone`, `cEmail`) VALUES
-(1, 1, 'Fred', 'Durst', '123 Dbag street', 'New York City', 12345, 'New York', 1231231234, 'limp2thebiz@gmail.com'),
-(1, 2, 'Katie', 'Blunt', '345 E. Power Rd', 'Gilbert', 85234, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
-(1, 3, 'Master', 'Chief', '857 S. Cooper Rd', 'Mesa', 85342, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
-(1, 4, 'Greg', 'Hunt', '112 E. Elliot Rd', 'Gilbert', 85786, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
-(1, 5, 'Billy', 'Bob', '438 Rittenhouse Rd.', 'Queen Creek', 85142, 'AZ', 2147483647, 'failedandfurious@gmail.com'),
-(1, 6, 'Austin', 'Pruitt', '123 east st', 'Queen Creek', 85142, 'AZ', 1232342431, 'asdf@gmail.com'),
-(1, 7, 'Davis', 'Kendry', '123 Wazzup St', 'Gilbert', 85234, 'AZ', 1232346758, 'davis@gmail.com'),
-(1, 8, 'test', 'test', 'test', 'test', 12345, 'test', 1234543456, 'e@gmail.com');
+(1, 1, 'Fred', 'Durst', '123 Dbag street', 'New York City', 12345, 'New York', '1231231234', 'limp2thebiz@gmail.com'),
+(1, 2, 'Katie', 'Blunt', '345 E. Power Rd', 'Gilbert', 85234, 'AZ', '2147483647', 'failedandfurious@gmail.com'),
+(1, 3, 'Master', 'Chief', '857 S. Cooper Rd', 'Mesa', 85342, 'AZ', '2147483647', 'failedandfurious@gmail.com'),
+(1, 4, 'Greg', 'Hunt', '112 E. Elliot Rd', 'Gilbert', 85786, 'AZ', '2147483647', 'failedandfurious@gmail.com'),
+(1, 5, 'Billy', 'Bob', '438 Rittenhouse Rd.', 'Queen Creek', 85142, 'AZ', '2147483647', 'failedandfurious@gmail.com'),
+(1, 6, 'Austin', 'Pruitt', '123 east st', 'Queen Creek', 85142, 'AZ', '1232342431', 'asdf@gmail.com'),
+(1, 7, 'Davis', 'Kendry', '123 Wazzup St', 'Gilbert', 85234, 'AZ', '1232346758', 'davis@gmail.com'),
+(1, 8, 'test', 'test', 'test', 'test', 12345, 'test', '1234543456', 'e@gmail.com'),
+(1, 9, 'Dr', 'Dre', '123 beats st', 'mesa', 85657, 'AZ', '1233333333', 'dre@gmail.com'),
+(1, 10, 'Dr', 'Gary', '123 awesome st', 'mesa', 85234, 'AZ', '1232343456', 'gary@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -78,7 +80,9 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 INSERT INTO `jobs` (`P_ID`, `jobsID`, `CustomerID`, `title`, `cost`, `date`, `completed`, `problem`, `notes`) VALUES
 (1, 1, 1, 'Pool cleaning', 400, '2015-04-16', 0, 0, 'Pool is extremely dirty, allow extra time to clean'),
 (1, 2, 2, 'Window Cleaning', 250, '2015-04-30', 0, 0, 'Clean all windows, especially the second story ones.'),
-(1, 3, 3, 'Yard work', 120, '2015-04-08', 1, 0, 'Cleanup customer''s front yard.');
+(1, 3, 3, 'Yard work', 120, '2015-04-08', 1, 0, 'Cleanup customer''s front yard.'),
+(1, 4, 2, 'test2', 230, '2015-04-30', 0, 0, 'Big test'),
+(1, 6, 2, 'clean pool', 300, '2015-05-05', 0, 0, 'Big pool');
 
 -- --------------------------------------------------------
 
@@ -92,11 +96,12 @@ CREATE TABLE IF NOT EXISTS `technician` (
   `jobsID` int(32) NOT NULL,
   `techFName` varchar(16) NOT NULL,
   `techLName` varchar(16) NOT NULL,
-  `techPhone` int(128) NOT NULL,
+  `techPhone` varchar(128) NOT NULL,
   `techemail` varchar(32) NOT NULL,
   `Location` longtext NOT NULL,
   `tstate` varchar(24) NOT NULL,
   `tcity` varchar(24) NOT NULL,
+  `tzip` varchar(24) NOT NULL,
   `Type` mediumtext NOT NULL,
   `Appointment` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -105,17 +110,18 @@ CREATE TABLE IF NOT EXISTS `technician` (
 -- Dumping data for table `technician`
 --
 
-INSERT INTO `technician` (`P_ID`, `techID`, `jobsID`, `techFName`, `techLName`, `techPhone`, `techemail`, `Location`, `tstate`, `tcity`, `Type`, `Appointment`) VALUES
-(1, 1, 0, 'techFirstN', 'techLastN', 1234567890, 'failedandfurious@gmail.com', '123 e main st', 'AZ', 'Phoenix', 'test', '2015-04-08'),
-(1, 2, 0, 'Joe', 'Blow', 2147483647, 'failedandfurious@gmail.com', '12345 e asu st', 'AZ', 'Phoenix', 'test', '2015-04-30'),
-(1, 3, 0, 'Frank', 'Wong', 1232342345, 'failedandfurious@gmail.com', '45 e main st', 'AZ', 'Mesa', 'bug spraying', '2015-04-22'),
-(1, 4, 1, 'Davis', 'Happy', 1233454354, 'failedandfurious@gmail.com', '89 S. Grumpy man st', 'AZ', 'Gilbert', 'Everything', '2015-04-13'),
-(1, 5, 0, 'Shaq', 'Oneil', 2147483647, 'failedandfurious@gmail.com', '67 e guadalupe rd', 'AZ', 'Phoenix', 'Window Washing', '2015-05-20'),
-(1, 6, 0, 'Eyaad', 'Smith', 2147483647, 'failedandfurious@gmail.com', '23 s. Mesa Dr.', 'AZ', 'Mesa', 'Nothing', '2015-04-21'),
-(1, 7, 0, 'Danny', 'Trejo', 2147483647, 'failedandfurious@gmail.com', '34 e kick ass st', 'AZ', 'Mesa', 'Pool Cleaning', '2015-05-05'),
-(1, 8, 0, 'Mr', 'White', 2147483647, 'failedandfurious@gmail.com', '67 New Mexico St.', 'AZ', 'Phoenix', 'Sell Meth', '2015-05-18'),
-(1, 9, 2, 'Jesse', 'Pinkman', 1232221342, 'failedandfurious@gmail.com', '45 s power rd', 'AZ', 'Mesa', 'Pest Control', '2015-05-01'),
-(1, 10, 3, 'Pink', 'Floyd', 1232343425, 'failedandfurious@gmail.com', '69 E. When the Tigers st.', 'AZ', 'Gilbert', 'Pest Control', '2015-05-04');
+INSERT INTO `technician` (`P_ID`, `techID`, `jobsID`, `techFName`, `techLName`, `techPhone`, `techemail`, `Location`, `tstate`, `tcity`, `tzip`, `Type`, `Appointment`) VALUES
+(1, 1, 0, 'techFirstN', 'techLastN', '1234567890', 'failedandfurious@gmail.com', '123 e main st', 'AZ', 'Phoenix', '85123', 'test', '2015-04-08'),
+(1, 2, 0, 'Joe', 'Blow', '2147483647', 'failedandfurious@gmail.com', '12345 e asu st', 'AZ', 'Phoenix', '85142', 'test', '2015-04-30'),
+(1, 3, 0, 'Frank', 'Wong', '1232342345', 'failedandfurious@gmail.com', '45 e main st', 'AZ', 'Mesa', '85123', 'bug spraying', '2015-04-22'),
+(1, 4, 1, 'Davis', 'Happy', '1233454354', 'failedandfurious@gmail.com', '89 S. Grumpy man st', 'AZ', 'Gilbert', '84534', 'Everything', '2015-04-13'),
+(1, 5, 0, 'Shaq', 'Oneil', '2147483647', 'failedandfurious@gmail.com', '67 e guadalupe rd', 'AZ', 'Phoenix', '46573', 'Window Washing', '2015-05-20'),
+(1, 6, 0, 'Eyaad', 'Smith', '2147483647', 'failedandfurious@gmail.com', '23 s. Mesa Dr.', 'AZ', 'Mesa', '85434', 'Nothing', '2015-04-21'),
+(1, 7, 0, 'Danny', 'Trejo', '2147483647', 'failedandfurious@gmail.com', '34 e kick ass st', 'AZ', 'Mesa', '85453', 'Pool Cleaning', '2015-05-05'),
+(1, 8, 0, 'Mr', 'White', '2147483647', 'failedandfurious@gmail.com', '67 New Mexico St.', 'AZ', 'Phoenix', '85345', 'Sell Meth', '2015-05-18'),
+(1, 9, 2, 'Jesse', 'Pinkman', '1232221342', 'failedandfurious@gmail.com', '45 s power rd', 'AZ', 'Mesa', '85678', 'Pest Control', '2015-05-01'),
+(1, 10, 3, 'Pink', 'Floyd', '1232343425', 'failedandfurious@gmail.com', '69 E. When the Tigers st.', 'AZ', 'Gilbert', '85678', 'Pest Control', '2015-05-04'),
+(1, 11, 0, 'Greg', 'McDonald', '1232343245', 'test@test.com', '123 e juanita st', 'AZ', 'gilbert', '84345', 'None', '0000-00-00');
 
 -- --------------------------------------------------------
 
