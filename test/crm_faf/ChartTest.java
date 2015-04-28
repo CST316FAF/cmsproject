@@ -2,7 +2,7 @@ package crm_faf;
 
 
 import Data.DataCreator;
-import Data.Location;
+import Data.YearData;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,6 +11,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import DataCharts.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import junit.framework.TestCase;
 import javafx.scene.canvas.Canvas;
 import org.jfree.fx.FXGraphics2D;
@@ -32,7 +34,7 @@ public class ChartTest extends TestCase {
     private Chart lineGraph;
     private Chart pieGraph;
     private Chart barGraph;
-    private ArrayList<Location> locationTestData;
+    private ArrayList<YearData> locationTestData;
     private Object lineCanvas;
 
     public ChartTest() {
@@ -47,7 +49,11 @@ public class ChartTest extends TestCase {
     lineGraph = new Chart();
     barGraph = new Chart();
     pieGraph = new Chart();
-    locationTestData = new DataCreator().createLocations();
+        try {
+            locationTestData = new DataCreator().generateYearData();
+        } catch (Exception ex) {
+            Logger.getLogger(ChartTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     lineGraph.getCanvas(locationTestData, "line");
     barGraph.getCanvas(locationTestData, "bar");
     pieGraph.getCanvas(locationTestData, "pie");

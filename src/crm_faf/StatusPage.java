@@ -150,14 +150,12 @@ public class StatusPage extends TransitionScene {
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
                         StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
-                        System.out.println("entry" + entry.toString());
                         entryUpdate.add(entry);
                     }
                 table.setMinHeight(200);
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
-                System.out.println(entries.size());
                 }catch(Exception e){System.out.println("1fail");};
       
         }

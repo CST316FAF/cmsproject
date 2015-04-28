@@ -67,11 +67,6 @@ public class JobsTable {
                         ResultSet customerName = db.selectDataColumn("customer", "clName", "1");
                         customerName.next();
                         String name = customerName.getString(1);
-
-                        System.out.println(customerIdResults.getString(1));
-                        System.out.println(titleResults.getString(1));
-                        System.out.println(costResults.getInt(1));
-                        System.out.println(dateResults.getDate(1) + customerIdResults.getString(1) + titleResults.getString(1) +  costResults.getInt(1));
                         String completed = "no";
                         if(completedResults.getInt(1) == 1) {
                             completed = "yes";
@@ -82,7 +77,6 @@ public class JobsTable {
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
-                System.out.println("number of entries: " + entries.size());
                 table.setMinHeight(200.5);
                 table.autosize();
                 }catch(Exception e){System.out.println("1fail");};

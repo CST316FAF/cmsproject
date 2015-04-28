@@ -83,18 +83,14 @@ public class CustomerTable {
                         String name = customerfNameResults.getString(1) + " " +
                                 customerlNameResults.getString(1);
 
-                        System.out.println(streetAddressResults.getString(1) + cityResults.getString(1) + 
-                                zipResults.getString(1) +  stateResults.getString(1) + phoneResults.getString(1) + emailResults.getString(1));
                         CustomerEntry entry = new CustomerEntry(name, streetAddressResults.getString(1), cityResults.getString(1),
                                 zipResults.getString(1), stateResults.getString(1), phoneResults.getString(1), emailResults.getString(1));
                         
-                        System.out.println("entry" + entry.toString());
                         entryUpdate.add(entry);
                     }
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
-                System.out.println(entries.size());
                 table.setMinHeight(200.5);
                 table.autosize();
                 }catch(Exception e){System.out.println("1fail");};
