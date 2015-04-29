@@ -73,7 +73,6 @@ public class StatusNotes extends Application
         Text title = new Text("Current Jobs");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
-        //notesItems = this.notesItems;
         notesItems = FXCollections.observableArrayList(
         "Sample Note");
         notesList.setItems(notesItems);
@@ -88,11 +87,16 @@ public class StatusNotes extends Application
             ResultSet notesResult = db.selectDataColumn("jobs", "notes");
             ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
             
-            while (notesResult.next() && notesTitleResult.next()) {
-                //System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
+            ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
+            ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
+            ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID", "1");
+            
+            
+            while (notesResult.next() && notesTitleResult.next() && jobsIDResult.next()) {
+                
                 
                 notesItems.add(notesTitleResult.getString("title"));
-                //techNameField.setText(myRs.getString("technician"));
+                
                 notesTitleField.setText(notesTitleResult.getString("title"));
                 notesArea.setText(notesResult.getString("notes"));
                 
@@ -173,17 +177,19 @@ public class StatusNotes extends Application
 			            //Get a connection to database
 			            db.connect(); 
                                     
-                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
-                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes");
+                                    ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID", "1");
+                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
+                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
+                                    ResultSet techResult = db.selectDataColumn("technician", "techFName", "1");
 			            
-			           while(notesTitleResult.next() && notesResult.next()) {
+			           while(notesTitleResult.next() && notesResult.next() && jobsIDResult.next() && techResult.next()) {
 			            if(notesTitleResult.getString("title").equals(notesList.getSelectionModel().getSelectedItem())) {
 			            	System.out.println("it worked!");
 			            	
-			            	//techNameField.setText(myRs.getString("technician"));
+			            	techNameField.setText(techResult.getString("techFName"));
 			            	notesTitleField.setText(notesTitleResult.getString("title"));
 			            	notesArea.setText(notesResult.getString("notes"));
-			            } else {
+                                    } else {
 			            	System.out.println("nope");
 			            }
 			            }
@@ -204,7 +210,7 @@ public class StatusNotes extends Application
             @Override
             public void handle(ActionEvent event) {
                 if(notesArea.getText() == "" || notesTitleField.getText() == "" || techNameField.getText() == "") {
-                	//TODO: Add a message dialog to notify user that the title field and notes are cannot be left blank
+                	
                 	System.out.println("Please fill in both title notes text field and the notes area text field.");
                 } else {
             	notesItems.add(notesTitleField.getText());
@@ -265,7 +271,7 @@ public class StatusNotes extends Application
 		              Statement myStatement = myConn.createStatement();
 		                
 		              // 3. Execute SQL query
-		              myStatement.execute("delete from statusnotes where notetitle='"+notesList.getItems().get(selectedIdx)+"'");
+		              myStatement.execute("delete from jobs where title='"+notesList.getItems().get(selectedIdx)+"'");
 			          } catch(Exception e) {
 			        	  
 			          }
