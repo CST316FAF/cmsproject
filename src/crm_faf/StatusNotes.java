@@ -84,12 +84,10 @@ public class StatusNotes extends Application
             db.connect(); 
             
             //ResultSet technicianResult = db.selectDataColumn("technician", "techFName", "1");
+
             ResultSet notesResult = db.selectDataColumn("jobs", "notes");
             ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
-            
-            ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
-            ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
-            ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID", "1");
+            ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID");
             
             
             while (notesResult.next() && notesTitleResult.next() && jobsIDResult.next()) {
@@ -177,10 +175,10 @@ public class StatusNotes extends Application
 			            //Get a connection to database
 			            db.connect(); 
                                     
-                                    ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID", "1");
-                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
-                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
-                                    ResultSet techResult = db.selectDataColumn("technician", "techFName", "1");
+                                    ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID");
+                                    ResultSet notesTitleResult = db.selectDataColumn("jobs", "title");
+                                    ResultSet notesResult = db.selectDataColumn("jobs", "notes");
+                                    ResultSet techResult = db.selectDataColumn("technician", "techFName");
 			            
 			           while(notesTitleResult.next() && notesResult.next() && jobsIDResult.next() && techResult.next()) {
 			            if(notesTitleResult.getString("title").equals(notesList.getSelectionModel().getSelectedItem())) {

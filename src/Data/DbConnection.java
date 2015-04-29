@@ -30,7 +30,6 @@ public class DbConnection {
 
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cmsdb",
                   "root", "");
-            System.out.println("Connected!");
 
         } 
         catch (ClassNotFoundException e) {
@@ -41,7 +40,6 @@ public class DbConnection {
         }
         catch (SQLException ex) {
             
-            System.out.println("connection failed");
             connection.close();
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -65,7 +63,7 @@ public class DbConnection {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
                     + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
-            System.out.println(statement + column);
+
             results = statement.executeQuery();
 
         } catch (SQLException ex) {
@@ -76,6 +74,7 @@ public class DbConnection {
     public ResultSet selectDataColumns(String table, String column, ArrayList<String> identifiers, ArrayList<String> identifierColumn) {
         ResultSet results = null;
         try {
+            
             Statement statement = connection.createStatement();
              String query = "SELECT + * FROM" + column  + " "
                      + " + FROM "+ table + " WHERE ";
@@ -118,8 +117,6 @@ public class DbConnection {
         Statement statement;
         try {
             statement = connection.createStatement();
-            System.out.println("username: " + userName);
-            System.out.println("password: " + password);
             
             ResultSet results = statement.executeQuery("SELECT 1 FROM user WHERE userName = \"" 
                     + userName + "\" and passWd = \"" + password + "\""); 

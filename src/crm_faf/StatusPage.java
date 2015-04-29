@@ -34,8 +34,8 @@ public class StatusPage extends TransitionScene {
         private WindowTools toolbar;
         private WindowToolbar bar;
         private  TableView table;
-        private  List<StatusEntry> entryData = new ArrayList<StatusEntry>();
-        private  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData);
+        private final  List<StatusEntry> entryData = new ArrayList<>();
+        private final  ObservableList<StatusEntry> entries = FXCollections.observableList(entryData);
         private Scene scene;
         private BorderPane pane2;
         private Stage primaryStage;
@@ -114,7 +114,7 @@ public class StatusPage extends TransitionScene {
                 table.setEditable(true);
 		TableColumn employeeIDColumn = new TableColumn("Employee ID");
                 employeeIDColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("ID"));
+                    new PropertyValueFactory<>("ID"));
 		employeeIDColumn.setPrefWidth(100);
 		TableColumn locationColumn = new TableColumn("Current Location");
 		locationColumn.setPrefWidth(200);
@@ -135,7 +135,7 @@ public class StatusPage extends TransitionScene {
 		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(statusPane);
+		vbox.getChildren().addAll(statusPane, barGraph.getCanvas());
 		pane.add(vbox, 0, 1);   
         }
         public void update() throws Exception {
@@ -146,7 +146,7 @@ public class StatusPage extends TransitionScene {
                 ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment");
                 ResultSet techIDResults = db.selectDataColumn("technician", "TechID");
                 
-                List<StatusEntry> entryUpdate = new ArrayList<StatusEntry>();
+                List<StatusEntry> entryUpdate = new ArrayList<>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
                         StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));

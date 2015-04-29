@@ -31,39 +31,50 @@ public class DataCreator {
             calMin.set(Calendar.MONTH,month);
             calMin.set(Calendar.WEEK_OF_MONTH,1);
             Calendar calMax = Calendar.getInstance();
-            calMin.set(Calendar.YEAR,year);
-            calMin.set(Calendar.MONTH,month);
-            calMin.set(Calendar.WEEK_OF_MONTH,4);
+            calMax.set(Calendar.YEAR,year);
+            calMax.set(Calendar.MONTH,month);
+            calMax.set(Calendar.WEEK_OF_MONTH,4);
             Date dateMin = calMin.getTime();
             Date dateMax = calMax.getTime();
            
-            ResultSet locations = db.selectDataColumn("customers", "*");
+            ResultSet locations = db.selectDataColumn("customer", "*");
            
             while(locations.next()) {
+                    System.out.println("first barrier");
                     ResultSet dateA = db.selectDataColumn("jobs", "date", locations.getString(2), "CustomerID");
-                    for(int  x = 0; x < locs.size(); x++) {
-                        if(locs.get(x).getAreaCode() == locations.getInt(7)){
-                            if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
-
+                        if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
+                            boolean hasLocation = false;
+                            int x = 0;
+                            System.out.println(dateA.getString(1));
+                            for(int counter = 0; counter < locs.size(); counter++) {
+                                if(locs.get(counter).getAreaCode() == dateA.getInt(1)) {
+                                    
+                                }
+                            }
+                            if(hasLocation) {
+                                System.out.println("fourth barrier");
                                 locs.get(x).incrementCustomerNumber();
                                 locs.get(x).incrementJobNumber();
                                 while(dateA.next()) {
                                     locs.get(x).incrementJobNumber();
                                 }
                             }
-                        }
-                        else {
-                        AreaData data = new AreaData();
-                        locs.add(data);
-                        data.setAreaCode(locations.getInt(7));
-                        if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
-                                data.incrementCustomerNumber();
-                                data.incrementJobNumber();
-                            while(dateA.next()) {
-                                data.incrementJobNumber();
+                        
+                            else {
+                                AreaData data = new AreaData();
+                                locs.add(data);
+                                data.setAreaCode(locations.getInt(7));
+                                if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
+                                        data.incrementCustomerNumber();
+                                        data.incrementJobNumber();
+                                    while(dateA.next()) {
+                                        data.incrementJobNumber();
+                                        }
                                 }
                             }
-                    }
+                        }
+                        else {
+                            
                     }    
 
             }
@@ -82,15 +93,17 @@ public class DataCreator {
             Calendar beforeYear = Calendar.getInstance();
             beforeYear.set(Calendar.YEAR,testYear.getYear()-1);
             Calendar afterYear = Calendar.getInstance();
-            afterYear.set(Calendar.YEAR,testYear.getYear()-1);
+            afterYear.set(Calendar.YEAR,testYear.getYear()+1);
 
             try {
                 MonthData[] months = testYear.getMonths();
+               //System.out.println("first barrier");
                 while(yearCheck.next()) {
+                   // System.out.println("second barrier");
                         if( yearCheck.getDate(1).before(afterYear.getTime()) &&
                                 yearCheck.getDate(1).after(beforeYear.getTime())){
                             for(x = 0; x < 12; x++) {
-                                    
+                       //             System.out.println("third barrier");
                                     months[x].setAreaCodeData(createLocations(testYear.getYear(), months[x].getMonth().getMonth()));
                             } 
                     }
