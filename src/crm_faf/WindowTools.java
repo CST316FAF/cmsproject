@@ -51,10 +51,6 @@ public class WindowTools extends ToolBar {
     private void setup() {
         widget = new StatusWidget(db);
         widget.checkStatus();
-        nextButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Forwards.png"))));
-        nextButton.setVisible(false);
-        previousButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Backwards.png"))));
-        previousButton.setVisible(false);
         emailButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("email.png"))));
         refreshButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("refresh.png"))));
         
