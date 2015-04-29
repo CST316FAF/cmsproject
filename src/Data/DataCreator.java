@@ -40,7 +40,6 @@ public class DataCreator {
             ResultSet locations = db.selectDataColumn("customer", "*");
            
             while(locations.next()) {
-                    System.out.println("first barrier");
                     ResultSet dateA = db.selectDataColumn("jobs", "date", locations.getString(2), "CustomerID");
                         if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
                             boolean hasLocation = false;

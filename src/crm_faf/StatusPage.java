@@ -119,15 +119,15 @@ public class StatusPage extends TransitionScene {
 		TableColumn locationColumn = new TableColumn("Current Location");
 		locationColumn.setPrefWidth(200);
                 locationColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Location"));                
+                    new PropertyValueFactory<>("Location"));                
 		TableColumn typeOfWorkColumn = new TableColumn("Work being Performed");
 		typeOfWorkColumn.setPrefWidth(150);
                 typeOfWorkColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Type")); 
+                    new PropertyValueFactory<>("Type")); 
 		TableColumn nextAppointmentColumn = new TableColumn("Next Appointment Time");
 		nextAppointmentColumn.setPrefWidth(200);
                 nextAppointmentColumn.setCellValueFactory(
-                    new PropertyValueFactory<WidgetEntry,String>("Appointment"));                 
+                    new PropertyValueFactory<>("Appointment"));                 
 		table.getColumns().addAll(employeeIDColumn, locationColumn, typeOfWorkColumn, nextAppointmentColumn);
 		
                 tabSetup();
@@ -145,18 +145,28 @@ public class StatusPage extends TransitionScene {
                 ResultSet typeResults = db.selectDataColumn("technician", "type");
                 ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment");
                 ResultSet techIDResults = db.selectDataColumn("technician", "TechID");
-                
+                System.out.println("ok");
                 List<StatusEntry> entryUpdate = new ArrayList<>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
+                        try{
+                        System.out.println(techIDResults.getInt(1) + "   " + 
+                                    locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getString(1));
                         StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
+                        
                         entryUpdate.add(entry);
+                        }catch(Exception e) {
+                            StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), "none",  "none");
+                            entryUpdate.add(entry);
+                        }
                     }
                 table.setMinHeight(200);
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
-                }catch(Exception e){System.out.println("1fail");};
+                }catch(Exception e){
+                    System.out.println("1fail");
+                }
       
         }
 	private void tabSetup() {

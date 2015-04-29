@@ -10,7 +10,6 @@ import Data.MonthData;
 import Data.YearData;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
@@ -33,16 +32,16 @@ public class Chart {
             if(locs != null && !locs.isEmpty()) {
                 switch (type) {
                     case "line":
-                        this.canvas = new ChartCanvas(new LineGraph().createChart(createXYDataset(locs)));
+                        this.canvas = new ChartCanvas(LineGraph.createChart(createXYDataset(locs)));
                         break;
                     case "pie":
-                        this.canvas = new ChartCanvas(new PieGraph().createChart(createPieDataset(locs)));
+                        this.canvas = new ChartCanvas(PieGraph.createChart(createPieDataset(locs)));
                         break;
                     case "bar":
-                        this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                        this.canvas = new ChartCanvas(BarGraph.createChart(createCategoryDataset(locs)));
                         break;
                     default:
-                        this.canvas = new ChartCanvas(new BarGraph().createChart(createCategoryDataset(locs)));
+                        this.canvas = new ChartCanvas(BarGraph.createChart(createCategoryDataset(locs)));
                         break;
                 }
             }
@@ -106,14 +105,15 @@ public class Chart {
     private static XYDataset createXYDataset(ArrayList<YearData> locs) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         for(int x = 0; x < locs.size(); x++) {
-           
             for(int y = 0; y < 12; y++) {
                 MonthData[] months = locs.get(x).getMonths();
                 for(int z = 0; z < months[y].getAreaCodeData().size(); z++){
                     TimeSeries time = new TimeSeries("" + months[y].getAreaCodeData().get(x).getAreaCode());
                     months = locs.get(x).getMonths();
                     for(int f =0; f < months.length; f++) {
-                        time.add(months[f].getMonth(), months[f].getAreaCodeData().get(f).getAreaCode());
+                        if(months[f].getAreaCodeData().size() > f) {
+                            time.add(months[f].getMonth(), months[f].getAreaCodeData().get(f).getAreaCode());
+                        }
                     }
                     dataset.addSeries(time);
                 }
@@ -151,7 +151,7 @@ public class Chart {
                 MonthData[] months = locs.get(x).getMonths();
                 for(int y = 0; y < 12; y++) {
                     for(int z = 0; z < 12; z++) {
-                        if( months[y] != null && months[y].getAreaCodeData().size() > 0 && 
+                        if( months[y] != null && months[y].getAreaCodeData().size() > z && 
                                 months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
                          category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
                         }
@@ -161,19 +161,21 @@ public class Chart {
         }
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
-        for(int x = 0; x < category.size(); x++) {   
-            MonthData[] months = locs.get(x).getMonths();
-            for(int y = 0; y < 12; y++) {
-                for(int z = 0; z < 12; z++) {
-                    if( months[y] != null && months[y].getAreaCodeData() != null && 
-                                months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
-                        dataset.addValue(months[y].getAreaCodeData().get(z).getCustomerNumber(), series1, category.get(x));
-                        dataset.addValue(months[y].getAreaCodeData().get(z).getJobNumber(), series2, category.get(x));
-                        category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
+        for(int x = 0; x < category.size(); x++) {
+            if(locs.size() > x) {
+                MonthData[] months = locs.get(x).getMonths();
+                for(int y = 0; y < 12; y++) {
+
+                    for(int z = 0; z < 12; z++) {
+                        if( months[y] != null && months[y].getAreaCodeData().size() > z && months[y].getAreaCodeData() != null && 
+                                    months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
+                            dataset.addValue(months[y].getAreaCodeData().get(z).getCustomerNumber(), series1, category.get(x));
+                            dataset.addValue(months[y].getAreaCodeData().get(z).getJobNumber(), series2, category.get(x));
+                            category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
+                        }
                     }
                 }
             }
-
         }  
         return dataset;
         
