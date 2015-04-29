@@ -209,8 +209,8 @@ public class WindowToolbar extends MenuBar {
         this.gLine = b;
         this.gPie = c;
         this.gBar = a;
-        b.setVisible(false);
-        c.setVisible(false);
+//        b.setVisible(false);
+  //      c.setVisible(false);
     }
     private void setStart() {
         createDateMenu(this.startDate);

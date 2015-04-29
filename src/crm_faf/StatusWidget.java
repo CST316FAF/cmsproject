@@ -85,7 +85,12 @@ public class StatusWidget {
                 entries.removeAll(entries);
                 entries.addAll(entryUpdate);
                 table.setItems(entries);
-                return true;
+                if(entries.size() > 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
         } catch (SQLException ex) {
             Logger.getLogger(StatusWidget.class.getName()).log(Level.SEVERE, null, ex);
         }

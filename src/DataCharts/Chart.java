@@ -6,10 +6,15 @@
 package DataCharts;
 
 
+import Data.DbConnection;
 import Data.MonthData;
 import Data.YearData;
 import java.awt.geom.Rectangle2D;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
@@ -19,6 +24,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
@@ -26,9 +32,15 @@ import org.jfree.data.xy.XYDataset;
 public class Chart {    
 
     private Canvas canvas;
-
+    private final DbConnection db;
+    
+    public Chart(DbConnection db){
+        this.db = db;
+    }
+    
     public Canvas getCanvas(ArrayList<YearData> locs, String type) {
         try {
+            
             if(locs != null && !locs.isEmpty()) {
                 switch (type) {
                     case "line":
@@ -56,7 +68,8 @@ public class Chart {
             canvas.setHeight(400);
             canvas.setWidth(600);
             canvas.getWidth();
-            return canvas;
+            
+            return new ChartCanvas(BarGraph.createChart(createCategoryDataset(locs)));
         
     }
     public Canvas getCanvas() {
@@ -102,33 +115,66 @@ public class Chart {
      * Methods are for display purposes at this point and may be refactored and 
      * modified based on necessity
      */
-    private static XYDataset createXYDataset(ArrayList<YearData> locs) {
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
-        for(int x = 0; x < locs.size(); x++) {
-            for(int y = 0; y < 12; y++) {
-                MonthData[] months = locs.get(x).getMonths();
-                for(int z = 0; z < months[y].getAreaCodeData().size(); z++){
-                    TimeSeries time = new TimeSeries("" + months[y].getAreaCodeData().get(x).getAreaCode());
-                    months = locs.get(x).getMonths();
-                    for(int f =0; f < months.length; f++) {
-                        if(months[f].getAreaCodeData().size() > f) {
-                            time.add(months[f].getMonth(), months[f].getAreaCodeData().get(f).getAreaCode());
-                        }
+    private  XYDataset createXYDataset(ArrayList<YearData> locs) {
+
+        try {
+            ResultSet locations = db.selectDataColumn("customer", "*");
+            TimeSeriesCollection dataset = new TimeSeriesCollection();
+            
+            
+            Calendar defCal = Calendar.getInstance();
+            defCal.set(2015, 1, 1);
+            int defMonthNum = defCal.get(Calendar.MONTH);
+            TimeSeries defTime = new TimeSeries("" + defCal.get(Calendar.MONTH));
+            Month defMonth = new Month(defMonthNum, 2015);
+            defTime.addOrUpdate(defMonth ,0);
+            
+            defCal = Calendar.getInstance();
+            defCal.set(2015, 6, 6);
+            defMonthNum = defCal.get(Calendar.MONTH);
+            defTime = new TimeSeries("" + defCal.get(Calendar.MONTH));
+            defMonth = new Month(defMonthNum, 2015);
+            defTime.addOrUpdate(defMonth ,0);
+            
+            
+           
+            dataset.addSeries(defTime);
+            while(locations.next()){
+                
+                ResultSet jobDates = db.selectDataColumn("jobs", "date", locations.getString(2), "CustomerID");
+                TimeSeries time = new TimeSeries("" + locations.getInt(7));
+                int n = 0;
+                Month month = null;
+                while(jobDates.next()) {
+                    if(n == 0) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(jobDates.getDate(1));
+                        int monthNum = cal.get(Calendar.MONTH);
+                        month = new Month(monthNum, 2015);
                     }
+                     n++;
+                       
+                    }                
+                if(month != null) {
+                    time.addOrUpdate(month ,n );
                     dataset.addSeries(time);
                 }
-            } 
+            }
+            return dataset;
+        } catch (SQLException ex) {
+            Logger.getLogger(Chart.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return dataset;
+        return null;
     }
 
     private static PieDataset createPieDataset(ArrayList<YearData> locs) {
         DefaultPieDataset dataset = new DefaultPieDataset();
+        
         for(int x = 0; x < locs.size(); x++) {
             for(int y = 0; y < 12; y++) {
                 MonthData[] months = locs.get(x).getMonths();
                 for(int z = 0; z < 12; z++){
-                    if(months[y].getAreaCodeData().size() > 0){
+                    if(months[y].getAreaCodeData().size() > z){
                         dataset.setValue("" +months[y].getMonth().toString(), 
                                 months[y].getAreaCodeData().get(z).getAreaCode());
                     }
@@ -142,42 +188,55 @@ public class Chart {
     }
     
     private CategoryDataset createCategoryDataset(ArrayList<YearData> locs) {
-       
-        final String series2 = "Technicians";
-        final String series1 = "Customers";
-
-        ArrayList<String> category = new ArrayList<String>();
-        for(int x = 0; x < locs.size(); x++) { 
-                MonthData[] months = locs.get(x).getMonths();
-                for(int y = 0; y < 12; y++) {
-                    for(int z = 0; z < 12; z++) {
-                        if( months[y] != null && months[y].getAreaCodeData().size() > z && 
-                                months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
-                         category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
-                        }
-                    }
-                   
-                }
-        }
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
-        for(int x = 0; x < category.size(); x++) {
-            if(locs.size() > x) {
-                MonthData[] months = locs.get(x).getMonths();
-                for(int y = 0; y < 12; y++) {
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-                    for(int z = 0; z < 12; z++) {
-                        if( months[y] != null && months[y].getAreaCodeData().size() > z && months[y].getAreaCodeData() != null && 
-                                    months[y].getAreaCodeData().get(z).getAreaCode() != 0) {
-                            dataset.addValue(months[y].getAreaCodeData().get(z).getCustomerNumber(), series1, category.get(x));
-                            dataset.addValue(months[y].getAreaCodeData().get(z).getJobNumber(), series2, category.get(x));
-                            category.add("" + months[y].getAreaCodeData().get(z).getAreaCode());
+        final String series1 = "Customers";
+            
+        try {
+            ResultSet locations = db.selectDataColumn("customer", "*");
+            
+            
+            Calendar defCal = Calendar.getInstance();
+            defCal.set(2015, 1, 1);
+            int defMonthNum = defCal.get(Calendar.MONTH);
+            Month defMonth = new Month(defMonthNum, 2015);
+            dataset.addValue(0, series1, defMonth.toString());
+            
+            defCal = Calendar.getInstance();
+            defCal.set(2015, 6, 6);
+            defMonthNum = defCal.get(Calendar.MONTH);
+            defMonth = new Month(defMonthNum, 2015);
+            dataset.addValue(0, series1, defMonth.toString());
+            
+            
+           
+         //   while(locations.next()){
+                
+                ResultSet jobDates = db.selectDataColumn("jobs", "*");
+                int n = 0;
+                Month month = null;
+                while(jobDates.next()) {
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(jobDates.getDate("date"));
+                        int monthNum = cal.get(Calendar.MONTH);
+                        month = new Month(monthNum, 2015);
+                        if(month != null) { 
+                            dataset.addValue(1, series1, month.toString());
                         }
-                    }
                 }
-            }
-        }  
-        return dataset;
+                       
+                                    
+
+          // }
+            return dataset;
+        } catch (SQLException ex) {
+            Logger.getLogger(Chart.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;       
         
     }
+ 
 }
+

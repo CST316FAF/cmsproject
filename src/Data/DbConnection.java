@@ -62,7 +62,7 @@ public class DbConnection {
         ResultSet results = null;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT " + column 
-                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\"");
+                    + " FROM " + table + " WHERE P_ID = \"" + identifier + "\" And " + modifierColumn + " = \"" + modifier + "\"");
 
             results = statement.executeQuery();
 

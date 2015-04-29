@@ -46,7 +46,6 @@ public class StatusPage extends TransitionScene {
         private Tab jobTab;
         private TabPane statusPane;
         private Chart barGraph;
-        private Chart pieGraph;
         private DbConnection db;
 
 
@@ -79,24 +78,18 @@ public class StatusPage extends TransitionScene {
 		pane.setHgap(10);
 		pane.setVgap(10);
 		pane.setPadding(new Insets(25, 25, 25, 25));
-                Chart lineGraph = new Chart();
-                barGraph = new Chart();
-                pieGraph = new Chart();
+                barGraph = new Chart(db);
 
                 ArrayList<YearData> locs = new DataCreator(db).generateYearData(); 
 
-                lineGraph.getCanvas(locs, "bar");
-                lineGraph.getCanvas(locs, "bar");
                 barGraph.getCanvas(locs, "line");
-                pieGraph.getCanvas(locs, "line");
 
                 pane2 = new BorderPane();
                 scene = new Scene(pane2, 800, 600);
 		
                 VBox windowTopBox = new VBox();
                 
-                bar = new WindowToolbar(lineGraph.getCanvas(), 
-                        barGraph.getCanvas(), pieGraph.getCanvas(),
+                bar = new WindowToolbar(
                         scene, primaryStage, db);
                 bar.setToolbar(toolbar);
 
@@ -196,7 +189,7 @@ public class StatusPage extends TransitionScene {
             graphTab.setClosable(false);
            
             VBox chartBox = new VBox();
-            chartBox.getChildren().add(pieGraph.getCanvas());
+            chartBox.getChildren().add(barGraph.getCanvas());
             
             graphTab.setContent(chartBox);
             toolbar.setTables(customerTable, jobTable, this);

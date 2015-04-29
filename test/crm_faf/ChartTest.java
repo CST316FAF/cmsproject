@@ -47,9 +47,9 @@ public class ChartTest extends TestCase {
     @Before
     @Override
     public void setUp() {
-    lineGraph = new Chart();
-    barGraph = new Chart();
-    pieGraph = new Chart();
+    lineGraph = new Chart(db);
+    barGraph = new Chart(db);
+    pieGraph = new Chart(db);
         try {
             db.connect();
             locationTestData = new DataCreator(db).generateYearData();

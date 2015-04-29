@@ -19,22 +19,22 @@ import org.jfree.data.xy.XYDataset;
  *
  * @author Davis
  */
-public class LineGraph extends Graph{
+public class LineGraph{
     
     
     
         public static JFreeChart createChart(XYDataset dataset) {
 
             JFreeChart chart = ChartFactory.createTimeSeriesChart(
-                "Customers by Area Code", "Months","Customers",dataset);
+                "Customers by Month", "Months","Customers",dataset);
 
             String fontName = "SansSerif";
             chart.getTitle().setFont(new Font(fontName, Font.BOLD, 18));
-            chart.addSubtitle(new TextTitle("subtitle in progress", new Font(fontName, Font.PLAIN, 14)));
+            chart.addSubtitle(new TextTitle(" ", new Font(fontName, Font.PLAIN, 14)));
 
             XYPlot plot = (XYPlot) chart.getPlot();
-            plot.setDomainPannable(true);
-            plot.setRangePannable(true);
+            plot.setDomainPannable(false);
+            plot.setRangePannable(false);
             plot.setDomainCrosshairVisible(true);
             plot.setRangeCrosshairVisible(true);
 
@@ -48,15 +48,13 @@ public class LineGraph extends Graph{
             chart.getLegend().setItemFont(new Font(fontName, Font.PLAIN, 14));
             chart.getLegend().setFrame(BlockBorder.NONE);
 
-            chart.setBackgroundPaint(null);
-
             XYItemRenderer r = plot.getRenderer();
             if (r instanceof XYLineAndShapeRenderer) {
                 XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-                renderer.setBaseShapesVisible(false);
-                renderer.setDrawSeriesLineAsPath(true);
+                renderer.setBaseShapesVisible(true);
+                renderer.setDrawSeriesLineAsPath(false);
                 // set the default stroke for all series
-                renderer.setAutoPopulateSeriesStroke(true);
+                renderer.setAutoPopulateSeriesStroke(false);
 
             }
             return chart;

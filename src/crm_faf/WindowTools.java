@@ -6,14 +6,13 @@
 package crm_faf;
 
 import Data.DbConnection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -89,7 +88,7 @@ public class WindowTools extends ToolBar {
             Stage popup = new Stage();
             VBox comp = new VBox();
             comp.getChildren().add(widget.getTable());
-            Scene popupScene = new Scene(comp, 300, 300);
+            Scene popupScene = new Scene(comp, 500, 200);
             popup.setScene(popupScene);
             popup.setX(300);
             popup.setY(400);
@@ -105,8 +104,8 @@ public class WindowTools extends ToolBar {
             email.start(db);
             Stage popup = new Stage();
             VBox comp = new VBox();
-            comp.getChildren().add(new TextField("Automated Email Sent"));
-            Scene popupScene = new Scene(comp, 300, 300);
+            comp.getChildren().add(new Label("Automated Email Sent"));
+            Scene popupScene = new Scene(comp, 100, 25);
             popup.setScene(popupScene);
             popup.setX(300);
             popup.setY(400);
@@ -120,6 +119,16 @@ public class WindowTools extends ToolBar {
             return stage;
         }
 
+        public void setWidgetImage(boolean statBut) {
+            if(statBut){
+                setWidgetStatusNotOk();
+            }
+            else {
+                setWidgetStatusOk();
+                
+            }
+                
+        }
         public void setStage(Stage stage) {
             this.stage = stage;
         }
@@ -190,7 +199,7 @@ public class WindowTools extends ToolBar {
                     tTable.update();
                     jTable.update();
                     cTable.update();
-                    widget.checkStatus();
+                    setWidgetImage(widget.checkStatus());
                 } catch (Exception ex) {
                     Logger.getLogger(WindowTools.class.getName()).log(Level.SEVERE, null, ex);
                 }

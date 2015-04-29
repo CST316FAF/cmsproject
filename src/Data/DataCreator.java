@@ -40,21 +40,20 @@ public class DataCreator {
             ResultSet locations = db.selectDataColumn("customer", "*");
            
             while(locations.next()) {
-                    ResultSet dateA = db.selectDataColumn("jobs", "date", locations.getString(2), "CustomerID");
-                        if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
+                    ResultSet jobDates = db.selectDataColumn("jobs", "date", locations.getString(2), "CustomerID");
+                        while(jobDates.next() && jobDates.getDate(1).after(dateMin) && jobDates.getDate(1).before(dateMax)){
                             boolean hasLocation = false;
                             int x = 0;
-                            System.out.println("funk " + dateA.getString(1));
                             for(int counter = 0; counter < locs.size(); counter++) {
-                                if(locs.get(counter).getAreaCode() == dateA.getInt(1)) {
-                                    
+                                if(locs.get(counter).getAreaCode() == locations.getInt(7)) {
+                                    hasLocation = true;
+                                    x = counter;
                                 }
                             }
                             if(hasLocation) {
-                                System.out.println("fourth barrier");
                                 locs.get(x).incrementCustomerNumber();
                                 locs.get(x).incrementJobNumber();
-                                while(dateA.next()) {
+                                while(jobDates.next()) {
                                     locs.get(x).incrementJobNumber();
                                 }
                             }
@@ -63,23 +62,17 @@ public class DataCreator {
                                 AreaData data = new AreaData();
                                 locs.add(data);
                                 data.setAreaCode(locations.getInt(7));
-                                if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
+                                if(jobDates.next() && jobDates.getDate(1).after(dateMin) && jobDates.getDate(1).before(dateMax)){
                                         data.incrementCustomerNumber();
                                         data.incrementJobNumber();
-                                    while(dateA.next()) {
-                                        data.incrementJobNumber();
-                                        }
                                 }
                             }
                         }
-                        else {
-                            
-                    }    
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(DataCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return locs;
     }
     
@@ -96,13 +89,10 @@ public class DataCreator {
 
             try {
                 MonthData[] months = testYear.getMonths();
-               //System.out.println("first barrier");
                 while(yearCheck.next()) {
-                   // System.out.println("second barrier");
                         if( yearCheck.getDate(1).before(afterYear.getTime()) &&
                                 yearCheck.getDate(1).after(beforeYear.getTime())){
                             for(x = 0; x < 12; x++) {
-                       //             System.out.println("third barrier");
                                     months[x].setAreaCodeData(createLocations(testYear.getYear(), months[x].getMonth().getMonth()));
                             } 
                     }

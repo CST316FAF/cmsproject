@@ -17,13 +17,10 @@ import org.jfree.data.category.CategoryDataset;
  */
 public class BarGraph {
     public static JFreeChart createChart(CategoryDataset dataset) {
-        final JFreeChart chart = ChartFactory.createBarChart( "January 2015", 
-            "Area Code", "Amount", dataset, PlotOrientation.VERTICAL,
+        final JFreeChart chart = ChartFactory.createBarChart( "Customers in 2015", 
+            "Month", "Amount", dataset, PlotOrientation.VERTICAL,
                 true, true, false 
         );
-        chart.getPlot().setBackgroundPaint(null);
-        chart.setBackgroundPaint(null);
-        chart.setBorderPaint(null);
         return chart;
     }
 
