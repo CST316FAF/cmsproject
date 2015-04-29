@@ -83,15 +83,17 @@ public class StatusNotes extends Application
             //Get a connection to database
             db.connect(); 
             
-            //ResultSet technicianResult = db.selectDataColumn("technician", "techFName", "1");
+            
             ResultSet notesResult = db.selectDataColumn("jobs", "notes", "1");
             ResultSet notesTitleResult = db.selectDataColumn("jobs", "title", "1");
+            ResultSet jobsIDResult = db.selectDataColumn("jobs", "jobsID", "1");
             
-            while (notesResult.next() && notesTitleResult.next()) {
-                //System.out.println(myRs.getString("notetitle") + ", " + myRs.getString("notecontent"));
+            
+            while (notesResult.next() && notesTitleResult.next() && jobsIDResult.next()) {
+                
                 
                 notesItems.add(notesTitleResult.getString("title"));
-                //techNameField.setText(myRs.getString("technician"));
+                
                 notesTitleField.setText(notesTitleResult.getString("title"));
                 notesArea.setText(notesResult.getString("notes"));
                 
