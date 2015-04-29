@@ -268,7 +268,7 @@ public class StatusNotes extends Application
 		              Statement myStatement = myConn.createStatement();
 		                
 		              // 3. Execute SQL query
-		              myStatement.execute("delete from statusnotes where notetitle='"+notesList.getItems().get(selectedIdx)+"'");
+		              myStatement.execute("delete from jobs where title='"+notesList.getItems().get(selectedIdx)+"'");
 			          } catch(Exception e) {
 			        	  
 			          }
