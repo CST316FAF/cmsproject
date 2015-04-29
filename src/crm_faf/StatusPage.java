@@ -135,7 +135,7 @@ public class StatusPage extends TransitionScene {
 		vbox.setPrefWidth(700);
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0 , 0, 10));
-		vbox.getChildren().addAll(statusPane, barGraph.getCanvas());
+		vbox.getChildren().addAll(statusPane);
 		pane.add(vbox, 0, 1);   
         }
         public void update() throws Exception {
