@@ -70,7 +70,7 @@ public class StatusNotes extends Application
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(10);
         
-        Text title = new Text("Current Jobs");
+        Text title = new Text("Status Notes");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(title);
         notesItems = FXCollections.observableArrayList(
@@ -118,6 +118,11 @@ public class StatusNotes extends Application
     
     public VBox addRightVBox() {
         VBox vbox = new VBox();
+        
+        Label techNameLabel = new Label();
+        techNameLabel.setText("Technician Name");
+        techNameLabel.setFont(Font.font("Arial", 14));
+        techNameLabel.setStyle("-fx-font-weight: bold");
         Label notesTitleLabel = new Label();
         notesTitleLabel.setText("Note Title");
         notesTitleLabel.setFont(Font.font("Arial", 14));
@@ -126,13 +131,14 @@ public class StatusNotes extends Application
         notesAreaLabel.setText("Note");
         notesAreaLabel.setFont(Font.font("Arial", 14));
         notesAreaLabel.setStyle("-fx-font-weight: bold");
+        
         techNameField.setPromptText("Enter Technician Name here..");
         techNameField.setPrefWidth(20);
         notesTitleField.setPromptText("Enter note title here..");
         notesArea.setPromptText("Enter your note here...");
         notesArea.setPrefSize(300, 460);
         
-        vbox.getChildren().addAll(techNameField, notesTitleLabel, notesTitleField, notesAreaLabel, notesArea);
+        vbox.getChildren().addAll(techNameLabel, techNameField, notesTitleLabel, notesTitleField, notesAreaLabel, notesArea);
         
         return vbox;
     }
