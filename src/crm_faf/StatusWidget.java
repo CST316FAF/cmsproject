@@ -22,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class StatusWidget {
 
     private  TableView table;
-    private  List<WidgetEntry> entryData = new ArrayList<WidgetEntry>();
+    private  List<WidgetEntry> entryData = new ArrayList<>();
     private  ObservableList<WidgetEntry> entries = FXCollections.observableList(entryData); 
     private  List<String> problemData = new ArrayList<String>();
     private DbConnection db;
@@ -72,15 +72,19 @@ public class StatusWidget {
     }
 
 
-    private boolean checkStatus() {
+    public boolean checkStatus() {
         try {
             ResultSet jobsCheck = db.selectDataColumn("jobs", "*");
+            List<WidgetEntry> entryUpdate = new ArrayList<>();
             while(jobsCheck.next()) {
                 if(jobsCheck.getBoolean("problem")){
-                    entries.add(new WidgetEntry("none", jobsCheck.getString("notes"), "problem", 
+                    entryUpdate.add(new WidgetEntry("none", jobsCheck.getString("notes"), "problem", 
             "average", "Jobs"));
                 }
-            }
+            }                
+                entries.removeAll(entries);
+                entries.addAll(entryUpdate);
+                table.setItems(entries);
                 return true;
         } catch (SQLException ex) {
             Logger.getLogger(StatusWidget.class.getName()).log(Level.SEVERE, null, ex);

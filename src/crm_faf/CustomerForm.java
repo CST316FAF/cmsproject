@@ -64,7 +64,7 @@ public class CustomerForm  extends TransitionScene{
                 
                 toolbar = new WindowTools(db);
                 bar = new WindowToolbar(scene, primaryStage, db);
-                windowTopBox.getChildren().addAll(bar, toolbar);
+                //windowTopBox.getChildren().addAll(bar, toolbar);
                 pane2.setTop(windowTopBox);
                 
                 
@@ -137,7 +137,7 @@ public class CustomerForm  extends TransitionScene{
                             String telephone = telephoneField.getText();
                             String email = emailField.getText();
                             String customerID = customerId.getText();
-                            String P_ID = "1";
+                            String P_ID = db.getId();
                             Label errormsg = new Label("Fill out all");
              
                 
@@ -176,7 +176,7 @@ public class CustomerForm  extends TransitionScene{
                         HBox hbox = new HBox(8); // spacing = 8
                         hbox.getChildren().add(errormsg);
                         //popup.show(primaryStage);
-                        submitMessage.setText("Please make sure zip is exactly 5 digits and telephone is exactly 10 digits.");
+                        submitMessage.setText("Please make sure zip is exactly 5 digits \n and telephone is exactly 10 digits.");
                         } 
                          
                         //Check if the user has entered a number for zip and telephone fields.
@@ -208,7 +208,6 @@ public class CustomerForm  extends TransitionScene{
                                 
                                 ResultSet rs = myStatement.executeQuery(checkSQL);
                                
-                                System.out.println("YOUUUU MADEEE IT!" + fname + lname);
                                 while(rs.next()) {
                                     System.out.println(rs.getString("P_ID") + ", " + rs.getString("clName"));
                                     if(rs.getString("customerID").equals(customerID)) {
@@ -220,6 +219,15 @@ public class CustomerForm  extends TransitionScene{
                                         + "values ('"+P_ID+"','"+customerID+"','"+fname+"', '"+lname+"', '"+address+"', '"+city+"', '"+zip+"', '"+state+"', '"+telephone+"', '"+email+"' )");
                                         
                                         System.out.println("Successfully added customer!");
+                                        fnameField.setText(" ");
+                                        lnameField.setText(" ");
+                                        addressField.setText(" ");
+                                        cityField.setText(" ");
+                                        stateField.setText(" ");
+                                        zipField.setText(" ");
+                                        telephoneField.setText(" ");
+                                        emailField.setText(" ");
+                                        customerId.setText(" ");
                                     }
                                     
                                 } 

@@ -129,5 +129,9 @@ public class DbConnection {
         }       
         return answer;
     }
+
+    public String getId() {
+        return identifier;
+    }
      
 }

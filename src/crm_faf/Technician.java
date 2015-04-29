@@ -139,7 +139,7 @@ public class Technician extends TransitionScene{
                             String techZip = zipField.getText();
                             String techID = techIDField.getText();
                             String jobsID = "0";
-                            String P_ID = "1";
+                            String P_ID = db.getId();
                             String type = "None";
                             String appointment = "0000-00-00";
                             Label errormsg = new Label("Fill out all");

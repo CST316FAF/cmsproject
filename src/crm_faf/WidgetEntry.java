@@ -61,7 +61,7 @@ public class WidgetEntry {
         return notes;
     }
     
-    public SimpleStringProperty Property() {
+    public SimpleStringProperty sourceProperty() {
         return source;
     }
     

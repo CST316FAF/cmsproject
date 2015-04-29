@@ -44,7 +44,7 @@ public class DataCreator {
                         if(dateA.next() && dateA.getDate(1).after(dateMin) && dateA.getDate(1).before(dateMax)){
                             boolean hasLocation = false;
                             int x = 0;
-                            System.out.println(dateA.getString(1));
+                            System.out.println("funk " + dateA.getString(1));
                             for(int counter = 0; counter < locs.size(); counter++) {
                                 if(locs.get(counter).getAreaCode() == dateA.getInt(1)) {
                                     

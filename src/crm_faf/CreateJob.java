@@ -121,7 +121,7 @@ public class CreateJob extends TransitionScene{
                             String notes = notesField.getText();
                             String jobsID = jobsidField.getText();
                             String customerID = "2";
-                            String P_ID = "1";
+                            String P_ID = db.getId();
                             String completed = "0";
                             String problem = "0";
                             Label errormsg = new Label("Fill out all");

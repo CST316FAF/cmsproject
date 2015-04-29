@@ -145,19 +145,19 @@ public class StatusPage extends TransitionScene {
                 ResultSet typeResults = db.selectDataColumn("technician", "type");
                 ResultSet appointmentResults = db.selectDataColumn("technician", "Appointment");
                 ResultSet techIDResults = db.selectDataColumn("technician", "TechID");
-                System.out.println("ok");
                 List<StatusEntry> entryUpdate = new ArrayList<>();
                     while(locResults.next() && typeResults.next() && appointmentResults.next()
                                 && techIDResults.next()) {
-                        try{
-                        System.out.println(techIDResults.getInt(1) + "   " + 
-                                    locResults.getString(1) + typeResults.getString(1) +  appointmentResults.getString(1));
-                        StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
-                        
-                        entryUpdate.add(entry);
-                        }catch(Exception e) {
-                            StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), "none",  "none");
+                        try {
+                            try{
+                            StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), typeResults.getString(1),  appointmentResults.getString(1));
+
                             entryUpdate.add(entry);
+                            }catch(Exception e) {
+                                StatusEntry entry = new StatusEntry(techIDResults.getInt(1) + "", locResults.getString(1), "none",  "none");
+                                entryUpdate.add(entry);
+                            }
+                        }catch(Exception e) {
                         }
                     }
                 table.setMinHeight(200);
@@ -199,7 +199,7 @@ public class StatusPage extends TransitionScene {
             chartBox.getChildren().add(pieGraph.getCanvas());
             
             graphTab.setContent(chartBox);
-            
+            toolbar.setTables(customerTable, jobTable, this);
             statusPane.getTabs().addAll(jobTab, technicianTab, customerTab, graphTab);
             
         }

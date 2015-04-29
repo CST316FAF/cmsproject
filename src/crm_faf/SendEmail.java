@@ -17,11 +17,11 @@ import javax.mail.internet.*;
  * @author kunaalgodiwala
  */
 
-public class SendEmail extends Application {
+public class SendEmail {
     
-    @Override
-    public void start(Stage primaryStage) {
-      DbConnection db = new DbConnection();
+    
+    public void start(DbConnection db) {
+      
       
       String to = "failedandfurious@gmail.com";
       String from = "failedandfurious@gmail.com";

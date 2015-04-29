@@ -6,6 +6,9 @@
 package crm_faf;
 
 import Data.DbConnection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -29,6 +32,9 @@ public class WindowTools extends ToolBar {
     private Button emailButton =new Button();
     private Button refreshButton = new Button();
     private DbConnection db;
+    private CustomerTable cTable;
+    private JobsTable jTable;
+    private StatusPage tTable;
 
   
 
@@ -44,6 +50,8 @@ public class WindowTools extends ToolBar {
     }
 
     private void setup() {
+        widget = new StatusWidget(db);
+        widget.checkStatus();
         nextButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Forwards.png"))));
         nextButton.setVisible(false);
         previousButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Backwards.png"))));
@@ -59,6 +67,11 @@ public class WindowTools extends ToolBar {
         widgetButton.setOnAction(activateWidget());
         this.getItems().add(buttonBar);  
     }
+    public void setTables(CustomerTable ctable, JobsTable jTable, StatusPage tTable) {
+        this.cTable = ctable;
+        this.jTable = jTable;
+        this.tTable = tTable;
+    }
     
     private void setWidgetStatusOk() {
         Image statusOk = new Image(getClass().getResourceAsStream("ok-icon.png"));
@@ -70,31 +83,26 @@ public class WindowTools extends ToolBar {
         widgetButton.setGraphic(new ImageView(statusBad));
     }
     
-    
-    
-    
-    public void setPrevious(Scene last) {
-        System.out.println("added scene to previous");
-        System.out.println(last.toString());
-        
-    }
 
     private EventHandler<ActionEvent> activateWidget() {
         return (ActionEvent event) -> {
             Stage popup = new Stage();
             VBox comp = new VBox();
-            StatusWidget widget = new StatusWidget(db);
             comp.getChildren().add(widget.getTable());
             Scene popupScene = new Scene(comp, 300, 300);
             popup.setScene(popupScene);
             popup.setX(300);
             popup.setY(400);
+            popup.toFront();
+            popup.centerOnScreen();
+            popup.show();
         };
      }
     
     private EventHandler<ActionEvent> sendMail() {
         return (ActionEvent event) -> {
             SendEmail email = new SendEmail();
+            email.start(db);
             Stage popup = new Stage();
             VBox comp = new VBox();
             comp.getChildren().add(new TextField("Automated Email Sent"));
@@ -102,6 +110,9 @@ public class WindowTools extends ToolBar {
             popup.setScene(popupScene);
             popup.setX(300);
             popup.setY(400);
+            popup.toFront();
+            popup.centerOnScreen();
+            popup.show();
            
         };
     }
@@ -175,8 +186,14 @@ public class WindowTools extends ToolBar {
 
         private EventHandler<ActionEvent> refresh() {
             return (ActionEvent event) -> {
-                stage.setScene(new StatusPage().start(stage, this,db));
-                
+                try {
+                    tTable.update();
+                    jTable.update();
+                    cTable.update();
+                    widget.checkStatus();
+                } catch (Exception ex) {
+                    Logger.getLogger(WindowTools.class.getName()).log(Level.SEVERE, null, ex);
+                }
             };
          }
 }
